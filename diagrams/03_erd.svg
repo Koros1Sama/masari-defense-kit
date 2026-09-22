@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1250" height="720" viewBox="0 0 1250 720" font-family="Cairo, Segoe UI, Amiri, sans-serif">
+<defs><marker id="ar-end" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#595959"/></marker><marker id="ar-open" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M1,1 L9,5 L1,9" fill="none" stroke="#595959" stroke-width="1.6"/></marker><marker id="ar-start" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M10,0 L0,5 L10,10 z" fill="#595959"/></marker></defs>
+<rect width="1250" height="720" fill="#ffffff"/>
+<rect x="830" y="90" width="300" height="130" rx="0" fill="#d5e8d4" stroke="#82b366" stroke-width="1.6" />
+<rect x="830" y="90" width="300" height="30" rx="6" fill="#82b366" opacity="0.28"/>
+<line x1="830" y1="120" x2="1130" y2="120" stroke="#82b366" stroke-width="1.2"/>
+<text x="980.0" y="110" font-size="13" fill="#1a1a1a" text-anchor="middle" font-weight="bold" >users</text>
+<text x="980.0" y="138" font-size="11" fill="#1a1a1a" text-anchor="middle" >PK  id : INTEGER</text>
+<text x="980.0" y="160" font-size="11" fill="#1a1a1a" text-anchor="middle" >UQ  username : TEXT</text>
+<text x="980.0" y="182" font-size="11" fill="#1a1a1a" text-anchor="middle" >password_hash : TEXT</text>
+<text x="980.0" y="204" font-size="11" fill="#1a1a1a" text-anchor="middle" >created_at : TEXT</text>
+<rect x="410" y="60" width="320" height="218" rx="0" fill="#dae8fc" stroke="#6c8ebf" stroke-width="1.6" />
+<rect x="410" y="60" width="320" height="30" rx="6" fill="#6c8ebf" opacity="0.28"/>
+<line x1="410" y1="90" x2="730" y2="90" stroke="#6c8ebf" stroke-width="1.2"/>
+<text x="570.0" y="80" font-size="13" fill="#1a1a1a" text-anchor="middle" font-weight="bold" >search_history</text>
+<text x="570.0" y="108" font-size="11" fill="#1a1a1a" text-anchor="middle" >PK  id : INTEGER</text>
+<text x="570.0" y="130" font-size="11" fill="#1a1a1a" text-anchor="middle" >FK  user_id → users.id</text>
+<text x="570.0" y="152" font-size="11" fill="#1a1a1a" text-anchor="middle" >command : TEXT</text>
+<text x="570.0" y="174" font-size="11" fill="#1a1a1a" text-anchor="middle" >destination : TEXT</text>
+<text x="570.0" y="196" font-size="11" fill="#1a1a1a" text-anchor="middle" >algorithm : TEXT</text>
+<text x="570.0" y="218" font-size="11" fill="#1a1a1a" text-anchor="middle" >path : TEXT</text>
+<text x="570.0" y="240" font-size="11" fill="#1a1a1a" text-anchor="middle" >cost : REAL</text>
+<text x="570.0" y="262" font-size="11" fill="#1a1a1a" text-anchor="middle" >created_at : TEXT</text>
+<rect x="830" y="480" width="300" height="130" rx="0" fill="#ffe6cc" stroke="#d79b00" stroke-width="1.6" />
+<rect x="830" y="480" width="300" height="30" rx="6" fill="#d79b00" opacity="0.28"/>
+<line x1="830" y1="510" x2="1130" y2="510" stroke="#d79b00" stroke-width="1.2"/>
+<text x="980.0" y="500" font-size="13" fill="#1a1a1a" text-anchor="middle" font-weight="bold" >map_nodes</text>
+<text x="980.0" y="528" font-size="11" fill="#1a1a1a" text-anchor="middle" >PK  id : TEXT</text>
+<text x="980.0" y="550" font-size="11" fill="#1a1a1a" text-anchor="middle" >name : TEXT</text>
+<text x="980.0" y="572" font-size="11" fill="#1a1a1a" text-anchor="middle" >x : REAL</text>
+<text x="980.0" y="594" font-size="11" fill="#1a1a1a" text-anchor="middle" >y : REAL</text>
+<rect x="200" y="480" width="320" height="130" rx="0" fill="#ffe6cc" stroke="#d79b00" stroke-width="1.6" />
+<rect x="200" y="480" width="320" height="30" rx="6" fill="#d79b00" opacity="0.28"/>
+<line x1="200" y1="510" x2="520" y2="510" stroke="#d79b00" stroke-width="1.2"/>
+<text x="360.0" y="500" font-size="13" fill="#1a1a1a" text-anchor="middle" font-weight="bold" >map_edges</text>
+<text x="360.0" y="528" font-size="11" fill="#1a1a1a" text-anchor="middle" >PK  id : INTEGER</text>
+<text x="360.0" y="550" font-size="11" fill="#1a1a1a" text-anchor="middle" >FK  u → map_nodes.id</text>
+<text x="360.0" y="572" font-size="11" fill="#1a1a1a" text-anchor="middle" >FK  v → map_nodes.id</text>
+<text x="360.0" y="594" font-size="11" fill="#1a1a1a" text-anchor="middle" >street : TEXT</text>
+<polyline points="830,155.0 745.0,155.0 748,169.0 730,169.0" fill="none" stroke="#2d6a2d" stroke-width="1.7" marker-end="url(#ar-end)" />
+<rect x="768.9" y="131.0" width="37.2" height="20" fill="#ffffff" fill-opacity="0.94" rx="4" stroke="#d8d8d8" stroke-width="0.7"/>
+<text x="787.5" y="146.0" font-size="12" fill="#333" text-anchor="middle" font-style="italic">1 — N</text>
+<polyline points="830,545.0 520,545.0" fill="none" stroke="#8a5a00" stroke-width="1.7" marker-end="url(#ar-end)" />
+<rect x="656.4" y="521.0" width="37.2" height="20" fill="#ffffff" fill-opacity="0.94" rx="4" stroke="#d8d8d8" stroke-width="0.7"/>
+<text x="675.0" y="536.0" font-size="12" fill="#333" text-anchor="middle" font-style="italic">N — N</text>
+<text x="700" y="45" font-size="12" fill="#555" text-anchor="middle"  direction="rtl" unicode-bidi="plaintext">مستخدم واحد له عدة عمليات بحث — والوصلة تربط عقدتين (u, v)</text>
+</svg>

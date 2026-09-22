@@ -1,0 +1,386 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="حقيبة مناقشة مشروع مساري — نظام التنقل الذكي في صنعاء (هندسة البرمجيات): شرح متعدد المستويات، صفحة-بصفحة، الرسمات، دروس المنهج، وأسئلة المناقشة.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<title>شرح الرسمات — حقيبة مناقشة مساري</title><style>
+:root{
+ --cream:#FAF6ED; --paper:#FFFFFF; --ink:#27211A; --mut:#83765F;
+ --emerald:#0E5F4E; --emerald2:#177E62; --gold:#B9892F; --gold2:#D8B25E;
+ --hair:rgba(39,33,26,.11); --hair2:rgba(39,33,26,.07);
+ --ease:cubic-bezier(.32,.72,0,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);
+ font-family:'IBM Plex Sans Arabic','Segoe UI',Tahoma,sans-serif;
+ line-height:2;font-size:16px;-webkit-font-smoothing:antialiased}
+::selection{background:rgba(185,137,47,.25)}
+
+/* ——— نسيج ورقي خفيف (ثابت، لا يعيق التمرير) ——— */
+.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.05;
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E")}
+
+/* ——— شريط التقدم ——— */
+#prog{position:fixed;top:0;right:0;left:0;height:3px;z-index:80;
+ background:linear-gradient(270deg,var(--gold),var(--emerald2));
+ transform:scaleX(0);transform-origin:right;transition:transform .15s linear}
+
+/* ——— الكبسولة الطافية (Nav) ——— */
+.pillnav{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:70;
+ display:flex;gap:4px;flex-wrap:wrap;justify-content:center;max-width:calc(100vw - 24px);
+ padding:6px;border-radius:999px;background:rgba(255,252,244,.72);
+ backdrop-filter:blur(16px) saturate(1.5);-webkit-backdrop-filter:blur(16px) saturate(1.5);
+ border:1px solid var(--hair);box-shadow:0 18px 40px -22px rgba(39,33,26,.35)}
+.pillnav a{text-decoration:none;font-size:12.5px;font-weight:500;color:var(--ink);
+ padding:6px 13px;border-radius:999px;white-space:nowrap;transition:background .45s var(--ease),transform .45s var(--ease)}
+.pillnav a:hover{background:rgba(39,33,26,.07);transform:translateY(-1px)}
+.pillnav a.on{background:var(--ink);color:#F7F1E4}
+
+/* ——— البطل Hero ——— */
+.hero{position:relative;overflow:hidden;text-align:center;
+ padding:128px 22px 64px;border-bottom:1px solid var(--hair)}
+.hero::before{content:'';position:absolute;inset:0;z-index:-1;
+ background:
+  radial-gradient(560px 300px at 12% -10%,rgba(23,126,98,.14),transparent 65%),
+  radial-gradient(520px 320px at 88% 0%,rgba(216,178,94,.18),transparent 65%),
+  radial-gradient(700px 420px at 50% 115%,rgba(14,95,78,.08),transparent 70%)}
+.eyebrow{display:inline-block;font-size:10px;letter-spacing:.28em;font-weight:600;
+ color:var(--gold);border:1px solid rgba(185,137,47,.35);border-radius:999px;
+ padding:5px 16px;margin-bottom:18px;background:rgba(255,253,246,.6)}
+.hero h1{font-family:'Amiri',serif;font-weight:700;font-size:clamp(30px,5vw,50px);
+ margin:0 0 10px;color:var(--ink)}
+.hero h1 em{font-style:normal;color:var(--emerald)}
+.hero p{max-width:760px;margin:6px auto;color:var(--mut);font-size:15.5px}
+.badges{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:22px}
+.badge{font-size:13px;font-weight:500;color:var(--emerald);background:#fff;
+ border:1px solid var(--hair);border-radius:999px;padding:5px 15px;
+ box-shadow:0 10px 24px -18px rgba(14,95,78,.5)}
+
+/* ——— الهيكل ——— */
+.wrap{position:relative;z-index:2;max-width:1150px;margin:0 auto;padding:34px 20px 90px}
+h2.sec{font-family:'Amiri',serif;font-size:29px;font-weight:700;color:var(--ink);
+ margin:46px 0 4px;display:flex;align-items:center;gap:12px}
+h2.sec::after{content:'';flex:1;height:1px;background:linear-gradient(270deg,var(--hair),transparent)}
+h2.sec .no{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--gold);
+ border:1px solid rgba(185,137,47,.35);border-radius:999px;padding:2px 12px}
+.sub{color:var(--mut);margin:0 0 18px;font-size:14.5px}
+
+/* ——— الكروت مزدوجة الإطار (Double-Bezel) ——— */
+.bezel{background:rgba(39,33,26,.045);border:1px solid var(--hair2);
+ border-radius:28px;padding:8px;transition:transform .6s var(--ease)}
+.bezel:hover{transform:translateY(-3px)}
+.core{background:var(--paper);border-radius:20px;padding:24px 26px;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.95),0 24px 48px -34px rgba(39,33,26,.4)}
+h3{font-family:'Amiri',serif;font-size:23px;font-weight:700;margin:0 0 10px;color:var(--ink)}
+h4{font-size:14px;font-weight:600;color:var(--mut);margin:20px 0 8px;
+ letter-spacing:.04em;display:flex;align-items:center;gap:8px}
+h4::after{content:'';flex:1;height:1px;background:var(--hair2)}
+
+/* ——— بنتو غير متماثل للفهرس ——— */
+.bento{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+.bento .bezel{margin:0}
+.sp7{grid-column:span 7}.sp5{grid-column:span 5}.sp12{grid-column:span 12}
+@media(max-width:860px){.sp7,.sp5,.sp12{grid-column:span 12}}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:860px){.grid2{grid-template-columns:1fr}}
+
+/* ——— الشرائح Chips (مُصلَّحة التباين) ——— */
+.chiprow{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:26px}
+.chip{font-family:inherit;font-size:13px;font-weight:500;color:var(--ink);cursor:pointer;user-select:none;
+ background:rgba(255,255,255,.85);border:1px solid var(--hair);border-radius:999px;padding:6px 15px;
+ transition:all .5s var(--ease)}
+.chip:hover{transform:translateY(-2px);box-shadow:0 12px 22px -16px rgba(39,33,26,.5)}
+.chip.on{background:var(--ink);color:#F7F1E4;border-color:var(--ink)}
+
+/* ——— ملاحظات ملوّنة ——— */
+.note{border-radius:14px;padding:13px 16px;margin:12px 0;border:1px solid}
+.note p{margin:4px 0}
+.note .lab{display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:1px 12px;margin-bottom:6px}
+.n-why{background:rgba(185,137,47,.07);border-color:rgba(185,137,47,.25)}
+.n-why .lab{background:rgba(185,137,47,.15);color:#8A6420}
+.n-ex{background:rgba(14,95,78,.06);border-color:rgba(14,95,78,.22)}
+.n-ex .lab{background:rgba(14,95,78,.12);color:var(--emerald)}
+.n-q{background:rgba(160,60,60,.05);border-color:rgba(160,60,60,.2)}
+.n-q .lab{background:rgba(160,60,60,.12);color:#8F3A3A}
+
+/* ——— قوائم ——— */
+ul{margin:8px 0;padding:0;list-style:none}
+ul li{padding:5px 26px 5px 0;position:relative}
+ul li::before{content:'✦';position:absolute;right:2px;top:5px;font-size:11px;color:var(--gold)}
+ol{margin:8px 0;padding-right:22px}
+ol li{margin:6px 0}
+
+/* ——— جداول شعرية ناعمة ——— */
+table{border-collapse:collapse;width:100%;background:transparent;font-size:14.5px;margin:8px 0}
+th{font-size:12.5px;font-weight:600;color:var(--mut);text-align:right;
+ letter-spacing:.04em;padding:10px 12px;border-bottom:1px solid var(--hair)}
+td{padding:11px 12px;border-bottom:1px solid var(--hair2);vertical-align:top}
+tr:last-child td{border-bottom:none}
+
+/* ——— أسئلة قابلة للفتح ——— */
+details.qa{background:transparent;border:1px solid var(--hair2);border-radius:14px;
+ margin:8px 0;overflow:hidden;transition:border-color .4s var(--ease)}
+details.qa[open]{border-color:rgba(185,137,47,.4)}
+details.qa summary{cursor:pointer;list-style:none;display:flex;align-items:baseline;gap:10px;
+ padding:12px 16px;font-weight:600;font-size:14.5px;color:var(--ink)}
+details.qa summary::-webkit-details-marker{display:none}
+details.qa summary::before{content:'+';font-family:'IBM Plex Mono',monospace;font-weight:500;
+ color:var(--gold);font-size:16px;flex-shrink:0;transition:transform .5s var(--ease)}
+details.qa[open] summary::before{transform:rotate(45deg)}
+details.qa .ans{padding:2px 18px 14px;color:#4A4136;font-size:14.5px}
+
+/* ——— صفحات الوثيقة ——— */
+.flexp{display:grid;grid-template-columns:minmax(300px,44%) 1fr;gap:20px;align-items:start;margin-top:14px}
+@media(max-width:960px){.flexp{grid-template-columns:1fr}}
+.pgimg{width:100%;display:block;border-radius:12px;border:1px solid var(--hair);
+ background:#fff;transition:transform .6s var(--ease),box-shadow .6s var(--ease)}
+.pgimg:hover{transform:translateY(-3px);box-shadow:0 26px 44px -30px rgba(39,33,26,.55)}
+.pgnum{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:500;color:#fff;
+ background:linear-gradient(135deg,var(--emerald),var(--emerald2));
+ border-radius:999px;padding:3px 14px;white-space:nowrap}
+.tag{font-size:11px;font-weight:500;color:var(--mut);background:rgba(39,33,26,.05);
+ border:1px solid var(--hair2);border-radius:6px;padding:1px 9px;margin-inline-start:8px}
+.zoom{display:inline-flex;align-items:center;gap:7px;text-decoration:none;font-size:12.5px;
+ color:var(--ink);background:rgba(39,33,26,.05);border:1px solid var(--hair2);
+ border-radius:999px;padding:4px 6px 4px 13px;transition:background .45s var(--ease)}
+.zoom:hover{background:rgba(39,33,26,.1)}
+.zoom .ic{width:22px;height:22px;border-radius:999px;background:#fff;border:1px solid var(--hair);
+ display:inline-flex;align-items:center;justify-content:center;font-size:11px;transition:transform .45s var(--ease)}
+.zoom:hover .ic{transform:translate(-2px,-2px)}
+.pghead{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.pghead h3{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:20px}
+
+/* ——— خطابات وأرقام ——— */
+.speech{background:#FFFDF4;border:1px solid rgba(185,137,47,.3);border-radius:20px;
+ padding:22px 26px;font-family:'Amiri',serif;font-size:19px;line-height:2.2;position:relative}
+.speech::before{content:'❝';position:absolute;top:-6px;right:18px;font-size:34px;color:var(--gold2);opacity:.6}
+.num{font-family:'IBM Plex Mono',monospace;font-weight:500;color:var(--emerald);
+ font-size:19px;white-space:nowrap}
+td .num{font-size:16px}
+.kpi{text-align:center;padding:18px 10px}
+.kpi .n{font-family:'IBM Plex Mono',monospace;font-size:24px;font-weight:600;color:var(--emerald)}
+.kpi .t{font-size:12.5px;color:var(--mut);margin-top:4px}
+
+/* ——— الرسمات ——— */
+.story{background:linear-gradient(180deg,rgba(14,95,78,.06),#fff);
+ border:1px solid rgba(14,95,78,.2);border-radius:18px;padding:18px 22px;font-size:15.5px}
+.story p{margin:6px 0}
+
+/* ——— الدروس ——— */
+.ava{width:46px;height:46px;border-radius:999px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+ font-family:'Amiri',serif;font-size:22px;font-weight:700;color:#fff;
+ background:linear-gradient(135deg,var(--emerald),var(--gold))}
+.memgrid li::before{content:'⚡';font-size:12px}
+
+/* ——— البحث ——— */
+.search{width:100%;max-width:430px;padding:11px 18px;font-family:inherit;font-size:14.5px;
+ color:var(--ink);background:#fff;border:1px solid var(--hair);border-radius:999px;outline:none;
+ transition:border-color .4s var(--ease),box-shadow .4s var(--ease)}
+.search:focus{border-color:rgba(185,137,47,.55);box-shadow:0 0 0 4px rgba(185,137,47,.12)}
+.filterbar{position:sticky;top:66px;z-index:40;margin:0 0 18px}
+
+/* ——— الحركة ——— */
+.rv{opacity:0;transform:translateY(26px);filter:blur(7px)}
+.rv.vis{opacity:1;transform:none;filter:none;
+ transition:opacity .9s var(--ease),transform .9s var(--ease),filter .9s var(--ease)}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;filter:none}}
+
+/* ——— تذييل ——— */
+.foot{position:relative;z-index:2;text-align:center;padding:44px 20px 60px;
+ border-top:1px solid var(--hair);color:var(--mut);font-size:13px}
+.foot b{color:var(--emerald)}
+
+@media print{
+ .pillnav,.chip,.search,#prog,.grain,.filterbar,.zoom{display:none!important}
+ .rv{opacity:1!important;transform:none!important;filter:none!important}
+ body{background:#fff}
+ .bezel{transform:none;background:none;border:none;padding:0}
+ .core{border:1px solid #ddd;box-shadow:none}
+ .hero{padding:40px 10px 20px}
+ .bezel{break-inside:avoid}
+}
+</style></head><body>
+<div class="grain"></div><div id="prog"></div>
+<nav class="pillnav">
+<a href="index.html">البداية</a><a href="summary.html">الملخص</a>
+<a href="page-by-page.html">صفحة‑صفحة</a><a class="on" href="diagrams.html">الرسمات</a>
+<a href="lessons.html">دروس المنهج</a><a href="questions.html">الأسئلة</a>
+</nav><header class="hero"><div class="eyebrow">LEVEL 3 · THE NINE DIAGRAMS</div><h1>الرسمات التسع <em>بالتفصيل الكامل</em></h1><p>أهم جزء في مناقشتكم: كل رسمة بنظريتها وطريقة قراءتها وكل عناصرها بالاسم وسرد كامل جاهز للإلقاء وأسئلتها المتوقعة</p><div class="chiprow"><span class="chip" onclick="location.hash='d01'">01 — المنهجية</span><span class="chip" onclick="location.hash='d02'">02 — حالات الاستخدام</span><span class="chip" onclick="location.hash='d03'">03 — ERD</span><span class="chip" onclick="location.hash='d04'">04 — الكلاسات</span><span class="chip" onclick="location.hash='d05'">05 — التتابع</span><span class="chip" onclick="location.hash='d06'">06 — النشاط</span><span class="chip" onclick="location.hash='d07'">07 — الحالات</span><span class="chip" onclick="location.hash='d08'">08 — DFD</span><span class="chip" onclick="location.hash='d09'">09 — المعمارية</span></div></header><div class="wrap">
+<div class="bezel rv" id="d01"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">رسمة 01</span>مخطط منهجية تطوير المشروع (التطوير التزايدي الرشيق)<span class="tag">Methodology Diagram (Agile / Incremental)</span></h3>
+<a class="zoom" href="diagrams/01_methodology.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="diagrams/01_methodology.png" target="_blank">
+<img class="pgimg" src="diagrams/01_methodology.png" alt="مخطط منهجية تطوير المشروع (التطوير التزايدي الرشيق)"></a></div>
+<div>
+<div class="note n-why"><span class="lab">🎓 النظرية من المنهج</span><p>هذه الرسمة ليست من مخططات UML القياسية، بل هي مخطط عملية (Process Diagram) يشرح كيف نظّمنا عملنا في تطوير المشروع. المنهجية الرشيقة (Agile) تقسّم المشروع إلى تكرارات قصيرة (Sprint / Iteration)، كل تكرار يمرّ بنفس المراحل: تحليل ← تصميم ← تنفيذ ← اختبار ← مراجعة ← تغذية راجعة. نستخدمها بدل نموذج الشلال (Waterfall) لأن المتطلبات كانت ستتغيّر بعد رؤية النموذج الأولي (Prototype). الرموز بسيطة: مستطيل = مرحلة، سهم = انتقال، سهم يرجع للخلف = إعادة الدورة (تكرار جديد).</p></div>
+<div class="note n-ex"><span class="lab">🔍 كيف تقرأ هذه الرسمة؟</span><p>ابدأ من المستطيل رقم ① واتبع الأسهم بالترتيب ② ③ ④ ⑤ ⑥. في النهاية لا تتوقف عند ⑥: اتبع السهم الراجع المكتوب عليه «تكرار Sprint جديد» الذي يعود بك إلى ① — هذه هي فكرة الرشاقة: الدورة تتكرر. ثم اقرأ السطر التحت للرسمة: هو يخبرك كيف طُبّقت الدورة فعليًا في مساري عبر 4 تكرارات حقيقية.</p></div>
+</div></div>
+<h4>🧩 كل عناصرها (8)</h4>
+<table><tr><th style="width:210px">العنصر</th><th>وظيفته في مشروعنا</th></tr><tr><td style="font-weight:600">① التخطيط والتحليل</td><td>نحدّد المطلوب من التكرار: متطلبات (Requirements) جديدة مثل الخريطة أو الاستثناءات.</td></tr><tr><td style="font-weight:600">② التصميم</td><td>نرسم الحل على الورق: بنية البيانات، الواجهات، المخططات قبل كتابة الكود.</td></tr><tr><td style="font-weight:600">③ التنفيذ</td><td>كتابة الكود الفعلية (Coding) لكل عضو في مكوّنه.</td></tr><tr><td style="font-weight:600">④ الاختبار</td><td>نتأكد أن الجديد يعمل ولا يكسر القديم (اختبار وحدة وتكامل).</td></tr><tr><td style="font-weight:600">⑤ المراجعة والدمج</td><td>نجمع عمل الأعضاء الأربعة مع بعض (Integration) في نسخة واحدة تعمل.</td></tr><tr><td style="font-weight:600">⑥ التغذية الراجعة</td><td>نستلم ملاحظات (Feedback) ونستخلص الدروس قبل التكرار الجديد.</td></tr><tr><td style="font-weight:600">تكرار Sprint جديد</td><td>السهم الراجع من ⑥ إلى ① — يعني الدورة تعيد نفسها كل تكرار.</td></tr><tr><td style="font-weight:600">التكرارات الأربعة المُنفَّذة</td><td>السطر تحت الرسمة: ① الخريطة + الخوارزميات ② الخادم و REST ③ العميل التفاعلي ④ NLU + الأمان + UX.</td></tr></table>
+<h4>🎬 «امشِ لي على الرسمة» — سرد جاهز للحفظ</h4>
+<div class="story"><p>«هذه رسمة منهجيتنا: التطوير التزايدي الرشيق. نبدأ من ① التخطيط والتحليل: نجلس ونحدد ماذا سنبني في هذا التكرار. ثم ② التصميم: نضع الحل على الورق قبل الكود. ثم ③ التنفيذ: كل واحد منّا الأربعة يكتب مكوّنه. ثم ④ الاختبار: نتأكد أنه يعمل. ثم ⑤ المراجعة والدمج: ندمج أعمالنا في نسخة واحدة. ثم ⑥ التغذية الراجعة: نأخذ الملاحظات، ونرجع بالسهم المكتوب عليه تكرار Sprint جديد إلى البداية. وطبّقنا هذا فعليًا في أربعة تكرارات: الأول بنى بيانات الخريطة وخوارزميتي A* و UCS، والثاني الخادم الخلفي وواجهات REST، والثالث العميل الأمامي التفاعلي، والرابع دمج المساعد اللغوي NLU وتحسينات الأمان وتجربة المستخدم.»</p></div>
+<h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>لماذا اخترتم الرشيق (Agile) ولم تختاروا الشلال (Waterfall)؟</span></summary><div class="ans"><b>الإجابة:</b><p>لأن المشروع تفاعلي ولم يكتمل تصوّر واجهته وآلية الاستثناءات إلا بعد رؤية نموذج أولي، والرشيق يتحمّل تغيّر المتطلبات عبر التكرارات، بينما الشلال لا يرجع للخلف. كما أتاح الرشيق عرض نسخة تعمل مبكرًا وتطوير المكوّنات الأربعة بالتوازي ثم الدمج في نهاية كل تكرار.</p></div></details><details class="qa"><summary><span>كم تكرارًا نفّذتم وماذا أنجز كل واحد؟</span></summary><div class="ans"><b>الإجابة:</b><p>أربعة: (1) بيانات الخريطة وخوارزميات البحث، (2) الخادم الخلفي وواجهات REST، (3) العميل الأمامي التفاعلي، (4) دمج المساعد اللغوي وتحسينات الأمان وتجربة المستخدم.</p></div></details><details class="qa"><summary><span>ما فائدة مرحلة التغذية الراجعة ⑥؟</span></summary><div class="ans"><b>الإجابة:</b><p>هي التي تغلق الحلقة: نستلم ملاحظات على النسخة المدمجة ونحوّلها إلى متطلبات معدّلة في تخطيط التكرار التالي، فالمنتج يتحسّن تدريجيًا بدل أن نكتشف المشاكل في النهاية.</p></div></details><details class="qa"><summary><span>كيف وزّعتم العمل وأنت أربعة؟</span></summary><div class="ans"><b>الإجابة:</b><p>كل عضو تقدّم في مكوّنه باستقلال (خوارزميات / خادم / واجهة / مساعد لغوي) بالتوازي، والدمج يجري في مرحلة ⑤ المراجعة والدمج في نهاية كل تكرار.</p></div></details>
+</div></div>
+<div class="bezel rv" id="d02"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">رسمة 02</span>مخطط حالات الاستخدام (Use Case Diagram)<span class="tag">Use Case Diagram</span></h3>
+<a class="zoom" href="diagrams/02_use_case.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="diagrams/02_use_case.png" target="_blank">
+<img class="pgimg" src="diagrams/02_use_case.png" alt="مخطط حالات الاستخدام (Use Case Diagram)"></a></div>
+<div>
+<div class="note n-why"><span class="lab">🎓 النظرية من المنهج</span><p>رسمة UML سلوكية تُظهر الفاعلين (Actors) وحالات الاستخدام (Use Cases) اللي يقدمها النظام، وهي تصوّر المتطلبات الوظيفية (Functional Requirements) بشكل بصري. الفاعل = إنسان أو نظام يتعامل مع نظامنا (خارجه). حالة الاستخدام = وظيفة كاملة يحققها الفاعل مع النظام. العلاقات: Association (خط يربط فاعلًا بوظيفة)، «include» (الوظيفة الأساسية تحتوي دائمًا وظيفة فرعية — السهم من الأساسية إلى الفرعية)، «extend» (وظيفة اختيارية تضيف سلوكًا لأساسية — السهم من الاختيارية إلى الأساسية). الإطار الخارجي = حدود النظام (System Boundary).</p></div>
+<div class="note n-ex"><span class="lab">🔍 كيف تقرأ هذه الرسمة؟</span><p>أول شي حدّد الفاعلين: العصويون (stick figures) برا الإطار — عندنا «مستخدم عادي» يمين و«مشرف Admin» يسار. ثاني شي كل خط (Association) من فاعل إلى بيضة (Oval) معناه هذا الفاعل يستخدم هذه الوظيفة. ثالث شي الأسهم المتقطعة المكتوب عليها «include» تعني: الوظيفة اللي يخرج منها السهم تشتغل دائمًا معها الوظيفة اللي يدخل إليها. والسهم المكتوب عليه «extend» (من استثناء شارع/مكان إلى تخطيط المسار) معناه ميزة اختيارية تُضاف أحيانًا. الإطار المتقطع الكبير = حدود نظام مساري، والملاحظة تحت تقول الضيف هو نفسه المستخدم قبل الدخول.</p></div>
+</div></div>
+<h4>🧩 كل عناصرها (17)</h4>
+<table><tr><th style="width:210px">العنصر</th><th>وظيفته في مشروعنا</th></tr><tr><td style="font-weight:600">مستخدم عادي (Actor)</td><td>الفاعل الرئيسي: يسجّل دخول، يعرض الخريطة، يخطّط مسارًا، يكتب أمرًا لغويًا، يتصفّح الأماكن، ويشاهد سجلّ رحلاته.</td></tr><tr><td style="font-weight:600">مشرف Admin (Actor)</td><td>فاعل إداري: وحده من يدير الخريطة (إضافة/تعديل/حذف العقد والوصلات).</td></tr><tr><td style="font-weight:600">تسجيل الدخول / حساب جديد</td><td>وظيفة المصادقة (FR-1) — تشتمل دائمًا على إصدار توكن موقّع.</td></tr><tr><td style="font-weight:600">عرض الخريطة التفاعلية</td><td>رسم شبكة صنعاء (17 عقدة، 21 وصلة) في المتصفح (FR-2).</td></tr><tr><td style="font-weight:600">تخطيط المسار A*/UCS</td><td>الوظيفة الجوهرية (FR-3): حساب المسار الأمثل بين نقطتين — هي مركز الرسمة لأن 4 علاقات تتصل بها.</td></tr><tr><td style="font-weight:600">إدخال أمر لغوي عربي</td><td>المستخدم يكتب جملة عامية مثل «ودّيني حدة» (FR-5) — تشمل دائمًا تحليل NLU للجملة.</td></tr><tr><td style="font-weight:600">تصفّح الأماكن</td><td>قائمة الأماكن مع تفاصيل كل مكان وجيرانه (FR-7).</td></tr><tr><td style="font-weight:600">عرض سجلّ الرحلات</td><td>استرجاع عمليات البحث المحفوظة للمستخدم المسجّل (FR-6).</td></tr><tr><td style="font-weight:600">إدارة الخريطة CRUD</td><td>لوحة المشرف: Create/Read/Update/Delete للعقد والوصلات (FR-9).</td></tr><tr><td style="font-weight:600">إصدار توكن موقّع</td><td>وظيفة مُضمّنة (include) من تسجيل الدخول: توكن HMAC بعد التحقق من كلمة المرور.</td></tr><tr><td style="font-weight:600">تنفيذ خوارزمية البحث</td><td>مُضمّنة من تخطيط المسار: تشغيل A* أو UCS فعليًا.</td></tr><tr><td style="font-weight:600">استثناء شارع / مكان</td><td>ميزة extend اختيارية: تضيف قيد التجنّب على تخطيط المسار (FR-4) — ليست إلزامية في كل بحث.</td></tr><tr><td style="font-weight:600">تحليل NLU للجملة</td><td>مُضمّنة من الأمر اللغوي: استخراج الوجهة والاستثناءات من النص (Groq ثم القواعد).</td></tr><tr><td style="font-weight:600">تفاصيل المكان وجيرانه</td><td>مُضمّنة من تصفّح الأماكن: عند اختيار مكان تُعرض وصلاته.</td></tr><tr><td style="font-weight:600">حفظ في سجلّ الرحلات</td><td>مُضمّنة من تخطيط المسار ومن عرض السجلّ: كتابة السجلّ في قاعدة البيانات.</td></tr><tr><td style="font-weight:600">نظام مساري — Smart Navigation</td><td>الإطار المتقطع = حدود النظام (System Boundary)؛ كل ما داخله وظائف النظام وما خارجه فاعلون.</td></tr><tr><td style="font-weight:600">الضيف = مستخدم قبل الدخول</td><td>ملاحظة توضح أن وضع الضيف (FR-10) ليس فاعلًا منفصلًا بل المستخدم ذاته قبل تسجيل الدخول.</td></tr></table>
+<h4>🎬 «امشِ لي على الرسمة» — سرد جاهز للحفظ</h4>
+<div class="story"><p>«هذا مخطط حالات الاستخدام لنظام مساري. عندنا فاعلان: مستخدم عادي ومشرف Admin. أبدأ بالمستخدم العادي: له ست وظائف. أولًا تسجيل الدخول أو إنشاء حساب جديد — وهذه تشمل دائمًا إصدار توكن موقّع (include). ثانيًا عرض الخريطة التفاعلية. ثالثًا — وهي قلب النظام — تخطيط المسار بخوارزمية A* أو UCS: هذه تشمل تنفيذ خوارزمية البحث، وتشمل حفظ البحث في سجلّ الرحلات، ويُضاف إليها اختياريًا (extend) استثناء شارع أو مكان لو المستخدم أراد تجنّبه. رابعًا إدخال أمر لغوي عربي مثل ودّيني حدة — يشمل تحليل NLU للجملة، والتحليل بدوره يشمل تخطيط المسار بعد استخراج الوجهة. خامسًا تصفّح الأماكن — يشمل عرض تفاصيل المكان وجيرانه. سادسًا عرض سجلّ الرحلات — يشمل حفظ السجلّ. أما المشرف Admin فوظيفته الوحيدة إدارة الخريطة CRUD. والإطار كله حدود نظام مساري، والملاحظة تحت توضح أن الضيف هو المستخدم نفسه قبل الدخول.»</p></div>
+<h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>ما الفرق بين include و extend في رسمتك؟</span></summary><div class="ans"><b>الإجابة:</b><p>include إجبارية: تسجيل الدخول يشمل دائمًا إصدار توكن، وتخطيط المسار يشمل دائمًا تنفيذ الخوارزمية والحفظ في السجلّ. extend اختيارية: استثناء شارع/مكان يمدّ تخطيط المسار فقط عندما يطلب المستخدم التجنّب — يمكن تخطيط مسار بدون أي استثناء.</p></div></details><details class="qa"><summary><span>لماذا «حفظ في سجلّ الرحلات» يستقبل سهمي include من وظيفتين؟</span></summary><div class="ans"><b>الإجابة:</b><p>لأنه يُستدعى من مسارين: من تخطيط المسار (يُكتب السجلّ بعد كل بحث ناجح) ومن عرض سجلّ الرحلات (قراءة السجلّات المحفوظة سابقًا) — وظيفة فرعية مشتركة وهذا هو الغرض من include إعادة الاستخدام.</p></div></details><details class="qa"><summary><span>لماذا لم تجعلوا الضيف فاعلًا منفصلًا؟</span></summary><div class="ans"><b>الإجابة:</b><p>لأن الضيف يقوم بنفس وظائف المستخدم العادي (خريطة، مسار، أمر لغوي) مع تقييد المزايا التي تحتاج مصادقة كالسجلّ، فأبقيناه مستخدمًا واحدًا قبل الدخول ووضّحنا ذلك بملاحظة على الرسمة، وهذا أبسط وأصح نمذجة.</p></div></details><details class="qa"><summary><span>لماذا المشرف متصل بوظيفة واحدة فقط؟</span></summary><div class="ans"><b>الإجابة:</b><p>لأن دوره الوحيد إدارة الخريطة CRUD — إضافة وتعديل وحذف العقد والوصلات؛ لا يخطّط مسارات ولا يستخدم NLU، وهذا تطبيق لمبدأ فصل الصلاحيات (Authorization) المذكور في تصميم الأمان.</p></div></details><details class="qa"><summary><span>وين تظهر المتطلبات غير الوظيفية هنا؟</span></summary><div class="ans"><b>الإجابة:</b><p>لا تظهر — مخطط الاستخدام يغطي الوظيفي فقط (FR-1 حتى FR-11 تقريبًا). غير الوظيفية كالأداء والأمان موجودة في جداول المتطلبات، أما التوكن الموقّع والأمان فيظهر أثره كوظيفة مُضمّنة (إصدار توكن موقّع).</p></div></details>
+</div></div>
+<div class="bezel rv" id="d03"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">رسمة 03</span>مخطط الكيانات والعلاقات (ERD)<span class="tag">Entity-Relationship Diagram (ERD)</span></h3>
+<a class="zoom" href="diagrams/03_erd.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="diagrams/03_erd.png" target="_blank">
+<img class="pgimg" src="diagrams/03_erd.png" alt="مخطط الكيانات والعلاقات (ERD)"></a></div>
+<div>
+<div class="note n-why"><span class="lab">🎓 النظرية من المنهج</span><p>رسمة تُمثّل بنية قاعدة البيانات العلائقية (Relational Database) قبل إنشائها: كل مستطيل = كيان/جدول (Entity/Table)، وداخله الحقول (Attributes) مع نوع بيانات كل حقل، والمفتاح الأساسي (PK — Primary Key) يميّز الصف، والمفتاح الأجنبي (FK — Foreign Key) يربط الجدول بجدول آخر. الخطوط بين الجداول = علاقات مع عدد الكاردينالية (Cardinality) مثل 1—N (واحد إلى متعدد). يُستخدم في مرحلة التصميم لبناء مخطط SQLite/SQL.</p></div>
+<div class="note n-ex"><span class="lab">🔍 كيف تقرأ هذه الرسمة؟</span><p>عدّ الجداول أولًا: أربعة. لكل جدول اقرأ من فوق لتحت: أول حقل غالبًا هو PK (المعرّف الفريد)، والحقول المكتوب أمامها FK هي روابط لجداول أخرى — السهم في FK يوضح يشير إلى أي جدول وأي حقل بالضبط. ثم انظر للخطوط بين الجداول واقرأ الكاردينالية المكتوبة عليها: (1 — N) تعني صف واحد يرتبط بعدة صفوف، و(N — N) بين map_nodes و map_edges تعني الوصلة تربط عقدتين. السطر العلوي يلخّص لك معنى العلاقتين بكلام عادي.</p></div>
+</div></div>
+<h4>🧩 كل عناصرها (7)</h4>
+<table><tr><th style="width:210px">العنصر</th><th>وظيفته في مشروعنا</th></tr><tr><td style="font-weight:600">جدول users (المستخدمون)</td><td>PK id : INTEGER — UQ username : TEXT (فريد) — password_hash : TEXT (كلمة مرور مشفّرة) — created_at : TEXT. يحفظ الحسابات.</td></tr><tr><td style="font-weight:600">جدول search_history (سجلّ البحث)</td><td>PK id : INTEGER — FK user_id → users.id — command : TEXT — destination : TEXT — algorithm : TEXT (astar/ucs) — path : TEXT (JSON) — cost : REAL — created_at : TEXT. يحفظ كل عملية بحث.</td></tr><tr><td style="font-weight:600">جدول map_nodes (عقد الخريطة)</td><td>PK id : TEXT (مثل Sanaa_Uni) — name : TEXT (الاسم العربي) — x : REAL — y : REAL (إحداثيات الرسم وحساب الكاشف).</td></tr><tr><td style="font-weight:600">جدول map_edges (وصلات الخريطة)</td><td>PK id : INTEGER — FK u → map_nodes.id — FK v → map_nodes.id — street : TEXT (اسم الشارع مثل الزبيري).</td></tr><tr><td style="font-weight:600">علاقة 1 — N بين users و search_history</td><td>مستخدم واحد له عدة عمليات بحث، وكل سجلّ بحث يعود لمستخدم واحد — عن طريق user_id.</td></tr><tr><td style="font-weight:600">علاقة N — N بين map_nodes و map_edges</td><td>الوصلة تربط عقدتين (u و v)، والعقدة الواحدة تشارك في عدة وصلات — map_edges هو جدول الربط.</td></tr><tr><td style="font-weight:600">ملاحظة الرسمة</td><td>«مستخدم واحد له عدة عمليات بحث — والوصلة تربط عقدتين (u, v)» — شرح نصي للكارديناليتين.</td></tr></table>
+<h4>🎬 «امشِ لي على الرسمة» — سرد جاهز للحفظ</h4>
+<div class="story"><p>«هذا مخطط الكيانات والعلاقات لقاعدة بيانات SQLite — أربعة جداول. أبدأ بـ users: معرّف id أساسي، واسم مستخدم username فريد، وكلمة المرور محفوظة hash فقط مش نص صريح، وتاريخ إنشاء. منه علاقة واحد إلى متعدد 1—N مع search_history: كل بحث يحفظ user_id كمفتاح أجنبي يشير إلى users.id، فمستخدم واحد له عدة عمليات بحث. وفي search_history نخزّن النص الأصلي command، والوجهة destination، والخوارزمية algorithm، والمسار path بصيغة JSON، والتكلفة cost، والوقت. ثم جدولا الخريطة: map_nodes وفيه id نصي مثل Sanaa_Uni والاسم العربي name وإحداثيا x و y — والإحداثيات ضرورية لأن منها نشتق وزن الوصلة وحساب الكاشف heuristique. و map_edges فيه مفتاحان أجنبيان u و v كلاهما يشير إلى map_nodes.id مع اسم الشارع street — فالعلاقة بين العقد والوصلات N—N: الوصلة تربط عقدتين، والعقدة تدخل في عدة وصلات. ملاحظة مهمة: الوزن غير مخزّن في الجدول — يُحسب من المسافة الإقليدية بين إحداثيّي العقدتين مقسومة على 10، وهذا يضمن أن كاشف A* قابل للقبول.»</p></div>
+<h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>لماذا id في map_nodes نصي (TEXT) بينما في باقي الجداول رقمي؟</span></summary><div class="ans"><b>الإجابة:</b><p>لأن معرّف العقدة اسم دال مثل Sanaa_Uni أو Hadda يُقرأ مباشرة في الكود وفي نتائج المسار، فالنصي أوضح للتصحيح والربط، بينما users و search_history و map_edges صفوف تُنشأ تلقائيًا فالرقم التلقائي (AUTOINCREMENT) أنسب لها.</p></div></details><details class="qa"><summary><span>أين مخزّن وزن الوصلة (weight) ولماذا؟</span></summary><div class="ans"><b>الإجابة:</b><p>غير مخزّن كحقل — يُشتق حسابيًا من المسافة الإقليدية بين x و y للعقدتين مقسومة على ثابت 10، أي weight = ceil(distance/10). الفائدة المزدوجة: كاشف المسافة المستقيمة يبقى قابلًا للقبول (admissible) لأن الخط المستقيم لا يتجاوز المسافة الفعلية، والبيانات تبقى متّسقة تلقائيًا لو عدّل المشرف إحداثيات عقدة.</p></div></details><details class="qa"><summary><span>اشرح العلاقة 1—N بكيفية تنفيذها.</span></summary><div class="ans"><b>الإجابة:</b><p>تنفيذها بعمود user_id في search_history كـ Foreign Key يشير إلى users.id؛ القيد NOT NULL يضمن كل سجلّ يعود لمستخدم، فالمستخدم الواحد يملك صفوفًا متعددة من السجلّات — هذه هي الـ 1—N.</p></div></details><details class="qa"><summary><span>لماذا path و cost في search_history وليس جدولًا منفصلًا؟</span></summary><div class="ans"><b>الإجابة:</b><p>لأن السجلّ البحثي وحدة واحدة منطقيًا: النص والوجهة والخوارزمية والنتيجة تكتب معًا مرة واحدة وتُقرأ معًا — لا تعدد قيم ولا تكرار، فلا داعي لتطبيع إضافي (سيكون جدولًا بنفس المفتاح).</p></div></details><details class="qa"><summary><span>كيف يمنع التصميم تكرار اسم المستخدم؟</span></summary><div class="ans"><b>الإجابة:</b><p>قيد UNIQUE على username في جدول users — أي محاولة تسجيل اسم موجود تفشل على مستوى قاعدة البيانات نفسها، إضافة إلى تحقّق Pydantic في الخادم قبل الوصول للقاعدة.</p></div></details>
+</div></div>
+<div class="bezel rv" id="d04"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">رسمة 04</span>مخطط الفئات (Class Diagram) مع الأنماط التصميمية<span class="tag">Class Diagram (with Design Patterns)</span></h3>
+<a class="zoom" href="diagrams/04_class.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="diagrams/04_class.png" target="_blank">
+<img class="pgimg" src="diagrams/04_class.png" alt="مخطط الفئات (Class Diagram) مع الأنماط التصميمية"></a></div>
+<div>
+<div class="note n-why"><span class="lab">🎓 النظرية من المنهج</span><p>رسمة UML هيكلية تُمثّل فئات (Classes) الكود البرمجي وعلاقاتها. كل صندوق مقسوم ثلاث طبقات: اسم الفئة، الخصائص (Attributes) وفيها (-) خاصة و(+) عامة، ثم الدوال (Methods). العلاقات عندنا: realizes (تطبيق واجهة — خط متقطع)، وأسهم «يستخدم/يستدعي» (Dependency). الرسمة تركّز على أربعة أنماط تصميم (Design Patterns): Strategy و Repository و Singleton و DTO — وهي حلول جاهزة لمشاكل تصميم متكررة.</p></div>
+<div class="note n-ex"><span class="lab">🔍 كيف تقرأ هذه الرسمة؟</span><p>ابدأ من فوق: الواجهة «interface» SearchStrategy ومنها خطان متقطعان realizes إلى UCS و AStar — هذا نمط Strategy. ثم Router: يختار «يختار» الاستراتيجية ويستخدم CityMap ويُنشئ PathResult. ثم FastAPI app تحت: يستدعي Router و يستدعي NLU ويستخدم المستودعين UserRepository و HistoryRepository — هذا نمط Repository. CityMap عليه Singleton (نسخة واحدة). PathResult عليه «DTO» (كائن نقل بيانات). اقرأ كل صندوق: الخصائص فوق والدوال تحت، الإشارة (-) خاصة و(+) عامة.</p></div>
+</div></div>
+<h4>🧩 كل عناصرها (12)</h4>
+<table><tr><th style="width:210px">العنصر</th><th>وظيفته في مشروعنا</th></tr><tr><td style="font-weight:600">«interface» SearchStrategy</td><td>واجهة موحّدة: خاصية name : str ودالة + search(graph, start, goal, avoid) : PathResult — العقد المشترك لكل خوارزمية بحث (نمط Strategy).</td></tr><tr><td style="font-weight:600">UCS</td><td>فئة تنفّذ الواجهة (realizes)، name = &quot;UCS&quot; — البحث بالتكلفة المنتظمة g فقط.</td></tr><tr><td style="font-weight:600">AStar</td><td>فئة تنفّذ الواجهة (realizes)، name = &quot;A*&quot; — البحث الموجّه بالكاشف f = g + h.</td></tr><tr><td style="font-weight:600">Router</td><td>- graph : CityMap — + find_path(start, goal, algorithm, avoid) و + compare(start, goal, avoid): يختار الاستراتيجية المناسبة ويشغّل البحث ويقارن الخوارزميتين.</td></tr><tr><td style="font-weight:600">CityMap</td><td>- nodes : dict، - edges : list، - _adj : dict — دوال: neighbors(node, avoid)، heuristic(a, b)، find_node_by_name(txt)، find_streets_by_name(txt)، reload() — تمثيل الخريطة كرسم بياني (نمط Singleton: نسخة واحدة).</td></tr><tr><td style="font-weight:600">nlu «module»</td><td>+ parse_command(text, citymap, api_key) و parse_with_groq() و parse_with_rules() — المساعد اللغوي: يجرّب Groq أولًا ثم القواعد؛ يستعلم الخريطة لتحويل الأسماء إلى عقد.</td></tr><tr><td style="font-weight:600">«DTO» PathResult</td><td>خصائص: algorithm, start, goal, path[], streets[], cost, expanded, found — ودالة to_dict() لتحويله JSON؛ كائن نقل النتيجة الموحّد بين الطبقات.</td></tr><tr><td style="font-weight:600">FastAPI app «main»</td><td>نقطة الدخول: يعرّف المسارات /api/auth/* و /api/places* و /api/route و /api/command و /api/admin/* و /api/map(.xml)؛ يستدعي Router و nlu ويستخدم المستودعين.</td></tr><tr><td style="font-weight:600">UserRepository</td><td>- conn : sqlite3 — create() و get_by_username() و get_by_id(): كل عمليات جدول users (نمط Repository).</td></tr><tr><td style="font-weight:600">HistoryRepository</td><td>- conn : sqlite3 — add() و list(user_id, limit): كل عمليات جدول search_history.</td></tr><tr><td style="font-weight:600">أسهم العلاقات</td><td>realizes من UCS و AStar إلى الواجهة؛ «يختار» من Router إلى SearchStrategy؛ يستخدم من Router إلى CityMap؛ يُنشئ نحو PathResult؛ يستعلم الخريطة من nlu؛ يستدعي و يستدعي NLU من FastAPI؛ وسهمان إلى المستودعين.</td></tr><tr><td style="font-weight:600">شارة الأنماط</td><td>عنوان الرسمة: «الأنماط: Strategy ‖ Repository ‖ Singleton (CITY/ROUTER) ‖ DTO» — يلخّص الأنماط الأربعة المطبّقة.</td></tr></table>
+<h4>🎬 «امشِ لي على الرسمة» — سرد جاهز للحفظ</h4>
+<div class="story"><p>«هذا مخطط الفئات، وأهم ما فيه أنه يعرض الأنماط التصميمية الأربعة. أبدأ من Strategy: واجهة اسمها SearchStrategy فيها دالة واحدة search ترجع PathResult — ومنها خطّا realizes إلى فئتين هما UCS و AStar، كل واحدة تنفّذ الواجهة بطريقتها: UCS ترتّب بالتكلفة g فقط، و AStar بالدالة f = g + h. اللي يستفيد منها Router: يملك graph من نوع CityMap، ودالته find_path تستقبل اسم الخوارزمية فتختار «يختار» الاستراتيجية المناسبة وقت التشغيل — يعني نضيف خوارزمية جديدة بدون تعديل Router — وهذا مفتوح للتوسعة مغلق للتعديل. Router يستخدم CityMap وهي الخريطة كرسم بياني: قواميس nodes و _adj للجيران و heuristic للمسافة، وعليها Singleton أي نسخة واحدة مشتركة حتى لا تُعاد قراءة ملف الخريطة مع كل طلب، وفيها reload لو عدّل المشرف البيانات. و nlu وحدة فهم اللغة: parse_command يجرب parse_with_groq وإلا parse_with_rules، ويستعلم الخريطة find_node_by_name ليحول «حدة» إلى معرّف عقدة. النتيجة كلها ترجع في PathResult وهو DTO: خوارزمية وبداية وهدف ومسار وشوارع وتكلفة وعدد العقد المفتوحة و found، مع to_dict للتحويل JSON. أخيرًا FastAPI app هو main: يستدعي Router و يستدعي NLU ويستخدم UserRepository و HistoryRepository — وهما نمط Repository: كل مستودع يحتكر التعامل مع جدوله في SQLite بمعزل عن منطق الأعمال، فيصير اختبار المنطق ممكنًا بذاكرة فقط.»</p></div>
+<h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>أين يظهر نمط Strategy في الرسمة ولماذا استخدمتموه؟</span></summary><div class="ans"><b>الإجابة:</b><p>في الواجهة SearchStrategy وابنتيها UCS و AStar (علاقتا realizes) واختيار Router لهما. استخدمناه لأن الخوارزميتين تتبادلان وقت التشغيل بطلب المستخدم algorithm=astar/ucs، ولإضافة خوارزمية ثالثة مستقبلًا ننشئ فئة جديدة تنفّذ الواجهة دون لمس Router — Open/Closed Principle.</p></div></details><details class="qa"><summary><span>ما فائدة Singleton على CityMap؟</span></summary><div class="ans"><b>الإجابة:</b><p>الخريطة (17 عقدة و21 وصلة) بيانات ثابتة تُقرأ من قاعدة البيانات؛ لو أنشأناها لكل طلب لكنت نعيد البناء آلاف المرات، فنسخة واحدة مشتركة تُنشأ مرة ويعاد تحميلها فقط بدالة reload() عندما يعدّل المشرف الخريطة.</p></div></details><details class="qa"><summary><span>ما هو DTO ولماذا PathResult DTO؟</span></summary><div class="ans"><b>الإجابة:</b><p>Data Transfer Object: كائن بسيط يحمل بيانات فقط بلا منطق — خصائص النتيجة algorithm و path و cost و expanded و found ودالة to_dict. فوائده: شكل موحّد لنتيجة A* و UCS معًا، وتحويله JSON للواجهة الأمامية مباشرة، ولا يكشف بنية داخلية للخوارزميات.</p></div></details><details class="qa"><summary><span>ما فائدة نمط Repository؟</span></summary><div class="ans"><b>الإجابة:</b><p>عزل الوصول للبيانات عن منطق الأعمال: UserRepository يحتكر جدول users و HistoryRepository يحتقر search_history — يعني لو غيّرنا SQLite إلى PostgreSQL نعدّل المستودعين فقط، ويصير اختبار المنطق ممكنًا بمحاكاة بسيطة (mock)، وهذا يحقق مبدأ المسؤولية الواحدة SRP.</p></div></details><details class="qa"><summary><span>لماذا nlu وحدة (module) وليست فئة؟</span></summary><div class="ans"><b>الإجابة:</b><p>لأن دوالها الثلاث stateless لا تحمل حالة بين الطلبات — parse_command يستدعي groq أو rules وينتهي؛ فالوحدة أداة أنظف من صنف لا يُنشأ منه كائنات ذات معنى.</p></div></details><details class="qa"><summary><span>من يملك conn في المستودعين؟</span></summary><div class="ans"><b>الإجابة:</b><p>كل مستودع يملك اتصاله الخاص conn : sqlite3 (- خاص) — لا يشاركه أحد، فتتوزع مسؤولية الجداول بوضوح ولا يتداخل مستودع على جدول غيره.</p></div></details>
+</div></div>
+<div class="bezel rv" id="d05"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">رسمة 05</span>مخطط التتابع — معالجة أمر لغوي عربي<span class="tag">Sequence Diagram</span></h3>
+<a class="zoom" href="diagrams/05_sequence.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="diagrams/05_sequence.png" target="_blank">
+<img class="pgimg" src="diagrams/05_sequence.png" alt="مخطط التتابع — معالجة أمر لغوي عربي"></a></div>
+<div>
+<div class="note n-why"><span class="lab">🎓 النظرية من المنهج</span><p>رسمة UML سلوكية تُظهر تفاعل المكوّنات مرتّبة زمنيًا (Time order) لسيناريو واحد. الخطوط العمودية المتقطعة = خطوط الحياة (Lifelines) لكل مكوّن، والرأساء = رسائل (Messages): سهم مصمت نداء (Request)، وسهم متقطع عودة (Reply/Return). نقرأها من أعلى لأسفل: كل رسالة أحدث من التي فوقها. تُستخدم لتوثيق سيناريو حساس بدقة — وسيناريونا هو الجملة المكتوبة في العنوان: «ودّيني حدة، إيّاك تمر من شارع الزبيري».</p></div>
+<div class="note n-ex"><span class="lab">🔍 كيف تقرأ هذه الرسمة؟</span><p>افهم المسرح أولًا: سبعة خطوط حياة من اليمين: المستخدم، العميل JS، FastAPI، nlu، CityMap، Router، SQLite — لاحظ ترتيبهم يمثل رحلة الطلب. ثم انزل رسالة رسالة من فوق لتحت: كل سهم مصمت استدعاء، والمتقطع رجوع نتيجة. الرقميات على الترتيب الزمني يقرأها الكل بنفس التسلسل: من المستخدم حتى SQLite ثم العودة للمستخدم. ولاحظ الملاحظة أسفل الرسمة: INSERT يُنفَّذ فقط للمستخدم المسجّل.</p></div>
+</div></div>
+<h4>🧩 كل عناصرها (20)</h4>
+<table><tr><th style="width:210px">العنصر</th><th>وظيفته في مشروعنا</th></tr><tr><td style="font-weight:600">المستخدم (Lifeline)</td><td>البشر: يكتب الجملة العربية ويتلقى المسار النهائي.</td></tr><tr><td style="font-weight:600">العميل JS (Lifeline)</td><td>واجهة المتصفح: ترسل الطلب HTTP وتستقبل JSON وترسم المسار.</td></tr><tr><td style="font-weight:600">FastAPI (Lifeline)</td><td>الخادم: يستقبل، يوزّع، يستدعي nlu و Router و SQLite.</td></tr><tr><td style="font-weight:600">nlu (Lifeline)</td><td>وحدة فهم اللغة: تحلّل الجملة إلى وجهة واستثناءات.</td></tr><tr><td style="font-weight:600">CityMap (Lifeline)</td><td>الخريطة كرسم بياني: تحوّل الأسماء النصية إلى عقد وشوارع.</td></tr><tr><td style="font-weight:600">Router (Lifeline)</td><td>منفّذ البحث: يشغّل A*/UCS ويعيد النتيجة.</td></tr><tr><td style="font-weight:600">SQLite (Lifeline)</td><td>قاعدة البيانات: تستقبل حفظ السجلّ فقط.</td></tr><tr><td style="font-weight:600">1. «اكتب جملة عربية» (المستخدم → العميل JS)</td><td>سارة كضيف تكتب: ودّيني حدة، إيّاك تمر من شارع الزبيري.</td></tr><tr><td style="font-weight:600">2. POST /api/command {text} (العميل JS → FastAPI)</td><td>الواجهة ترسل الجملة كطلب HTTP لنقطة النهاية /api/command.</td></tr><tr><td style="font-weight:600">3. parse_command(text) (FastAPI → nlu)</td><td>الخادم يحوّل النص للمساعد اللغوي لتحليله.</td></tr><tr><td style="font-weight:600">4. find_node_by_name(dest) (nlu → CityMap)</td><td>البحث عن «حدة» في الخريطة لتحويلها إلى معرّف عقدة.</td></tr><tr><td style="font-weight:600">5. node_id (CityMap → nlu)</td><td>عودة: معرّف العقدة مثل Hadda.</td></tr><tr><td style="font-weight:600">6. find_streets_by_name(avoid) (nlu → CityMap)</td><td>البحث عن «شارع الزبيري» لتحويله إلى وصلات ممنوعة.</td></tr><tr><td style="font-weight:600">7. [streets] (CityMap → nlu)</td><td>عودة: قائمة الوصلات/الشوارع المستثناة.</td></tr><tr><td style="font-weight:600">8. {destination_node, avoid, source} (nlu → FastAPI)</td><td>عودة التحليل النهائي للخادم — الحقل source يبيّن المسار المستخدم groq أو rules.</td></tr><tr><td style="font-weight:600">9. find_path(start, goal, astar, avoid) (FastAPI → Router)</td><td>الخادم يطلب المسار من البداية إلى حدة مع الاستثناء.</td></tr><tr><td style="font-weight:600">10. PathResult {path, cost, expanded} (Router → FastAPI)</td><td>عودة النتيجة: المسار وتكلفته وعدد العقد المفتوحة.</td></tr><tr><td style="font-weight:600">11. INSERT search_history (FastAPI → SQLite)</td><td>حفظ البحث في السجلّ — والملاحظة أسفل الرسمة: يُنفَّذ فقط للمستخدم المسجّل.</td></tr><tr><td style="font-weight:600">12. JSON {parsed, result} (FastAPI → العميل JS)</td><td>الخادم يعيد للواجهة التحليل والنتيجة معًا بصيغة JSON.</td></tr><tr><td style="font-weight:600">13. عرض المسار على الخريطة (العميل JS → المستخدم)</td><td>الواجهة ترسم المسار بالأسماء العربية على الخريطة لسارة.</td></tr></table>
+<h4>🎬 «امشِ لي على الرسمة» — سرد جاهز للحفظ</h4>
+<div class="story"><p>«هذا مخطط التتابع لأخطر سيناريو عندنا: معالجة أمر لغوي عربي، والجملة في العنوان: ودّيني حدة، إيّاك تمر من شارع الزبيري. سبعة أطراف: المستخدم، العميل JS، FastAPI، nlu، CityMap، Router، SQLite. أمشي بالترتيب: (1) المستخدم يكتب الجملة في الواجهة. (2) العميل يرسلها POST /api/command مع النص. (3) FastAPI يعطيها لـ nlu بدالة parse_command. (4) nlu يسأل CityMap: find_node_by_name عن حدة — (5) ترجع node_id مثل Hadda. (6) ثم يسأل find_streets_by_name عن شارع الزبيري — (7) ترجع قائمة الوصلات المستثناة. (8) nlu يعيد للخادم الحزمة النهائية: وجهة، استثناءات، ومصدر التحليل groq أو rules. (9) الخادم يستدعي Router: find_path من نقطة البداية إلى حدة بخوارزمية A* مع الاستثناء. (10) Router يعيد PathResult فيه المسار والتكلفة وعدد العقد المفتوحة. (11) الخادم يحفظ INSERT في search_history — وهذه الخطوة فقط للمستخدم المسجّل كما توضح الملاحظة. (12) يرجع JSON فيه التحليل والنتيجة للعميل. (13) العميل يرسم المسار على الخريطة ويظهر لسارة بالأسماء العربية. لاحظوا شكل الرحلة: نزول للتحليل، ثم بحث، ثم حفظ، ثم صعود كامل للنتيجة.»</p></div>
+<h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>لماذا لا يسأل nlu الـ Groq مباشرة في هذا المخطط؟</span></summary><div class="ans"><b>الإجابة:</b><p>اختيار Groq أو القواعد يحدث داخل nlu نفسه (parse_with_groq ثم parse_with_rules كاحتياط) — تفصيل داخلي لا يغيّر شكل المخطط، لذا رسمنا الواجهة فقط ونقطة القرار داخل المكوّن، وهذا تجريد صحيح لمخطط تتابع.</p></div></details><details class="qa"><summary><span>ما معنى source في الرسالة 8؟</span></summary><div class="ans"><b>الإجابة:</b><p>حقل يبيّن أي مسار تحليل استُخدم: groq (النموذج اللغوي عند توفّر مفتاح API) أو rules (القواعد النمطية بدون إنترنت) — والنظام لا يتعطل أبدًا لوجود الاحتياط.</p></div></details><details class="qa"><summary><span>لماذا INSERT قبل إرجاع JSON؟</span></summary><div class="ans"><b>الإجابة:</b><p>ترتيب مقصود: نحفظ السجلّ فور اكتمال النتيجة وقبل الرد، فلا يضيع السجلّ لو انقطع الاتصال بالمستخدم بعدها — وحفظ السجلّ خطوة أخيرة في منطق الخادم بعد اكتمال كل الحسابات.</p></div></details><details class="qa"><summary><span>لماذا تمر الرسائل 4-7 بين nlu و CityMap مرتين ذهابًا وإيابًا؟</span></summary><div class="ans"><b>الإجابة:</b><p>لأن التحليل يحتاج تحويلين منفصلين: تحويل الوجهة من نص إلى معرّف عقدة (find_node_by_name)، وتحويل أسماء الشوارع المستثناة إلى وصلات (find_streets_by_name) — والخريطة CityMap هي المرجع الوحيد للأسماء.</p></div></details><details class="qa"><summary><span>أين A* في المخطط؟</span></summary><div class="ans"><b>الإجابة:</b><p>داخل الرسالة 9: الوسيط astar في find_path — Router يختار داخليًا فئة AStar أو UCS وفق نمط Strategy، والمخطط على مستوى المكوّنات لا الفئات الداخلية.</p></div></details>
+</div></div>
+<div class="bezel rv" id="d06"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">رسمة 06</span>مخطط النشاط — تخطيط مسار بقيود استثناء<span class="tag">Activity Diagram</span></h3>
+<a class="zoom" href="diagrams/06_activity.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="diagrams/06_activity.png" target="_blank">
+<img class="pgimg" src="diagrams/06_activity.png" alt="مخطط النشاط — تخطيط مسار بقيود استثناء"></a></div>
+<div>
+<div class="note n-why"><span class="lab">🎓 النظرية من المنهج</span><p>رسمة UML سلوكية تُظهر تدفّق التحكم (Control Flow) داخل عملية واحدة خطوة خطوة، مثل خريطة سير عمل (Workflow). رموزها: الدائرة السوداء = بداية (Initial Node)، المستطيل = نشاط/إجراء (Action)، المعيّن = قرار (Decision) له فرعان نعم/لا، والمستطيل المتقطع = مجموعة (Group) تجمع خطوات، والدائرة السوداء ذات الحلقة = نهاية (Final). تصلح لنمذجة منطق حالة استخدام كاملة بفروعها البديلة ومعالجة أخطائها.</p></div>
+<div class="note n-ex"><span class="lab">🔍 كيف تقرأ هذه الرسمة؟</span><p>ابدأ من الدائرة السوداء فوق وانزل. كل مستطيل اقرأه فعل يحدث. كل معيّن (شكل ماسي) سؤال: انظر للفرع المكتوب على السهم — «لا» غالبًا يذهب لمسار خطأ أحمر وينتهي، و«نعم» يكمل المسار الطبيعي. الصندوق المتقطع «حلقة البحث» لا تمرره كخطوة واحدة: هو أربع خطوات تكرارية داخل البحث. تتبّع المسارين حتى تصل للدوائر النهائية تحت.</p></div>
+</div></div>
+<h4>🧩 كل عناصرها (17)</h4>
+<table><tr><th style="width:210px">العنصر</th><th>وظيفته في مشروعنا</th></tr><tr><td style="font-weight:600">استلام طلب المسار (start, goal, algorithm, avoid)</td><td>النشاط الأول: وصول الطلب من العميل بمدخلاته الأربعة.</td></tr><tr><td style="font-weight:600">هل البداية والوجهة موجودتان في الخريطة؟ (قرار)</td><td>أول تحقّق: وجود العقدتين في map_nodes.</td></tr><tr><td style="font-weight:600">HTTP 400 Unknown place</td><td>مسار الخطأ الأول: عقدة غير موجودة ← رفض الطلب بكود 400.</td></tr><tr><td style="font-weight:600">إعفاء البداية والوجهة من قائمة الاستثناء</td><td>قاعدة تصميمية: حتى لو استثنى المستخدم طرفًا، يُعفى دائمًا حتى يبقى الوصول ممكنًا.</td></tr><tr><td style="font-weight:600">اختيار الاستراتيجية (astar أم ucs) (قرار)</td><td>تفريعة نمط Strategy: حسب خيار المستخدم.</td></tr><tr><td style="font-weight:600">A* — f = g + h</td><td>فرع الخوارزمية الموجّهة: الأولوية = تكلفة متراكمة + كاشف.</td></tr><tr><td style="font-weight:600">UCS — g فقط</td><td>فرع الخوارزمية غير الموجّهة: الأولوية = التكلفة المتراكمة فقط.</td></tr><tr><td style="font-weight:600">«حلقة البحث» (مجموعة متقطعة)</td><td>قلب الخوارزمية المشترك بين الفرعين — أربع خطوات تتكرر.</td></tr><tr><td style="font-weight:600">① افتح العقدة ذات الأولوية الأقل من الطابور</td><td>الخروج من طابور الأولوية (min-heap).</td></tr><tr><td style="font-weight:600">② تجاهل الوصلات التي شارعها أو جارها ∈ avoid</td><td>تطبيق الاستثناء داخل الجيران — هنا يعمل قيد التجنّب فعليًا.</td></tr><tr><td style="font-weight:600">③ حدّث cost_so_far و came_from</td><td>تحديث أفضل تكلفة وتتبّع المسار للرجوع لاحقًا.</td></tr><tr><td style="font-weight:600">④ توقّف عند بلوغ الهدف</td><td>شرط التوقف عند الوصول للوجهة.</td></tr><tr><td style="font-weight:600">هل وُجد مسار؟ (قرار)</td><td>نتيجة الحلقة: وجد أو لا (انقطاع كامل بسبب الاستثناءات).</td></tr><tr><td style="font-weight:600">PathResult found = false</td><td>مسار الفشل: لا مسار — يُعاد found=false بدل خطأ.</td></tr><tr><td style="font-weight:600">إعادة بناء المسار + الأسماء العربية</td><td>تتبيع came_from من الهدف للبداية وترجمة المعرفات لأسماء.</td></tr><tr><td style="font-weight:600">حفظ السجلّ «إن مسجّل» + إعادة JSON</td><td>النشاط الأخير: كتابة السجلّ للمسجّلين ثم الرد JSON.</td></tr><tr><td style="font-weight:600">abort</td><td>علامة إنهاء مسارات الأخطاء (HTTP 400 و found=false).</td></tr></table>
+<h4>🎬 «امشِ لي على الرسمة» — سرد جاهز للحفظ</h4>
+<div class="story"><p>«هذا مخطط النشاط لتخطيط مسار مع استثناء. أبدأ من الدائرة السوداء: أول نشاط استلام طلب المسار وفيه أربع مدخلات: البداية والهدف والخوارزمية وقائمة الاستثناء. ثم أول معيّن: هل البداية والوجهة موجودتان في الخريطة؟ لو لا — يخرج مسار HTTP 400 Unknown place وينتهي بـ abort. لو نعم — نمرّ بخطوة مميزة لنا: إعفاء البداية والوجهة من قائمة الاستثناء، حتى لو استثنى المستخدم نقطته نفسها يظل الطرفان قابلين للوصول. ثم معيّن اختيار الاستراتيجية: astar يذهب لفرع A* — f = g + h، و ucs لفرع UCS — g فقط. الفرعان يلتقيان في الصندوق المتقطع «حلقة البحث» وفيه أربع خطوات تتكرر: افتح العقدة ذات الأولوية الأقل من الطابور، تجاهل الوصلات التي شارعها أو جارها في قائمة avoid — وهنا يعمل الاستثناء فعليًا — حدّث cost_so_far و came_from، وتوقّف عند بلوغ الهدف. بعدها المعيّن الأخير: هل وُجد مسار؟ لو لا — PathResult بـ found = false وينتهي. لو نعم — إعادة بناء المسار بالأسماء العربية ثم حفظ السجلّ إن كان المستخدم مسجّلًا وإعادة JSON، ونصل للنهاية.»</p></div>
+<h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>لماذا تظهر خطوة إعفاء البداية والوجهة قبل البحث؟</span></summary><div class="ans"><b>الإجابة:</b><p>لمنع التناقض: لو استثنى المستخدم شارع البداية نفسها لانقطع المسار قبل أن يبدأ. فالنظام يعفي نقطتَي الطرفين دائمًا من الاستثناء — ضمان وصول الطرفين مذكور في توصيف FR-3 و FR-4.</p></div></details><details class="qa"><summary><span>ما الفرق بين مسارَي الخطأ في الرسمة؟</span></summary><div class="ans"><b>الإجابة:</b><p>خطأ المدخلات: عقدة غير موجودة ← HTTP 400 (مشكلة طلب خاطئ). وفشل البحث: مسار مقطوع بالاستثناءات ← استجابة طبيعية found=false في PathResult (ليست خطأ برمجيًا بل نتيجة «لا يوجد مسار»).</p></div></details><details class="qa"><summary><span>لماذا فرعا A* و UCS متوازيان ثم يلتقيان في حلقة واحدة؟</span></summary><div class="ans"><b>الإجابة:</b><p>لأن الاختلاف بينهما في دالة الأولوية فقط (f = g + h مقابل g) — أي في طريقة الترتيب في الطابور، أما خطوات الحلقة الأربع فمشتركة. هذا حرفيًا ما يطبّقه نمط Strategy: نفس الهيكل، استراتيجية مختلفة.</p></div></details><details class="qa"><summary><span>أين يُطبَّق الاستثناء داخل الخوارزمية؟</span></summary><div class="ans"><b>الإجابة:</b><p>في الخطوة ② من حلقة البحث: عند توليد الجيران تُتجاهل أي وصلة شارعها في avoid أو جارها في avoid — فالبحث لا يمر فيها أصلًا بدل-filter النتيجة في النهاية.</p></div></details><details class="qa"><summary><span>لماذا الحفظ مشروط بـ«إن مسجّل»؟</span></summary><div class="ans"><b>الإجابة:</b><p>لأن جدول search_history مرتبط بـ user_id كمفتاح أجنبي إلى users — الضيف بلا حساب فلا سجلّ يُكتب له، وهذا متوافق مع ملاحظة مخطط التتابع.</p></div></details>
+</div></div>
+<div class="bezel rv" id="d07"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">رسمة 07</span>مخطط الحالات (State Diagram) — كائن سجلّ البحث<span class="tag">State Machine Diagram</span></h3>
+<a class="zoom" href="diagrams/07_state.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="diagrams/07_state.png" target="_blank">
+<img class="pgimg" src="diagrams/07_state.png" alt="مخطط الحالات (State Diagram) — كائن سجلّ البحث"></a></div>
+<div>
+<div class="note n-why"><span class="lab">🎓 النظرية من المنهج</span><p>رسمة UML سلوكية تصف دورة حياة (Life history) كائن واحد — عندنا: صف من جدول search_history — عبر حالاته (States) والأحداث (Events) التي تنقله من حالة لأخرى. الرموز: الدائرة السوداء = نقطة البداية، المستطيل الدائري الأطراف = حالة (State) وعنوانها اسم إنجليزي وشرح عربي، الأسهم = انتقالات (Transitions) مكتوب عليها الحدث المُشغِّل، والدائرة ذات الحلقة = النهاية. الحالة المتقطعة الحمراء حالة خاصة عابرة.</p></div>
+<div class="note n-ex"><span class="lab">🔍 كيف تقرأ هذه الرسمة؟</span><p>ابدأ من الدائرة السوداء يسار الرسمة واتبع السهم المكتوب عليه الحدث «بحث ناجح» لتدخل أول حالة. في كل حالة اقرأ الاسم والشرح بين قوسين. ثم اتبع سهمًا واحدًا في كل مرة ولاحظ الحدث المكتوب عليه — هو شرط الانتقال. المسار العلوي الصلب هو سير المستخدم المسجّل، والمسار السفلي المتقطع الأحمر هو مصير نتيجة الضيف. تنتهي كل الرحلات في الدائرة النهائية يمينًا.</p></div>
+</div></div>
+<h4>🧩 كل عناصرها (10)</h4>
+<table><tr><th style="width:210px">العنصر</th><th>وظيفته في مشروعنا</th></tr><tr><td style="font-weight:600">جديد New «إنشاء السجلّ عند نجاح البحث»</td><td>الحالة الأولى: لحظة اكتمال بحث ناجح وولادة كائن السجلّ في ذاكرة الخادم.</td></tr><tr><td style="font-weight:600">محفوظ Saved «INSERT في قاعدة البيانات»</td><td>الحالة الثانية: السجلّ مكتوب فعليًا في جدول search_history.</td></tr><tr><td style="font-weight:600">معروض Listed «GET /api/history»</td><td>الحالة الثالثة: السجلّ مسترجَع ويعرض للمستخدم في شاشة سجلّ الرحلات.</td></tr><tr><td style="font-weight:600">مؤقّت Transient «نتيجة ضيف — لا تُحفَظ»</td><td>حالة عابرة متقطعة (حمراء): نتيجة بحث الضيف تُعرض ثم تختفي — لا تصل أبدًا لقاعدة البيانات.</td></tr><tr><td style="font-weight:600">حدث: بحث ناجح</td><td>الانتقال من البداية إلى حالة جديد New.</td></tr><tr><td style="font-weight:600">حدث: مستخدم مسجّل</td><td>الشرط الذي ينقل من New إلى Saved — لو ضيف يتجه للأسفل بدلها.</td></tr><tr><td style="font-weight:600">حدث: طلب السجلّ</td><td>الانتقال من Saved إلى Listed عندما يفتح المستخدم سجلّ رحلاته.</td></tr><tr><td style="font-weight:600">حدث: مستخدم ضيف (متقطع)</td><td>الانتقال من New مباشرة إلى Transient — تخطّي الحفظ.</td></tr><tr><td style="font-weight:600">حدث: انتهاء العرض (متقطع)</td><td>من Transient إلى النهاية — النتيجة اختفت دون أثر في القاعدة.</td></tr><tr><td style="font-weight:600">الدائرتان السوداوان</td><td>نقطة البداية (يسار) والنهاية (يمين أسفل) — دورة حياة مكتملة.</td></tr></table>
+<h4>🎬 «امشِ لي على الرسمة» — سرد جاهز للحفظ</h4>
+<div class="story"><p>«هذا مخطط الحالات لدورة حياة كائن واحد فقط: سجلّ البحث في قاعدة البيانات. أبدأ من الدائرة السوداء: يأتي حدث بحث ناجح — يولد السجلّ في حالة جديد New، أي اكتمل حساب المسار والنتيجة في يد الخادم. الآن مفترق: لو المستخدم مسجّل ينتقل السجلّ إلى محفوظ Saved بعملية INSERT في قاعدة البيانات. وبعدها لو طلب المستخدم سجلّه — حدث طلب السجلّ عبر GET /api/history — ينتقل إلى معروض Listed ويظهر في واجهة سجلّ الرحلات، ثم ينتهي. المسار الثاني: لو كان مستخدم ضيف — السهم الأحمر المتقطع — تذهب النتيجة إلى حالة مؤقّت Transient: نتيجة ضيف لا تُحفَظ، تُعرض للمستخدم ثم عند انتهاء العرض تنتقل للنهاية وتختفي بلا كتابة في القاعدة إطلاقًا. الخلاصة: ثلاث حالات رئيسية في الأعلى للسجلّ المحفوظ، وحالة عابرة واحدة متقطعة في الأسفل لمصير نتائج الضيوف.»</p></div>
+<h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>لماذا اخترتم سجلّ البحث تحديدًا لهذا المخطط؟</span></summary><div class="ans"><b>الإجابة:</b><p>لأنه الكائن الوحيد في نظامنا ذو دورة حياة حقيقية متغيّرة: يولد (New) ويُخزَّن (Saved) ويُسترجع (Listed) — أما الخريطة فشبه ثابتة والمستخدم حالتاه مسجّل/غير مسجّل فقط، فالسجلّ أغنى موضوعًا للحالات.</p></div></details><details class="qa"><summary><span>ما الفرق بين Saved و Listed؟</span></summary><div class="ans"><b>الإجابة:</b><p>Saved حالة تخزين: الصف مكتوب في search_history ويخص الخادم والقاعدة. Listed حالة استخدام: السجلّ مسترجَع فعليًا بطلب GET /api/history ويُعرض للمستخدم في الواجهة — الانتقال بينهما حدث طلب السجلّ.</p></div></details><details class="qa"><summary><span>لماذا حالة Transient متقطعة وحمراء؟</span></summary><div class="ans"><b>الإجابة:</b><p>لتمييزها بصريًا كحالة عابرة استثنائية: نتيجة الضيف تشبه النتيجة العادية في العرض لكنها لا تُخزَّن — الرسم المتقطع والأحمر يقول هذا ليس مسار النظام الأساسي، وهو تطبيق لمتطلب FR-10 وضع الضيف.</p></div></details><details class="qa"><summary><span>هل يمكن العودة من Listed إلى Saved؟</span></summary><div class="ans"><b>الإجابة:</b><p>لا يوجد انتقال عكسي في الرسمة — منطقيًا العرض لا يغيّر حالة التخزين؛ السجلّ يبقى Saved في القاعدة ويُعرض مرات عديدة، والمخطط يعرض انتقال الاسترجاع الأول ثم النهاية.</p></div></details><details class="qa"><summary><span>كيف يرتبط هذا المخطط بجدول search_history في الـ ERD؟</span></summary><div class="ans"><b>الإجابة:</b><p>كل انتقال بحدث يقابله عملية في الجدول: INSERT عند الدخول إلى Saved (الرسالة 11 في مخطط التتابع)، وقراءة الصفوف عند الانتقال إلى Listed عبر GET /api/history — المخططات الثلاثة تصف الكائن نفسه من زوايا مختلفة.</p></div></details>
+</div></div>
+<div class="bezel rv" id="d08"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">رسمة 08</span>مخطط تدفّق البيانات (DFD) — المستوى الأول<span class="tag">Data-Flow Diagram (Level 1)</span></h3>
+<a class="zoom" href="diagrams/08_dfd.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="diagrams/08_dfd.png" target="_blank">
+<img class="pgimg" src="diagrams/08_dfd.png" alt="مخطط تدفّق البيانات (DFD) — المستوى الأول"></a></div>
+<div>
+<div class="note n-why"><span class="lab">🎓 النظرية من المنهج</span><p>رسمة من مرحلة التحليل تُوضّح حركة البيانات (ليس التحكم) في النظام: من أين تأتي وإلى أين تذهب. عناصرها أربعة: الكيان الخارجي (External Entity — مستطيل، مصدر/مصرف البيانات خارج النظام)، العملية (Process — دائرة مرقّمة تحوّل البيانات)، مخزن البيانات (Data Store — أسطوانة D1/D2/D3)، وسهم التدفّق (Data Flow — عليه اسم البيانات المنقولة). المستوى الأعلى يسمى Context Diagram (عملية واحدة رقم 0)، وهذا مستوى أول يفكك النظام إلى 4 عمليات.</p></div>
+<div class="note n-ex"><span class="lab">🔍 كيف تقرأ هذه الرسمة؟</span><p>ابدأ من المستطيلات (المصادر الخارجية): المستخدم يمين والمشرف يسار-أسفل. كل سهم من كيان إلى دائرة = بيانات داخلة للنظام، ومن دائرة للكيان = مخرجات. الدوائر المرقّمة 1.0 إلى 4.0 عمليات النظام — اقرأ رقمها واسمها. الأسطوانات مخازن: read سهم يدخلها (كتابة) وسهم يخرج منها (قراءة). تتبّع رحلة واحدة كاملة — مثلًا الجملة العربية — من المستخدم حتى تعود نتيجة.</p></div>
+</div></div>
+<h4>🧩 كل عناصرها (20)</h4>
+<table><tr><th style="width:210px">العنصر</th><th>وظيفته في مشروعنا</th></tr><tr><td style="font-weight:600">مستخدم (كيان خارجي)</td><td>مصدر المدخلات الأساسية: بيانات دخول، طلب مسار، وجملة عربية — ومستقبل النتائج.</td></tr><tr><td style="font-weight:600">مشرف Admin (كيان خارجي)</td><td>مصدر تعديلات CRUD على الخريطة.</td></tr><tr><td style="font-weight:600">1.0 المصادقة (عملية)</td><td>تستقبل بيانات الدخول، تتحقّق من D1 users، وتعيد توكنًا موقّعًا.</td></tr><tr><td style="font-weight:600">2.0 تخطيط المسار (عملية)</td><td>قلب النظام: تستقبل طلب المسار أو وجهة NLU، تقرأ الخريطة، وتكتب السجلّ وتعيد مسارًا وتكلفة.</td></tr><tr><td style="font-weight:600">3.0 تحليل الأمر NLU (عملية)</td><td>تحوّل الجملة العربية إلى وجهة + استثناءات وتمررها لتخطيط المسار.</td></tr><tr><td style="font-weight:600">4.0 إدارة الخريطة (عملية)</td><td>تنفّذ تعديلات المشرف: تحديث العقد والوصلات في مخزن الخريطة.</td></tr><tr><td style="font-weight:600">D1 users (مخزن بيانات)</td><td>بيانات الحسابات — تقرؤها المصادقة للتحقّق.</td></tr><tr><td style="font-weight:600">D2 search_history (مخزن بيانات)</td><td>سجلّات البحث — يكتب فيها تخطيط المسار.</td></tr><tr><td style="font-weight:600">D3 map_nodes + map_edges (مخزن بيانات)</td><td>الخريطة كاملة (عقد ووصلات) — تُقرأ للتخطيط وتُحدَّث من الإدارة.</td></tr><tr><td style="font-weight:600">تدفّق: بيانات الدخول</td><td>مستخدم → 1.0 المصادقة (username + password).</td></tr><tr><td style="font-weight:600">تدفّق: توكن موقّع</td><td>1.0 المصادقة → مستخدم بعد نجاح الدخول.</td></tr><tr><td style="font-weight:600">تدفّق: تحقّق</td><td>1.0 المصادقة → D1 users: مطابقة بيانات الدخول.</td></tr><tr><td style="font-weight:600">تدفّق: جملة عربية</td><td>مستخدم → 3.0 تحليل الأمر NLU: النص الحر مثل «ودّيني حدة».</td></tr><tr><td style="font-weight:600">تدفّق: طلب مسار (start, goal, algo, avoid)</td><td>مستخدم → 2.0 تخطيط المسار: الإدخال التفاعلي الكامل.</td></tr><tr><td style="font-weight:600">تدفّق: وجهة + استثناءات</td><td>3.0 NLU → 2.0 تخطيط المسار: مخرجات التحليل اللغوي.</td></tr><tr><td style="font-weight:600">تدفّق: قراءة الخريطة</td><td>D3 → 2.0 تخطيط المسار: تحميل العقد والوصلات للبحث.</td></tr><tr><td style="font-weight:600">تدفّق: كتابة السجلّ</td><td>2.0 تخطيط المسار → D2: حفظ نتيجة البحث.</td></tr><tr><td style="font-weight:600">تدفّق: مسار + تكلفة</td><td>2.0 تخطيط المسار → مستخدم: النتيجة النهائية.</td></tr><tr><td style="font-weight:600">تدفّق: تعديلات CRUD</td><td>مشرف Admin → 4.0 إدارة الخريطة.</td></tr><tr><td style="font-weight:600">تدفّق: تحديث العقد والوصلات</td><td>4.0 إدارة الخريطة → D3: كتابة التعديلات في مخزن الخريطة.</td></tr></table>
+<h4>🎬 «امشِ لي على الرسمة» — سرد جاهز للحفظ</h4>
+<div class="story"><p>«هذا مخطط تدفّق البيانات بالمستوى الأول: كيانان خارجيان (مستخدم ومشرف)، وأربع عمليات، وثلاثة مخازن. أمشي بترتيب العمليات: العملية 1.0 المصادقة: يرسل المستخدم بيانات الدخول، تُطابق مع مخزن D1 users عبر تدفّق تحقّق، ويرجع له توكن موقّع. العملية 2.0 تخطيط المسار — مركز الرسمة: يصلها طلب مسار فيه start و goal و algo و avoid من المستخدم مباشرة، أو يصلها من العملية 3.0: المساعد اللغوي يستلم الجملة العربية من المستخدم ويحوّلها إلى وجهة + استثناءات. العملية 2.0 تقرأ الخريطة من D3 (map_nodes + map_edges) بتدفّق قراءة الخريطة، تحسب المسار، تكتب النتيجة في D2 search_history (كتابة السجلّ)، وتعيد للمستخدم مسارًا وتكلفة. العملية 4.0 إدارة الخريطة: المشرف يرسل تعديلات CRUD فتُحدَّث العقد والوصلات في D3. لاحظوا أن D1 يُقرأ فقط في هذا المستوى، و D2 يُكتب فقط، و D3 يُقرأ ويُكتب — كل حركة بيانات في النظام مغطاة.»</p></div>
+<h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>ما الفرق بين DFD ومخطط التتابع؟</span></summary><div class="ans"><b>الإجابة:</b><p>الـ DFD يتبع البيانات نفسها بين العمليات والمخازن بلا زمن ولا ترتيب — يجيب: ماذا يتدفّق وأين يُخزَّن. مخطط التتابع يتبع الترتيب الزمني للنداءات لسيناريو واحد. لهذا رسمت الجملة العربية في الاثنين: في DFD كتدفّق مستخدم → 3.0، وفي التتابع كرسائل مرقّمة.</p></div></details><details class="qa"><summary><span>لماذا مخزن D3 يجمع جدولين map_nodes و map_edges؟</span></summary><div class="ans"><b>الإجابة:</b><p>لأنهما يمثلان كيانًا واحدًا منطقيًا في التحليل: الخريطة — لا يقرأ التخطيط العقد بمعزل عن الوصلات أبدًا، فدمجهما في مخزن واحد عند مستوى DFD أول أبسط وأصدق، والتفصيل لجدولين يظهر في الـ ERD.</p></div></details><details class="qa"><summary><span>لماذا لا يوجد تدفّق مباشر من المستخدم إلى D1 users؟</span></summary><div class="ans"><b>الإجابة:</b><p>لأن الكيانات الخارجية لا تلمس المخازن إطلاقًا في الـ DFD الصحيح — كل وصول للبيانات يمر عبر عملية: المصادقة 1.0 هي الوسيط الوحيد بين المستخدم ومخزن الحسابات. لو رسمنا اتصالًا مباشرًا لكان خطأ توصيف.</p></div></details><details class="qa"><summary><span>أين تظهر أرقام العمليات 1.0-4.0 ولماذا الترقيم بالنقطة؟</span></summary><div class="ans"><b>الإجابة:</b><p>الصيغة X.0 تعني أن هذه تفكيك للعملية X من مخطط السياق (Context Diagram — المستوى صفر بعملية واحدة)، ولو فككنا 2.0 أكثر لصارت 2.1 و 2.2... مع حفظ التوازن (Balancing): نفس المدخلات والمخرجات في كل مستوى.</p></div></details><details class="qa"><summary><span>لا يوجد تدفّق من 3.0 إلى أي مخزن — لماذا؟</span></summary><div class="ans"><b>الإجابة:</b><p>لأن NLU عملية تحويل نقية (نص → وجهة واستثناءات) بلا ذاكرة خاصة: لا تقرأ ولا تكتب مخزنًا بنفسها، بل تسأل الخريطة داخليًا عند الحاجة لتحويل الأسماء — والنتيجة تذهب للعملية 2.0 وهي التي تتولى القراءة والكتابة.</p></div></details>
+</div></div>
+<div class="bezel rv" id="d09"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">رسمة 09</span>معمارية النظام متعدّدة الطبقات (منصّتان منفصلتان عبر REST)<span class="tag">Multi-Tier / Two-Platform Architecture Diagram</span></h3>
+<a class="zoom" href="diagrams/09_architecture.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="diagrams/09_architecture.png" target="_blank">
+<img class="pgimg" src="diagrams/09_architecture.png" alt="معمارية النظام متعدّدة الطبقات (منصّتان منفصلتان عبر REST)"></a></div>
+<div>
+<div class="note n-why"><span class="lab">🎓 النظرية من المنهج</span><p>رسمة معمارية (ليست UML قياسية) تُظهر التقسيم الفيزيائي والمنطقي للنظام: منصّتان منفصلتان — عميل وخادم (Client–Server) — تتصلان عبر واجهات RESTful API بتنسيق JSON/XML. داخل الخادم طبقات متمايزة (Layers): الواجهة ثم المنطق ثم الوصول للبيانات ثم القاعدة — كل طبقة مسؤولة عن شيء واحد (مبدأ SRP). الرموز: الإطار المتقطع = منصّة/حدود نشر، المستطيل = مكوّن، الشريط الأصفر = قناة الاتصال، والأسهم = اتجاه الاعتماد والاستدعاء.</p></div>
+<div class="note n-ex"><span class="lab">🔍 كيف تقرأ هذه الرسمة؟</span><p>اقسم الرسمة أفقيًا ثلاث مناطق: فوق إطار المنصّة 2 (العميل)، المنتصف شريط RESTful API الأصفر (قناة الاتصال الوحيدة)، وتحت إطار المنصّة 1 (الخادم). في العميل اقرأ المكوّنات الثلاثة يسارًا-يمينًا. في الخادم انزل طبقة طبقة من فوق لتحت — كل طبقة لا تتعامل إلا مع ما تحتها، والأسهم (يستخدم/يستدعي) تبيّن الاتصال، وسهم REST في الوسط يربط HTTP fetch فوق بـ API Layer تحت. Groq API خارج إطار الخادم لأنه خدمة اختيارية خارجية.</p></div>
+</div></div>
+<h4>🧩 كل عناصرها (13)</h4>
+<table><tr><th style="width:210px">العنصر</th><th>وظيفته في مشروعنا</th></tr><tr><td style="font-weight:600">المنصّة 2 — العميل الأمامي Web Client «HTML/CSS/JS SPA»</td><td>إطار المتصفح: تطبيق صفحة واحدة بلا خطوة بناء (No build step).</td></tr><tr><td style="font-weight:600">الشاشات الـ 12 + Hash Router</td><td>12 شاشة بتنقّل داخلي عبر Hash Router دون إعادة تحميل الصفحة.</td></tr><tr><td style="font-weight:600">خريطة SVG تفاعلية — عقد + وصلات + مسار</td><td>رسم شبكة صنعاء (17 عقدة، 21 وصلة) وتلوين المسار الناتج فوقها.</td></tr><tr><td style="font-weight:600">HTTP fetch — توكن + JSON</td><td>طبقة الاتصال في العميل: كل الطلبات تحمل التوكن وتستقبل JSON.</td></tr><tr><td style="font-weight:600">RESTful API — JSON / XML</td><td>الشريط الأصفر في المنتصف: قناة الاتصال الوحيدة بين المنصّتين، بطلبات واستجابات REST.</td></tr><tr><td style="font-weight:600">المنصّة 1 — الخادم الخلفي «Python + FastAPI + uvicorn»</td><td>إطار الخادم كاملًا: لغة Python وإطار FastAPI وخادم تشغيل uvicorn.</td></tr><tr><td style="font-weight:600">طبقة الواجهة API Layer</td><td>المسارات: /api/auth/* و /api/places* و /api/route و /api/command و /api/admin/* و /api/map(.xml) — تستقبل الطلبات وتتحقق من المدخلات.</td></tr><tr><td style="font-weight:600">طبقة المنطق — nlu «Groq + rules» و Router ← A* / UCS «Strategy»</td><td>العقل: المساعد اللغوي بمساريه ومنسق البحث بخوارزميتيه القابلتين للتبديل.</td></tr><tr><td style="font-weight:600">CityMap «graph» — العقد: 17 — الوصلات: 21 — Singleton</td><td>تمثيل الخريطة كرسم بياني بنسخة واحدة مشتركة، بجوار طبقة المنطق لأنها بياناتها.</td></tr><tr><td style="font-weight:600">طبقة الوصول للبيانات — Repository Pattern</td><td>UserRepository و HistoryRepository: حائط عزل بين المنطق وقاعدة البيانات.</td></tr><tr><td style="font-weight:600">SQLite — masari.db</td><td>القاعدة: الجداول الأربعة users و search_history و map_nodes و map_edges.</td></tr><tr><td style="font-weight:600">Groq API «اختياري»</td><td>خدمة خارجية خارج إطار الخادم: نموذج لغوي يُستدعى عند توفّر المفتاح فقط.</td></tr><tr><td style="font-weight:600">أسهم العلاقات</td><td>طلبات / استجابات REST بين المنصّتين؛ يستخدم و يستدعي بين الطبقات؛ وسهم يربط Groq الاختياري بطبقة المنطق.</td></tr></table>
+<h4>🎬 «امشِ لي على الرسمة» — سرد جاهز للحفظ</h4>
+<div class="story"><p>«هذه معمارية النظام: منصّتان منفصلتان تتحدثان عبر REST. أبدأ من فوق — المنصّة 2 العميل الأمامي في المتصفح: HTML و CSS و JavaScript بدون أي خطوة بناء. فيه ثلاثة مكوّنات: الشاشات الاثنتا عشرة مع Hash Router للتنقل، والخريطة التفاعلية بـ SVG التي ترسم 17 عقدة و 21 وصلة وتلوّن المسار فوقها، ثم HTTP fetch التي ترسل كل الطلبات ومعها التوكن وتستقبل JSON. بين المنصّتين الشريط الأصفر: RESTful API بتنسيق JSON و XML — قناة الاتصال الوحيدة، فلا يلمس العميل قاعدة البيانات أبدًا. وتحت — المنصّة 1 الخادم الخلفي: Python و FastAPI يعمل على uvicorn، بأربع طبقات أنزل فيها واحدة واحدة: طبقة الواجهة API Layer وفيها كل المسارات من /api/auth إلى /api/command؛ ثم طبقة المنطق وفيها nlu بمساريه Groq و rules و Router بخوارزميتي A* و UCS بنمط Strategy، وبجواره CityMap الرسم البياني للخريطة كنسخة Singleton؛ ثم طبقة الوصول للبيانات بنمط Repository: مستودعان يحيطان بالقاعدة؛ وأخيرًا SQLite في ملف masari.db بالجداول الأربعة. و Groq API مرسوم خارج إطار الخادم ومكتوب عليه اختياري — لأن النظام يعمل كاملًا بدونه بالقواعد. والفائدة الكبرى: الذكاء (الخوارزميات والخريطة) في وحدات مستقلة يعاد استخدامها حتى في مساق الذكاء الاصطناعي.»</p></div>
+<h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>لماذا فصلتم العميل عن الخادم في منصّتين؟</span></summary><div class="ans"><b>الإجابة:</b><p>ثلاث فوائد: تطوير كل منصّة باستقلال (فريق الويب لا ينتظر الخادم)، وعمل العميل على أي متصفح بلا قيود لغة لأن REST لغة-محايد، والأمان: لا قاعدة بيانات في المتصفح ولا كود خادم مكشوف للعميل.</p></div></details><details class="qa"><summary><span>لماذا طبقات داخل الخادم وما فائدتها؟</span></summary><div class="ans"><b>الإجابة:</b><p>أربع طبقات: API Layer للطلبات، المنطق للخوارزميات و NLU، Repository للبيانات، SQLite للتخزين — كل طبقة مسؤولية واحدة (SRP)، فتسهل الصيانة والاختبار: نختبر المنطق بمحاكاة المستودعات دون قاعدة حقيقية، ونستبدل أي طبقة دون كسر الباقي.</p></div></details><details class="qa"><summary><span>لماذا Groq API خارج إطار الخادم و«اختياري»؟</span></summary><div class="ans"><b>الإجابة:</b><p>لأنه خدمة سحابية خارجية لا نتحكم بها ولا ننشرها مع نظامنا، والنظام لا يعتمد عليها: عند غياب المفتاح أو الإنترنت يعمل المسار القاعدي rules تلقائيًا — لذلك رسمناه خارج الحدود ومكتوبًا عليه اختياري.</p></div></details><details class="qa"><summary><span>أين تعيش الخوارزميات ولماذا؟</span></summary><div class="ans"><b>الإجابة:</b><p>في طبقة المنطق داخل وحدات مستقلة (shared) يستوردها الخادم — منفصلة عن قواعد الويب و FastAPI، فلا تختلط بالتوجيه والاستجابات، وتُعاد استخدامها كما هي في مساقات أخرى كالذكاء الاصطناعي.</p></div></details><details class="qa"><summary><span>لماذا XML و JSON معًا؟</span></summary><div class="ans"><b>الإجابة:</b><p>متطلب FR-11 لتنوّع صيغ البيانات: الافتراضي JSON للواجهة الأمامية خفيف وجاهز في JavaScript، ونقطة /api/map.xml تخدم صيغة XML لمستهلكين آخرين أو أدوات تحليل — طبقة العرض نفسها بصيغتين.</p></div></details>
+</div></div></div><script>
+(function(){
+var io=new IntersectionObserver(function(es){es.forEach(function(e){
+ if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target)}})},{threshold:.06});
+var i=0;document.querySelectorAll('.rv').forEach(function(el){
+ el.style.transitionDelay=((i++%7)*75)+'ms';io.observe(el)});
+var p=document.getElementById('prog');
+addEventListener('scroll',function(){var h=document.documentElement;
+ var m=h.scrollHeight-h.clientHeight;p.style.transform='scaleX('+(m?h.scrollTop/m:0)+')'},{passive:true});
+})();
+</script><footer class="foot">
+<b>فريق مساري</b> — عبدالرحمن سيف · ليث الجعفري · أيمن النزيلي · خالد عيسى<br>
+أُعدّت هذه الحقيبة آليًا من وثيقة المشروع (56 صفحة) ومحاضرات مقرر هندسة البرمجيات — بالتوفيق في المناقشة 🌟
+</footer></body></html>

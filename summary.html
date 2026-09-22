@@ -1,0 +1,244 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="حقيبة مناقشة مشروع مساري — نظام التنقل الذكي في صنعاء (هندسة البرمجيات): شرح متعدد المستويات، صفحة-بصفحة، الرسمات، دروس المنهج، وأسئلة المناقشة.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<title>الملخص السريع — حقيبة مناقشة مساري</title><style>
+:root{
+ --cream:#FAF6ED; --paper:#FFFFFF; --ink:#27211A; --mut:#83765F;
+ --emerald:#0E5F4E; --emerald2:#177E62; --gold:#B9892F; --gold2:#D8B25E;
+ --hair:rgba(39,33,26,.11); --hair2:rgba(39,33,26,.07);
+ --ease:cubic-bezier(.32,.72,0,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);
+ font-family:'IBM Plex Sans Arabic','Segoe UI',Tahoma,sans-serif;
+ line-height:2;font-size:16px;-webkit-font-smoothing:antialiased}
+::selection{background:rgba(185,137,47,.25)}
+
+/* ——— نسيج ورقي خفيف (ثابت، لا يعيق التمرير) ——— */
+.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.05;
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E")}
+
+/* ——— شريط التقدم ——— */
+#prog{position:fixed;top:0;right:0;left:0;height:3px;z-index:80;
+ background:linear-gradient(270deg,var(--gold),var(--emerald2));
+ transform:scaleX(0);transform-origin:right;transition:transform .15s linear}
+
+/* ——— الكبسولة الطافية (Nav) ——— */
+.pillnav{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:70;
+ display:flex;gap:4px;flex-wrap:wrap;justify-content:center;max-width:calc(100vw - 24px);
+ padding:6px;border-radius:999px;background:rgba(255,252,244,.72);
+ backdrop-filter:blur(16px) saturate(1.5);-webkit-backdrop-filter:blur(16px) saturate(1.5);
+ border:1px solid var(--hair);box-shadow:0 18px 40px -22px rgba(39,33,26,.35)}
+.pillnav a{text-decoration:none;font-size:12.5px;font-weight:500;color:var(--ink);
+ padding:6px 13px;border-radius:999px;white-space:nowrap;transition:background .45s var(--ease),transform .45s var(--ease)}
+.pillnav a:hover{background:rgba(39,33,26,.07);transform:translateY(-1px)}
+.pillnav a.on{background:var(--ink);color:#F7F1E4}
+
+/* ——— البطل Hero ——— */
+.hero{position:relative;overflow:hidden;text-align:center;
+ padding:128px 22px 64px;border-bottom:1px solid var(--hair)}
+.hero::before{content:'';position:absolute;inset:0;z-index:-1;
+ background:
+  radial-gradient(560px 300px at 12% -10%,rgba(23,126,98,.14),transparent 65%),
+  radial-gradient(520px 320px at 88% 0%,rgba(216,178,94,.18),transparent 65%),
+  radial-gradient(700px 420px at 50% 115%,rgba(14,95,78,.08),transparent 70%)}
+.eyebrow{display:inline-block;font-size:10px;letter-spacing:.28em;font-weight:600;
+ color:var(--gold);border:1px solid rgba(185,137,47,.35);border-radius:999px;
+ padding:5px 16px;margin-bottom:18px;background:rgba(255,253,246,.6)}
+.hero h1{font-family:'Amiri',serif;font-weight:700;font-size:clamp(30px,5vw,50px);
+ margin:0 0 10px;color:var(--ink)}
+.hero h1 em{font-style:normal;color:var(--emerald)}
+.hero p{max-width:760px;margin:6px auto;color:var(--mut);font-size:15.5px}
+.badges{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:22px}
+.badge{font-size:13px;font-weight:500;color:var(--emerald);background:#fff;
+ border:1px solid var(--hair);border-radius:999px;padding:5px 15px;
+ box-shadow:0 10px 24px -18px rgba(14,95,78,.5)}
+
+/* ——— الهيكل ——— */
+.wrap{position:relative;z-index:2;max-width:1150px;margin:0 auto;padding:34px 20px 90px}
+h2.sec{font-family:'Amiri',serif;font-size:29px;font-weight:700;color:var(--ink);
+ margin:46px 0 4px;display:flex;align-items:center;gap:12px}
+h2.sec::after{content:'';flex:1;height:1px;background:linear-gradient(270deg,var(--hair),transparent)}
+h2.sec .no{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--gold);
+ border:1px solid rgba(185,137,47,.35);border-radius:999px;padding:2px 12px}
+.sub{color:var(--mut);margin:0 0 18px;font-size:14.5px}
+
+/* ——— الكروت مزدوجة الإطار (Double-Bezel) ——— */
+.bezel{background:rgba(39,33,26,.045);border:1px solid var(--hair2);
+ border-radius:28px;padding:8px;transition:transform .6s var(--ease)}
+.bezel:hover{transform:translateY(-3px)}
+.core{background:var(--paper);border-radius:20px;padding:24px 26px;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.95),0 24px 48px -34px rgba(39,33,26,.4)}
+h3{font-family:'Amiri',serif;font-size:23px;font-weight:700;margin:0 0 10px;color:var(--ink)}
+h4{font-size:14px;font-weight:600;color:var(--mut);margin:20px 0 8px;
+ letter-spacing:.04em;display:flex;align-items:center;gap:8px}
+h4::after{content:'';flex:1;height:1px;background:var(--hair2)}
+
+/* ——— بنتو غير متماثل للفهرس ——— */
+.bento{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+.bento .bezel{margin:0}
+.sp7{grid-column:span 7}.sp5{grid-column:span 5}.sp12{grid-column:span 12}
+@media(max-width:860px){.sp7,.sp5,.sp12{grid-column:span 12}}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:860px){.grid2{grid-template-columns:1fr}}
+
+/* ——— الشرائح Chips (مُصلَّحة التباين) ——— */
+.chiprow{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:26px}
+.chip{font-family:inherit;font-size:13px;font-weight:500;color:var(--ink);cursor:pointer;user-select:none;
+ background:rgba(255,255,255,.85);border:1px solid var(--hair);border-radius:999px;padding:6px 15px;
+ transition:all .5s var(--ease)}
+.chip:hover{transform:translateY(-2px);box-shadow:0 12px 22px -16px rgba(39,33,26,.5)}
+.chip.on{background:var(--ink);color:#F7F1E4;border-color:var(--ink)}
+
+/* ——— ملاحظات ملوّنة ——— */
+.note{border-radius:14px;padding:13px 16px;margin:12px 0;border:1px solid}
+.note p{margin:4px 0}
+.note .lab{display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:1px 12px;margin-bottom:6px}
+.n-why{background:rgba(185,137,47,.07);border-color:rgba(185,137,47,.25)}
+.n-why .lab{background:rgba(185,137,47,.15);color:#8A6420}
+.n-ex{background:rgba(14,95,78,.06);border-color:rgba(14,95,78,.22)}
+.n-ex .lab{background:rgba(14,95,78,.12);color:var(--emerald)}
+.n-q{background:rgba(160,60,60,.05);border-color:rgba(160,60,60,.2)}
+.n-q .lab{background:rgba(160,60,60,.12);color:#8F3A3A}
+
+/* ——— قوائم ——— */
+ul{margin:8px 0;padding:0;list-style:none}
+ul li{padding:5px 26px 5px 0;position:relative}
+ul li::before{content:'✦';position:absolute;right:2px;top:5px;font-size:11px;color:var(--gold)}
+ol{margin:8px 0;padding-right:22px}
+ol li{margin:6px 0}
+
+/* ——— جداول شعرية ناعمة ——— */
+table{border-collapse:collapse;width:100%;background:transparent;font-size:14.5px;margin:8px 0}
+th{font-size:12.5px;font-weight:600;color:var(--mut);text-align:right;
+ letter-spacing:.04em;padding:10px 12px;border-bottom:1px solid var(--hair)}
+td{padding:11px 12px;border-bottom:1px solid var(--hair2);vertical-align:top}
+tr:last-child td{border-bottom:none}
+
+/* ——— أسئلة قابلة للفتح ——— */
+details.qa{background:transparent;border:1px solid var(--hair2);border-radius:14px;
+ margin:8px 0;overflow:hidden;transition:border-color .4s var(--ease)}
+details.qa[open]{border-color:rgba(185,137,47,.4)}
+details.qa summary{cursor:pointer;list-style:none;display:flex;align-items:baseline;gap:10px;
+ padding:12px 16px;font-weight:600;font-size:14.5px;color:var(--ink)}
+details.qa summary::-webkit-details-marker{display:none}
+details.qa summary::before{content:'+';font-family:'IBM Plex Mono',monospace;font-weight:500;
+ color:var(--gold);font-size:16px;flex-shrink:0;transition:transform .5s var(--ease)}
+details.qa[open] summary::before{transform:rotate(45deg)}
+details.qa .ans{padding:2px 18px 14px;color:#4A4136;font-size:14.5px}
+
+/* ——— صفحات الوثيقة ——— */
+.flexp{display:grid;grid-template-columns:minmax(300px,44%) 1fr;gap:20px;align-items:start;margin-top:14px}
+@media(max-width:960px){.flexp{grid-template-columns:1fr}}
+.pgimg{width:100%;display:block;border-radius:12px;border:1px solid var(--hair);
+ background:#fff;transition:transform .6s var(--ease),box-shadow .6s var(--ease)}
+.pgimg:hover{transform:translateY(-3px);box-shadow:0 26px 44px -30px rgba(39,33,26,.55)}
+.pgnum{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:500;color:#fff;
+ background:linear-gradient(135deg,var(--emerald),var(--emerald2));
+ border-radius:999px;padding:3px 14px;white-space:nowrap}
+.tag{font-size:11px;font-weight:500;color:var(--mut);background:rgba(39,33,26,.05);
+ border:1px solid var(--hair2);border-radius:6px;padding:1px 9px;margin-inline-start:8px}
+.zoom{display:inline-flex;align-items:center;gap:7px;text-decoration:none;font-size:12.5px;
+ color:var(--ink);background:rgba(39,33,26,.05);border:1px solid var(--hair2);
+ border-radius:999px;padding:4px 6px 4px 13px;transition:background .45s var(--ease)}
+.zoom:hover{background:rgba(39,33,26,.1)}
+.zoom .ic{width:22px;height:22px;border-radius:999px;background:#fff;border:1px solid var(--hair);
+ display:inline-flex;align-items:center;justify-content:center;font-size:11px;transition:transform .45s var(--ease)}
+.zoom:hover .ic{transform:translate(-2px,-2px)}
+.pghead{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.pghead h3{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:20px}
+
+/* ——— خطابات وأرقام ——— */
+.speech{background:#FFFDF4;border:1px solid rgba(185,137,47,.3);border-radius:20px;
+ padding:22px 26px;font-family:'Amiri',serif;font-size:19px;line-height:2.2;position:relative}
+.speech::before{content:'❝';position:absolute;top:-6px;right:18px;font-size:34px;color:var(--gold2);opacity:.6}
+.num{font-family:'IBM Plex Mono',monospace;font-weight:500;color:var(--emerald);
+ font-size:19px;white-space:nowrap}
+td .num{font-size:16px}
+.kpi{text-align:center;padding:18px 10px}
+.kpi .n{font-family:'IBM Plex Mono',monospace;font-size:24px;font-weight:600;color:var(--emerald)}
+.kpi .t{font-size:12.5px;color:var(--mut);margin-top:4px}
+
+/* ——— الرسمات ——— */
+.story{background:linear-gradient(180deg,rgba(14,95,78,.06),#fff);
+ border:1px solid rgba(14,95,78,.2);border-radius:18px;padding:18px 22px;font-size:15.5px}
+.story p{margin:6px 0}
+
+/* ——— الدروس ——— */
+.ava{width:46px;height:46px;border-radius:999px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+ font-family:'Amiri',serif;font-size:22px;font-weight:700;color:#fff;
+ background:linear-gradient(135deg,var(--emerald),var(--gold))}
+.memgrid li::before{content:'⚡';font-size:12px}
+
+/* ——— البحث ——— */
+.search{width:100%;max-width:430px;padding:11px 18px;font-family:inherit;font-size:14.5px;
+ color:var(--ink);background:#fff;border:1px solid var(--hair);border-radius:999px;outline:none;
+ transition:border-color .4s var(--ease),box-shadow .4s var(--ease)}
+.search:focus{border-color:rgba(185,137,47,.55);box-shadow:0 0 0 4px rgba(185,137,47,.12)}
+.filterbar{position:sticky;top:66px;z-index:40;margin:0 0 18px}
+
+/* ——— الحركة ——— */
+.rv{opacity:0;transform:translateY(26px);filter:blur(7px)}
+.rv.vis{opacity:1;transform:none;filter:none;
+ transition:opacity .9s var(--ease),transform .9s var(--ease),filter .9s var(--ease)}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;filter:none}}
+
+/* ——— تذييل ——— */
+.foot{position:relative;z-index:2;text-align:center;padding:44px 20px 60px;
+ border-top:1px solid var(--hair);color:var(--mut);font-size:13px}
+.foot b{color:var(--emerald)}
+
+@media print{
+ .pillnav,.chip,.search,#prog,.grain,.filterbar,.zoom{display:none!important}
+ .rv{opacity:1!important;transform:none!important;filter:none!important}
+ body{background:#fff}
+ .bezel{transform:none;background:none;border:none;padding:0}
+ .core{border:1px solid #ddd;box-shadow:none}
+ .hero{padding:40px 10px 20px}
+ .bezel{break-inside:avoid}
+}
+</style></head><body>
+<div class="grain"></div><div id="prog"></div>
+<nav class="pillnav">
+<a href="index.html">البداية</a><a class="on" href="summary.html">الملخص</a>
+<a href="page-by-page.html">صفحة‑صفحة</a><a href="diagrams.html">الرسمات</a>
+<a href="lessons.html">دروس المنهج</a><a href="questions.html">الأسئلة</a>
+</nav><header class="hero">
+<div class="eyebrow">LEVEL 1 · THE BIG PICTURE</div>
+<h1>الملخص <em>السريع</em></h1>
+<p>القصة كاملة قبل الغوص في التفاصيل — نصوص إلقاء جاهزة للحفظ، وملخصات الفصول، وكل الأرقام التي تخشون نسيانها</p>
+</header>
+<div class="wrap">
+<div class="bezel rv"><div class="core">
+<h3>🗣️ نص الإلقاء — 60 ثانية</h3><div class="speech">بسم الله الرحمن الرحيم. السلام عليكم ورحمة الله وبركاته. أعضاء لجنة المناقشة الكرام، أهلاً بكم. نحن فريق مشروع «مساري» — نظام التنقّل الذكي في مدينة صنعاء. المشكلة التي انطلقنا منها بسيطة وواقعية: سكان صنعاء لا يملكون تطبيق تنقّل يفهم مدينتهم؛ فالتطبيقات العالمية مثل خرائط جوجل تعتمد على بيانات مرور وشوارع شبه معدومة لصنعاء، ولا تفهم لهجتنا المحلية، ولا تمنح المستخدم تحكمًا في الطريق الذي يسلكه. الحل الذي بنيناه نظام متكامل من منصّتين: خادم خلفي بلغة Python وإطار FastAPI، وعميل ويب عربي تفاعلي يعرض خريطة صنعاء بـ 17 عقدة و21 وصلة لأشهر شوارعها الحقيقية. في قلب النظام نفّذنا من الصفر خوارزميتَي الذكاء الاصطناعي A* و UCS، وأثبتنا عمليًا أن A* تصل للمسار الأمثل نفسه لكن بتوسيع 6 عقد فقط مقابل 15 عقدة لـ UCS في الحالة المرجعية، بتكلفة مثلى متطابقة 56. وأضفنا مساعدًا لغويًا يفهم العامية اليمنية — مثل جملة «ودّيني حدة، إيّاك تمر من شارع الزبيري» — ويعمل حتى دون إنترنت بنسخة قواعد احتياطية. طبّقنا في كل ذلك معايير هندسة البرمجيات كاملة: تحليل متطلبات، مخططات UML، تصميم قاعدة بيانات، أنماط تصميم، وأربع مستويات اختبار. نتشرف الآن بعرض التفاصيل، وتفضلوا بقبول فائق الاحترام والتقدير.</div></div></div>
+<div class="bezel rv"><div class="core" style="margin-top:14px">
+<h3>🎙️ نص الإلقاء — 5 دقائق</h3><div class="speech">أولًا — المشكلة: يعتمد أكثر من خمسة مليارات إنسان على تطبيقات ذكية في تفاصيل يومهم، لكن هذه التقنية لم تصل إلى صنعاء بالكفاءة نفسها. تفرّعت المشكلة لدينا إلى خمسة أوجه: غياب فهم محلي للشوارع (التطبيقات العالمية لا تعرف أن شارع الستين ثلاثة أجزاء ولا تعرف معنى «حدة»)، عدم القدرة على استثناء شارع مزدحم من المسار، عائق اللغة واللهجة، ضعف بيانات المرور، ومحدودية الإنترنت والأجهزة لدى مستخدمينا. ثانيًا — الحل: بنينا «مساري» بمعمارية عميل–خادم (Client–Server) على منصّتين: خادم خلفي بـ Python و FastAPI يوفّر 17 واجهة REST في 5 مجموعات، وعميل ويب عربي أصيل RTL يرسم خريطة صنعاء بتقنية SVG. الوظائف الجوهرية: تخطيط المسار، استثناء الشوارع والأماكن (بالنص أو النقر)، مساعد لغوي يفهم العامية اليمنية، سجل رحلات، ولوحة إدارة CRUD للخريطة. ثالثًا — المنهجية: اتبعنا التطوير التزايدي الرشيق (Agile/Incremental) عبر أربعة تكرارات: بيانات الخريطة والخوارزميات، ثم الخادم وواجهات REST، ثم العميل التفاعلي، ثم المساعد اللغوي والأمان وتحسين تجربة الاستخدام — مع تحليل متطلبات شامل (11 وظيفيًا، و10 غير وظيفية) ومخططات UML كاملة (حالات استخدام، ERD، فئات، تتابع، نشاط، حالات، DFD). رابعًا — أبرز النتائج: على خريطة مكونة من 17 عقدة و21 وصلة و10 شوارع، أثبتنا أن A* و UCS تعيدان التكلفة المثلى نفسها دائمًا، لكن A* توسّع عددًا أقل من العقد بنسبة 38% إلى 64%: في رحلة جامعة صنعاء إلى جولة فلسطين فتحت A* ست عقد فقط مقابل 15 لـ UCS بالتكلفة ذاتها 56؛ وباب اليمن إلى إيمان 49 بأربع عقد مقابل 11؛ وشعوب إلى حدة 45 بأربع عقد مقابل 10. وعند استثناء شارع الدائري أعاد النظام التوجيه تلقائيًا بتكلفة 64 بدلًا من 56 مع بقاء الوصول مضمونًا. السر النظري أن كاشفنا مشتق من المسافة الإقليدية مقسومًا على الثابت نفسه المستخدم في الأوزان، فهو قابل للقبول (Admissible) — يضمن الأمثلية نظريًا. خامسًا — الخاتمة: نجح «مساري» في تحقيق أهدافه كاملة: خريطة محلية حقيقية، ذكاء اصطناعي منفذ من الصفر مع إثبات نظري وعملي، فهم للعامية يعمل حتى أوفلاين، وبنية هندسية تربوية تطبق أربعة أنماط تصميم ومبادئ الأمان (PBKDF2 و HMAC وثلاث طبقات صلاحيات). نوصي مستقبلًا بدعم GPS الحي والملاحة الصوتية وبيانات الازدحام اللحظية وتوسيع الخريطة. شكرًا لكم، ونحن جاهزون لأسئلتكم.</div></div></div>
+
+<h2 class="sec"><span class="no">01</span> ملخص الفصول السبعة</h2>
+<div class="grid2"><div class="bezel rv"><div class="core"><h3>الفصل 1: المقدمة</h3><p>يقدّم المشكلة والحل والأهداف. التقنية نضجت عالميًا لكنها لم تصل لصنعاء: خرائط جوجل و Waze تعتمد بيانات مرور وهيكل طرق ضعيف محليًا، ولا تفهم اللهجة ولا الأسماء الشعبية، ولا تمنح تحكمًا في المسار. يحدد الفصل 5 مشكلات فرعية و7 أهداف، ونطاقًا وظيفيًا وجغرافيًا (صنعاء) وزمنيًا (فصلان 2025/2026)، و5 محددات صريحة (لا GPS، لا مرور لحظي، Groq اختياري مع بديل قواعدي، لا ملاحة صوتية، ويب وليس Native)، ثم يبرر اختيار منهجية Agile/Incremental بأربعة تكرارات.</p><h4>نقاط المفتاح</h4><ul><li>المشكلة الفرعية الأولى: التطبيقات العالمية لا تعرف تقسيم شارع الستين لثلاثة أجزاء ولا تربط «حدة» بالحقيقة</li><li>7 أهداف مرقمة أهمها: خريطة 17 عقدة و21 وصلة، تنفيذ A* و UCS من الصفر مع إثبات تفوق A*، ميزة الاستثناء، مساعد عربي عامي، بنية متعددة الطبقات، أمان PBKDF2/HMAC، واجهة RTL</li><li>المنهجية Agile/Incremental مبررة بثلاثة أسباب: تغير المتطلبات، العرض المبكر، التطوير المتوازي لأربعة أعضاء</li><li>التكرارات الأربعة: (1) بيانات الخريطة والخوارزميات (2) الخادم و REST (3) العميل الأمامي (4) المساعد اللغوي والأمان وال UX</li><li>لماذا ليس Waterfall: المشروع تفاعلي لا يكتمل تصوره إلا بعد نموذج أولي</li></ul><h4>أشكال وجداول مهمة</h4><ul><li>شكل 1-1: مخطط منهجية تطوير المشروع (التطوير التزايدي الرشيق)</li></ul></div></div><div class="bezel rv"><div class="core"><h3>الفصل 2: الخلفية والدراسات السابقة</h3><p>خلفية نظرية في ثلاثة محاور: مكونات أنظمة التنقل (طبقة بيانات Graph من عقد ووصلات، طبقة ذكاء للبحث، طبقة عرض)، خوارزميات البحث (UCS/دايكسترا غير موجَّه يعتمد g(n) فقط مقابل A* الموجه بـ f(n)=g(n)+h(n))، وفهم اللغة الطبيعية (NLU) بمسارين: Groq LLM وقواعد Regex احتياطية. ثم مراجعة أدبية لثلاث دراسات: Google Maps (أكبر نظام عالمي، 220+ دولة، عيوبه في صنعاء: بيانات ضعيفة ولا لهجة ولا استثناء)، Waze (اجتماعي Crowd-sourced يحتاج قاعدة مستخدمين نشطين غير متوفرة في صنعاء)، ودراسة أكاديمية تقارن BFS/DFS/UCS/A* نظريًا. وينتهي بجدول مقارنة يُظهر تميّز مساري في 6 أوجه.</p><h4>نقاط المفتاح</h4><ul><li>الفرق الجوهري: UCS يوسّع بالتكلفة المتراكمة g(n) فقط؛ A* يضيف الكاشف h(n) فيوجه البحث نحو الهدف</li><li>الكاشف Admissible أي لا يبالغ في تقدير التكلفة المتبقية أبدًا — وهذا شرط أمثلية A*</li><li>برهاننا الهندسي: الأوزان مشتقة من المسافة الإقليدية على ثابت، فالمسافة المستقيمة على الثابت نفسه حد أدنى مضمون — كاشفنا Admissible و Consistent</li><li>NLU بمسارين: Groq عند توفر المفتاح، وقواعد Regex تلتقط «ودّيني» و«إيّاك» و«تجنّب» وتعمل دون إنترنت</li><li>الشكل التوضيحي المحوري: UCS يفتح 15 عقدة دائريًا حول البداية مقابل 6 لـ A* المتجهة للهدف، وبنفس التكلفة 56</li><li>مساري لا ينافس العالمية في الشمول بل في القيمة المحلية: فهم المدينة والتحكم واللهجة والأوفلاين</li></ul><h4>أشكال وجداول مهمة</h4><ul><li>شكل 2-1: مقارنة بصرية بين UCS و A* (الرسم ASCII في المتن)</li><li>جدول المقارنة 2.2.4: مساري مقابل Google Maps و Waze والدراسة الأكاديمية (6 أوجه)</li></ul></div></div><div class="bezel rv"><div class="core"><h3>الفصل 3: تحليل المتطلبات والنمذجة</h3><p>قلب مرحلة التحليل: يجيب عن «ماذا» قبل «كيف». جمع البيانات بأداتين أساسيتين (الأبحاث السابقة والنماذج والعينات) واختياريتين مستخدمتين فعليًا (الملاحظة المباشرة لسلوك المستخدمين المحليين، والنماذج الأولية Prototyping مع الزملاء التي قادت لميزة الاستثناء). ثم تصنيف المتطلبات: 11 وظيفيًا (FR-1 إلى FR-11 من المصادقة إلى JSON/XML)، و10 غير وظيفية (من الأداء أقل من ثانية إلى التوثيق Swagger)، ومتطلبات نظام (Python 3.11+، SQLite، ذاكرة ≥512MB، تخزين ≤50MB)، و8 متطلبات مستخدم. وبعدها سيناريوهان تفصيليان (تفاعلي مع استثناء / أمر لغوي عامي) و7 مخططات UML مع توصيف حالتي الاستخدام الأبرز.</p><h4>نقاط المفتاح</h4><ul><li>أداتا الجمع الاختياريتان المستخدمتان: الملاحظة (رصد أنماط «ودّيني» و«إيّاك تمر») والنموذج الأولي (كشف ميزة الاستثناء مبكرًا)</li><li>FR الأعلى أولوية: المصادقة، الخريطة التفاعلية، تخطيط المسار، الاستثناء، NLU — و FR-11 يوفر البيانات JSON و XML</li><li>NFR-1 الأداء: حساب المسار في أقل من ثانية واحدة؛ NFR-2 الأمثلية مضمونة نظريًا بالكاشف القابل للقبول</li><li>NFR-4 و 5 و 9: إتاحة RTL وتباين ألوان وأهداف لمس ≥44px، Mobile-First من 320px، خطوط Cairo/Tajawal وتنقل سفلي 5 عناصر</li><li>السيناريو الأول: أحمد من باب اليمن إلى جولة فلسطين مستثنيًا الدائري — النتيجة cost=20 و expanded=3 وحفظ تلقائي في search_history</li><li>السيناريو الثاني: سارة ضيفة تكتب «ودّيني حدة، إيّاك تمر من شارع الزبيري» — الاستخراج Hadda + استثناء الزبيري والمصدر rules</li><li>توصيف حالة استخدام FR-3 كامل: الفاعل، المدخلات (start/goal/algorithm/avoid)، التدفق الرئيسي والبديل (found:false أو HTTP 400)، المخرجات PathResult</li></ul><h4>أشكال وجداول مهمة</h4><ul><li>شكل 3-1: حالات الاستخدام (Use Case)</li><li>شكل 3-2: الكيانات والعلاقات (ERD)</li><li>شكل 3-3: الفئات (Class Diagram) مع الأنماط</li><li>شكل 3-4: التتابع (Sequence) — معالجة أمر لغوي عربي</li><li>شكل 3-5: النشاط (Activity) — تخطيط مسار بقيود استثناء</li><li>شكل 3-6: الحالات (State) لسجل البحث</li><li>شكل 3-7: تدفق البيانات (DFD) المستوى الأول — 4 عمليات و3 مستودعات</li><li>جدول 3-1: المتطلبات الوظيفية (11)</li><li>جدول 3-2: غير الوظيفية (10)</li><li>جدول 3-3: متطلبات النظام</li><li>جدول 3-4: توصيف حالة استخدام تخطيط مسار</li></ul></div></div><div class="bezel rv"><div class="core"><h3>الفصل 4: تصميم المشروع</h3><p>يحوّل التحليل إلى خطط تقنية. المعمارية: عميل–خادم على منصّتين عبر REST مع فصل مسؤوليات واضح (العرض ← المنطق ← الوصول للبيانات ← البيانات) وتحقيق SRP، والذكاء الأساسي في وحدات shared/ مستقلة قابلة لإعادة الاستخدام. قاعدة البيانات SQLite بأربعة جداول (users, search_history, map_nodes, map_edges) مع قرار تصميمي مميز: الأوزان لا تخزن بل تشتق حسابيًا weight = ceil(distance/10). الواجهات: HTML5/CSS3/Vanilla JS بدون خطوة بناء، خريطة SVG، ونظام تصميم بـ Design Tokens (تركوازي 0f9d8a وكهرماني f59e0b). الخوارزميات مصممة بنمط Strategy مع خوارزميتين مفصلتين pseudocode وآلية استثناء بمعاينة غامضة تتجاهل «ال» و«شارع/طريق/جولة» فكلمة «ستين» تطابق الأجزاء الثلاثة. والأمان: CORS مقيد، PBKDF2-HMAC-SHA256 بملح 16 بايت و100 ألف تكرار، توكن HMAC بمدة ساعة، وثلاث طبقات صلاحيات، وتحقق Pydantic.</p><h4>نقاط المفتاح</h4><ul><li>قرار الأوزان المشتقة (لا مخزنة) فائدته مزدوجة: يضمن كاشفًا Admissible ويبقي البيانات متسقة تلقائيًا عند تعديل المشرف للإحداثيات دون تحديث يدوي</li><li>الكاشف h(n) = المسافة الإقليدية على الثابت نفسه (10) المستخدم في الأوزان — الخط المستقيم ≤ الفعلي دائمًا</li><li>آلية الاستثناء: دالة neighbors(node, avoid) تتجاهل وصلات الشارع المستثنى والجار المستثنى، مع إعفاء نقطتي البداية والوجهة دائمًا لضمان الوصول</li><li>كلا الخوارزميتين تستخدمان min-heap ومجموعة closed ومتغير expanded للقياس — A* تضيف فقط priority = g + h و counter لكسر التعادل</li><li>ثلاث طبقات صلاحيات: عام (خريطة وأماكن)، مستخدم (مسار وسجل بتوكن)، مشرف (CRUD برأس X-Admin-Key يطابق بـ hmac.compare_digest)</li><li>توكن JWT-like: حمولة Base64 + توقيع HMAC-SHA256 مع TTL ساعة، والتحقق بمقارنة مقاومة لهجمات التوقيت</li><li>تحقق المدخلات بـ Pydantic: كلمة المرور ≥6 أحرف، الإحداثيات بين 0 و1000، اسم المستخدم 3–32 حرفًا/رقمًا/شرطة سفلية</li></ul><h4>أشكال وجداول مهمة</h4><ul><li>شكل 4-1: معمارية النظام متعددة الطبقات (منصّتان)</li><li>شكل 4-2: تدفق البيانات بين العميل والخادم عبر REST</li><li>شكل 4-3: خريطة صنعاء التفاعلية (17 عقدة، 21 وصلة)</li><li>جدول 4-1: جدول users</li><li>جدول 4-2: جدول search_history</li><li>جدول 4-3: جدول map_nodes</li><li>جدول 4-4: جدول map_edges</li><li>الخوارزميتان المفصلتان (UCS ثم A*) وآلية الاستثناء</li></ul></div></div><div class="bezel rv"><div class="core"><h3>الفصل 5: التنفيذ والاختبار</h3><p>التحويل البرمجي للتصاميم والتحقق منها. التقنيات: Python 3.11 و FastAPI و uvicorn و SQLite و Pydantic و HTML5/CSS3/Vanilla JS و SVG و Groq (llama-3.1-8b-instant) و Git و VS Code/Ruff. الأنماط الأربعة المطبقة: Strategy (SearchStrategy مع AStar/UCS)، Repository (UserRepository/HistoryRepository)، Singleton (CITY و ROUTER)، DTO (PathResult ونماذج Pydantic). خطوات التنفيذ الأربع تقابل التكرارات: قاعدة البيانات والجداول والتهيئة _seed_map_if_empty، ثم الخلفية بنقاط النهاية الخمس، ثم العميل SPA بموجه Hash، ثم التكامل عبر fetch. الاختبار بأربعة مستويات مع نتائج حقيقية لخوارزميات التوجيه: A* و UCS بنفس التكلفة المثلى دائمًا مع expansions أقل 38–64%، وسلوك استثناء سليم (إعادة توجيه بتكلفة 64 عند تجنب الدائري)، وأمان الانقطاع (found:false).</p><h4>نقاط المفتاح</h4><ul><li>4 أنماط تصميم — يذكر الفصل صراحة أن مقرر البرمجة المتقدمة يطلب ثلاثة على الأقل وقد تجاوزناه</li><li>اختبار الوحدة شمل: normalize_ar (توحيد أ/إ/آ←ا و ة←ه و ى←ي وحذف التشكيل)، find_streets_by_name («ستين» تعيد الأجزاء الثلاثة)، find_node_by_name («حدة» ← Hadda)، و hash/verify_password</li><li>اختبار التكامل على المسار NLU ← Router ← SQLite بثلاثة أوامر حقيقية: «ودّيني حدة...» و«خدني الجامعة بدون ما تمر شارع حدة» و«روحني باب اليمن»</li><li>اختبار النظام عبر Swagger UI (/docs): التسجيل يصدر توكنًا، و /api/map تعيد 17 عقدة و21 وصلة، و /api/map.xml XML صحيح</li><li>UAT على عينة من الزملاء: تقبل عالٍ للواجهة العربية والسرعة والاستثناء بالنقر والمساعد؛ وأبرز طلب مستقبلي: الإدخال الصوتي</li><li>نتيجة المحور: جامعة→فلسطين: 56/6 مقابل 56/15 (توفير 60%)؛ باب اليمن→إيمان: 49/4 مقابل 49/11 (64%)؛ عمران→باب اليمن: 81/10 مقابل 81/16 (38%)؛ شعوب→حدة: 45/4 مقابل 45/10 (60%)</li></ul><h4>أشكال وجداول مهمة</h4><ul><li>جدول 5-1: التقنيات والأدوات المستخدمة</li><li>جدول 5-2: الأنماط التصميمية الأربعة وأماكنها وفوائدها</li><li>جدول 5-3: نتائج مقارنة A* مقابل UCS (4 حالات + النسب)</li><li>شكل 5-1: لقطة واجهة الخريطة التفاعلية</li><li>شكل 5-2: لقطة نتيجة المسار المرسومة (تكلفة 20، خطوات 3، مفتوح 3)</li></ul></div></div><div class="bezel rv"><div class="core"><h3>الفصل 6: النتائج والمناقشة</h3><p>أربعة محاور. عرض النتائج: تحقق كامل للأهداف — خريطة 17/21/10 حقيقية، تنفيذ الخوارزميتين من الصفر مع إثبات نظري وعملي، تفوق A* بـ38–64% expansions بنفس الأمثلية، استثناء بمستويين، مساعد عامي، بنية كاملة (خادم + SQLite + 5 مجموعات REST + عميل)، وأمان مطبق. تحليل النتائج بجدول خمس حالات (الخامسة: تجنب الدائري 64/5 مقابل 64/9) مع استنتاج: كلما كان الهدف بعيدًا اتجاهيًا ظهر تفوق A* أوضح لأن UCS يستكشف اتجاهات معاكسة. مزايا النظام الست. والتحديات الخمسة بصراحة: لا بيانات مرور لحظية، لا GPS، دقة الكاشف مرتبطة بدقة الإحداثيات، اعتمادية Groq على المفتاح (عولجت بالقواعد)، ونطاق الخريطة 17 عقدة يحتاج توسيعًا.</p><h4>نقاط المفتاح</h4><ul><li>الاستنتاج التحليلي المركزي: التكلفة المعادة متطابقة دائمًا (A* = UCS) وهذا بحد ذاته دليل عملي على قابلية الكاشف للقبول</li><li>الحالة الخامسة المهمة: استثناء الدائري في جامعة→فلسطين أعاد توجيهًا ناجحًا عبر مذبح والستين الجنوبي بتكلفة 64 بدلًا من 56 و expansions أقل (5 مقابل 9)</li><li>المزايا الست: المحلية الأصيلة، التحكم الكامل (نصًا ونقرًا)، فهم العامية حتى دون إنترنت، البنية التعليمية، الخفة والسرعة، القابلية للتعديل بلوحة الإدارة</li><li>التحديات مذكورة بأمانة علمية — وهذا قوة في المناقشة لا ضعف: نعرف حدود إصدارنا الأول</li><li>شكل 6-1 المنحنى التفسيري: UCS أعلى دائمًا في العقد المفتوحة و A* أسفل دائمًا مع تزايد المسافة للهدف</li></ul><h4>أشكال وجداول مهمة</h4><ul><li>جدول 6-1: تحليل أداء A* مقابل UCS عبر 5 حالات اختبار</li><li>شكل 6-1: منحنى تفسيري لتفوق A* في عدد العقد المفتوحة</li></ul></div></div><div class="bezel rv"><div class="core"><h3>الفصل 7: الاستنتاجات والتوصيات</h3><p>خلاصة النجاح: نظام محلي يجمع خريطة تفاعلية وخوارزميات AI من الصفر ومساعدًا عاميًا؛ وأثبت أربع نقاط جوهرية (تفوق A* في الكفاءة حتى 64% بنفس الأمثلية، فصل المسؤوليات ينتج قابلية صيانة، المحلية قيمة تنافسية، التحكم يحقق رضا المستخدم)، ونفذ FR-1 إلى FR-11 كلها. الدروس المستفادة الخمسة (النموذج المبكر كشف ميزة الاستثناء، قيمة الكاشف Admissible، الاستراتيجية الاحتياطية أنقذت العرض الحي، فصل البيانات عن الذكاء في shared/، إدارة الفريق بالتطوير المتوازي والدمج الدوري بـ git). ثم 8 توصيات مستقبلية مرقمة، وخاتمة تؤكد أن مساري لبنة ونموذج تعليمي ملهم.</p><h4>نقاط المفتاح</h4><ul><li>الأربع نقاط المثبتة: كفاءة A* (حتى 64% توسيع أقل بنفس الأمثلية)، فصل المسؤوليات، المحلية قيمة تنافسية حقيقية، تحكم المستخدم يحقق رضا عاليًا</li><li>الدرس الأهم عمليًا: النسخة القواعدية الاحتياطية أنقذت العرض الحي من الفشل عند غياب الاتصال بـ Groq</li><li>التوصيات الثماني: GPS الحي (navigator.geolocation)، الملاحة الصوتية (Web Speech API)، بيانات ازدحام Crowd-sourced، توسيع الخريطة، تطبيق Native (WebView/Flutter)، مزامنة سحابية، كاشف أقوى (Manhattan/Network distance)، وضع أوفلاين (IndexedDB)</li><li>الخاتمة: محاولة جادة لسد فجوة محلية حقيقية، ولبنة لأنظمة محلية أنضج ونموذج تعليمي</li></ul><h4>أشكال وجداول مهمة</h4><ul><li>قائمة التوصيات الثماني المرقمة (7.3)</li></ul></div></div></div>
+
+<h2 class="sec" id="numbers"><span class="no">02</span> الأرقام الذهبية (34)</h2>
+<div class="bezel rv"><div class="core"><table>
+<tr><th style="width:170px">الرقم</th><th>معناه ولماذا مهم في المناقشة</th></tr><tr><td><span class="num">17 عقدة</span></td><td>عدد عقد الخريطة (أشهر أحياء وتقاطعات صنعاء بإحداثيات حقيقية) — اذكرها عند أي سؤال عن حجم الخريطة، وجدولها الكامل في ملحق (د)</td></tr><tr><td><span class="num">21 وصلة</span></td><td>عدد وصلات (شوارع) الخريطة — تُعاد من /api/map وقد تحققنا منها في اختبار النظام</td></tr><tr><td><span class="num">10 شوارع مسماة</span></td><td>الشوارع الحقيقية الممثلة: الستين بثلاثة أجزائه، الزبيري، الدائري، حدة، تعز، شعوب، علي عبدالمغني، مذبح</td></tr><tr><td><span class="num">56</span></td><td>التكلفة المثلى للرحلة المرجعية جامعة صنعاء ← جولة فلسطين — أعادتها كلتا الخوارزميتين بالضبط، وهي الدليل الرقمي على الأمثلية المتطابقة</td></tr><tr><td><span class="num">A*=6 مقابل UCS=15 عقدة</span></td><td>العقد المفتوحة (expanded) في الحالة المرجعية — توفير 60% وهو الرقم الأهم في العرض كله</td></tr><tr><td><span class="num">49 و 4 مقابل 11</span></td><td>باب اليمن ← إيمان: تكلفة 49، و A* فتحت 4 عقد مقابل 11 لـ UCS (توفير 64% — الأعلى)</td></tr><tr><td><span class="num">81 و 10 مقابل 16</span></td><td>عمران ← باب اليمن: تكلفة 81، و expansions عشرة مقابل ستة عشر (توفير 38% — الأدنى، لأن المسار طويل فيقل الفارق النسبي)</td></tr><tr><td><span class="num">45 و 4 مقابل 10</span></td><td>شعوب ← حدة: تكلفة 45، و expansions أربعة مقابل عشرة (توفير 60%)</td></tr><tr><td><span class="num">38%–64%</span></td><td>مدى نسبة توفير A* في العقد المفتوحة عبر حالات الاختبار الأربع</td></tr><tr><td><span class="num">64 بدلًا من 56</span></td><td>تكلفة الرحلة عند استثناء شارع الدائري (إعادة توجيه عبر مذبح والستين الجنوبي) مع expansions أقل: 5 مقابل 9 — يثبت سلوك الاستثناء</td></tr><tr><td><span class="num">cost=20, expanded=3</span></td><td>نتيجة السيناريو الأول في الفصل الثالث (باب اليمن ← فلسطين مع استثناء الدائري) كما تظهر في لقطة شكل 5-2</td></tr><tr><td><span class="num">11 متطلبًا وظيفيًا</span></td><td>FR-1 إلى FR-11 (المصادقة، الخريطة، المسار، الاستثناء، NLU، السجل، الأماكن، الملف الشخصي، لوحة الإدارة، الضيف، JSON/XML) — تقول اللجنة: عدد متطلباتكم؟ فأجب فورًا</td></tr><tr><td><span class="num">10 متطلبات غير وظيفية</span></td><td>NFR-1 إلى NFR-10 (أداء، أمثلية، أمان، إتاحة RTL، استجابة Mobile-First، صيانة، توفّر، توسع، قابلية استخدام، توثيق)</td></tr><tr><td><span class="num">8 متطلبات مستخدم</span></td><td>UR-1 إلى UR-8 المستخلصة من بحث المستخدم (الملاحظة والنموذج الأولي)</td></tr><tr><td><span class="num">4 جداول في قاعدة البيانات</span></td><td>users و search_history و map_nodes و map_edges في SQLite — والوصف التفصيلي بجداول 4-1 إلى 4-4</td></tr><tr><td><span class="num">17 واجهة REST في 5 مجموعات</span></td><td>نقاط النهاية الكاملة في ملحق (ج): Auth و Places و Routing و NLCommand و Admin — زائد /health</td></tr><tr><td><span class="num">4 أنماط تصميم</span></td><td>Strategy و Repository و Singleton و DTO — المقرر يطلب ثلاثة على الأقل فتجاوزناه (جدول 5-2)</td></tr><tr><td><span class="num">4 مستويات اختبار</span></td><td>وحدة (Unit) وتكامل (Integration) ونظام (System) وقبول (UAT) — الفصل 5.3</td></tr><tr><td><span class="num">4 تكرارات (Sprints)</span></td><td>التطوير التزايدي الرشيق: بيانات وخوارزميات ← خادم ← عميل ← مساعد وأمان و UX</td></tr><tr><td><span class="num">15 مرجعًا</span></td><td>قائمة المراجع — أهمها Russell &amp; Norvig للبحث، و Sommerville و Pressman للهندسة، و Gamma للأنماط، و Hart 1968 لأساس A*، و Dijkstra 1959</td></tr><tr><td><span class="num">12 جدولًا في الوثيقة</span></td><td>فهرس الجداول: 4 في الفصل الثالث و4 في الرابع و3 في الخامس و1 في السادس</td></tr><tr><td><span class="num">14 شكلًا في فهرس الأشكال</span></td><td>7 مخططات UML في الفصل الثالث + معمارية وتدفق وخريطة في الرابع + لقطتان في الخامس + منهجية ومقارنة في الأول والثاني — إضافة لشكل 6-1 المنحنى التفسيري في المتن</td></tr><tr><td><span class="num">weight = ceil(distance / 10)</span></td><td>الأوزان لا تخزن بل تشتق من المسافة الإقليدية بين إحداثيي العقدتين مقسومة على ثابت 10 — القرار التصميمي الذي يضمن كاشفًا Admissible واتساق بيانات تلقائي</td></tr><tr><td><span class="num">h(n) = Euclidean / 10</span></td><td>الكاشف: المسافة المستقيمة على الثابت نفسه — الخط المستقيم ≤ المسارة الفعلية دائمًا فلا مبالغة أبدًا</td></tr><tr><td><span class="num">PBKDF2 بملح 16 بايت و100,000 تكرار</span></td><td>تشفير كلمات المرور بـ PBKDF2-HMAC-SHA256 مع ملح عشوائي لكل مستخدم — يصد جداول Rainbow والقوة الغاشمة</td></tr><tr><td><span class="num">TTL التوكن = ساعة واحدة</span></td><td>مدة صلاحية التوكن الموقع بـ HMAC-SHA256، والمقارنة بـ hmac.compare_digest المقاومة لهجمات التوقيت</td></tr><tr><td><span class="num">أقل من ثانية واحدة</span></td><td>NFR-1: حساب المسار في أقل من ثانية للخريطة الحالية — إن سُئلتم عن الأداء هذه إجابتكم الرسمية</td></tr><tr><td><span class="num">3 طبقات صلاحيات</span></td><td>عام (خريطة وأماكن) / مستخدم (مسار وسجل بتوكن) / مشرف (CRUD برأس X-Admin-Key)</td></tr><tr><td><span class="num">≥512MB ذاكرة و ≤50MB تخزينًا</span></td><td>متطلبات النظام الدنيا — دليل خفة النظام على الأجهزة المتوسطة (جدول 3-3)</td></tr><tr><td><span class="num">320px–480px وتنقل سفلي 5 عناصر</span></td><td>نطاق تصميم Mobile-First وشريط التنقل السفلي — يثبت NFR-5 و NFR-9</td></tr><tr><td><span class="num">كلمة المرور ≥6 أحرف والإحداثيات 0–1000 واسم المستخدم 3–32</span></td><td>قواعد تحقق Pydantic — أمثلة جاهزة عند سؤال التحقق من المدخلات</td></tr><tr><td><span class="num">llama-3.1-8b-instant</span></td><td>نموذج Groq المستخدم اختياريًا في NLU — والمسار الاحتياطي القواعدي يعمل دونه دائمًا</td></tr><tr><td><span class="num">5 مليارات مستخدم و220+ دولة</span></td><td>أرقام تمهيدية من الفصل الأول (انتشار التطبيقات الذكية وتغطية خرائط جوجل) تصلح لافتتاح قوي</td></tr><tr><td><span class="num">4 طلاب وفصلان دراسيان 2025/2026</span></td><td>الفريق والمدة الزمنية للمشروع — جامعة صنعاء، قسم علوم الحاسوب، إشراف أ. امتياز الصمصام</td></tr></table></div></div>
+
+<h2 class="sec"><span class="no">03</span> توزيع الأدوار على الفريق</h2>
+<div class="grid2"><div class="bezel rv"><div class="core"><div style="display:flex;gap:14px;align-items:center"><div class="ava">ع</div><h3 style="margin:0">عبدالرحمن إسماعيل</h3></div><h4>يعرض</h4><ul><li>افتتاح المناقشة وقراءة الملخص (Abstract) و one_minute الافتتاحي</li><li>الفصل الأول كاملًا: نظرة عامة، المشكلة بخمسة أوجهها، الأهداف السبعة، النطاق والمحددات الخمسة</li><li>المنهجية (شكل 1-1): لماذا Agile/Incremental والتكرارات الأربعة — يعرضها بلوحة زمنية</li></ul><h4>جملتاه الافتتاحيتان</h4><div class="speech" style="font-size:16.5px;margin:8px 0">سكان صنعاء يعتمدون اليوم على تطبيقات عالمية لا تعرف شوارعنا ولا تفهم لهجتنا — هذه هي الفجوة التي قررنا ردمها.</div><div class="speech" style="font-size:16.5px;margin:8px 0">اخترنا منهجية التطوير الرشيق (Agile) بأربعة تكرارات، لأن مشروعنا التفاعلي لم يكتمل تصوره إلا بعد نموذج أولي رأيناه بأعيننا.</div></div></div><div class="bezel rv"><div class="core"><div style="display:flex;gap:14px;align-items:center"><div class="ava">ل</div><h3 style="margin:0">لايث توفيق</h3></div><h4>يعرض</h4><ul><li>الفصل الثاني: الخلفية النظرية والدراسات السابقة الثلاث وجدول المقارنة</li><li>قلب النظام الخوارزمي: شرح A* و UCS و f(n)=g(n)+h(n) وبرهان الكاشف Admissible (الاشتقاق من المسافة على ثابت 10)</li><li>النتائج المحورية (جدول 5-3 و 6-1): التكلفة 56 المتطابقة و expansions الأقل بنسبة 38–64% — يعرض شكل 2-1 التوضيحي</li></ul><h4>جملتاه الافتتاحيتان</h4><div class="speech" style="font-size:16.5px;margin:8px 0">سؤالنا المركزي كان: هل نستطيع إثبات نظريًا وعمليًا تفوق البحث الموجه؟ والإجابة أمامكم بالأرقام: 6 عقد مقابل 15 بنفس التكلفة المثلى 56.</div><div class="speech" style="font-size:16.5px;margin:8px 0">سر الأمثلية عندنا رياضي لا حظ: أوزاننا وكاشفنا مشتقان من المصدر نفسه، فالكاشف لا يبالغ أبدًا — أي Admissible بالتعريف.</div></div></div><div class="bezel rv"><div class="core"><div style="display:flex;gap:14px;align-items:center"><div class="ava">أ</div><h3 style="margin:0">أيمن النزيلي</h3></div><h4>يعرض</h4><ul><li>الفصل الثالث: أدوات جمع البيانات، المتطلبات (11 وظيفيًا و10 غير وظيفية و8 للمستخدم)، السيناريوهان</li><li>المخططات السبعة UML (أشكال 3-1 إلى 3-7) مع شرح include/extend في حالات الاستخدام والفرق بين التتابع والنشاط</li><li>توصيف حالة استخدام FR-3 (جدول 3-4) كنموذج لعمق التحليل</li></ul><h4>جملتاه الافتتاحيتان</h4><div class="speech" style="font-size:16.5px;margin:8px 0">لم نكتب متطلبًا واحدًا من الخيال: الملاحظة المباشرة أعطتنا كلمات مثل «ودّيني» و«إيّاك تمر»، والنموذج الأولي كشف لنا ميزة الاستثناء قبل أن نلتزم بالتصميم.</div><div class="speech" style="font-size:16.5px;margin:8px 0">سبعة مخططات UML ليست ترفًا: كل واحد يجيب سؤالًا مختلفًا — الوظائف، البيانات، البنية، الزمن، التحكم، الحالات، وتدفق البيانات.</div></div></div><div class="bezel rv"><div class="core"><div style="display:flex;gap:14px;align-items:center"><div class="ava">خ</div><h3 style="margin:0">خالد عيسى</h3></div><h4>يعرض</h4><ul><li>الفصل الرابع: المعمارية متعددة الطبقات، قاعدة البيانات بأربعة جداولها وقرار الأوزان المشتقة، الأمان (PBKDF2 و HMAC وثلاث طبقات صلاحيات)</li><li>الفصل الخامس: التقنيات والأنماط الأربعة وخطوات التنفيذ ومستويات الاختبار الأربعة</li><li>الفصل السابع والختام: الاستنتاجات والدروس المستفادة والتوصيات الثماني — ويشكر اللجنة ويسلّم لأسئلتها</li></ul><h4>جملتاه الافتتاحيتان</h4><div class="speech" style="font-size:16.5px;margin:8px 0">قرار واحد صغير — ألا نخزن الأوزان بل نشتقها من المسافة — أعطانا ميزتين دفعة واحدة: كاشف مضمون القبولية وبيانات متسقة تلقائيًا دون تحديث يدوي.</div><div class="speech" style="font-size:16.5px;margin:8px 0">اختبرنا على أربعة مستويات من الوحدة إلى القبول، وكل نتيجة رقمية ترونها في العرض خرجت من عدادات مدمجة في الكود نفسه — لا تقديرات يدوية.</div></div></div></div>
+</div><script>
+(function(){
+var io=new IntersectionObserver(function(es){es.forEach(function(e){
+ if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target)}})},{threshold:.06});
+var i=0;document.querySelectorAll('.rv').forEach(function(el){
+ el.style.transitionDelay=((i++%7)*75)+'ms';io.observe(el)});
+var p=document.getElementById('prog');
+addEventListener('scroll',function(){var h=document.documentElement;
+ var m=h.scrollHeight-h.clientHeight;p.style.transform='scaleX('+(m?h.scrollTop/m:0)+')'},{passive:true});
+})();
+</script><footer class="foot">
+<b>فريق مساري</b> — عبدالرحمن سيف · ليث الجعفري · أيمن النزيلي · خالد عيسى<br>
+أُعدّت هذه الحقيبة آليًا من وثيقة المشروع (56 صفحة) ومحاضرات مقرر هندسة البرمجيات — بالتوفيق في المناقشة 🌟
+</footer></body></html>

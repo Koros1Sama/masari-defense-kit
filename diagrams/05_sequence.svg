@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1250" height="1000" viewBox="0 0 1250 1000" font-family="Cairo, Segoe UI, Amiri, sans-serif">
+<defs><marker id="ar-end" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#595959"/></marker><marker id="ar-open" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M1,1 L9,5 L1,9" fill="none" stroke="#595959" stroke-width="1.6"/></marker><marker id="ar-start" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M10,0 L0,5 L10,10 z" fill="#595959"/></marker></defs>
+<rect width="1250" height="1000" fill="#ffffff"/>
+<rect x="35" y="40" width="140" height="46" rx="0" fill="#e8f0fb" stroke="#4a6f9e" stroke-width="1.6" />
+<text x="105.0" y="67.5" font-size="12.5" fill="#1a1a1a" text-anchor="middle" font-weight="bold"  direction="rtl" unicode-bidi="plaintext">المستخدم</text>
+<rect x="205" y="40" width="140" height="46" rx="0" fill="#e8f0fb" stroke="#4a6f9e" stroke-width="1.6" />
+<text x="275.0" y="67.5" font-size="12.5" fill="#1a1a1a" text-anchor="middle" font-weight="bold"  direction="rtl" unicode-bidi="plaintext">العميل JS</text>
+<rect x="375" y="40" width="140" height="46" rx="0" fill="#e8f0fb" stroke="#4a6f9e" stroke-width="1.6" />
+<text x="445.0" y="67.5" font-size="12.5" fill="#1a1a1a" text-anchor="middle" font-weight="bold" >FastAPI</text>
+<rect x="545" y="40" width="140" height="46" rx="0" fill="#e8f0fb" stroke="#4a6f9e" stroke-width="1.6" />
+<text x="615.0" y="67.5" font-size="12.5" fill="#1a1a1a" text-anchor="middle" font-weight="bold" >nlu</text>
+<rect x="715" y="40" width="140" height="46" rx="0" fill="#e8f0fb" stroke="#4a6f9e" stroke-width="1.6" />
+<text x="785.0" y="67.5" font-size="12.5" fill="#1a1a1a" text-anchor="middle" font-weight="bold" >CityMap</text>
+<rect x="885" y="40" width="140" height="46" rx="0" fill="#e8f0fb" stroke="#4a6f9e" stroke-width="1.6" />
+<text x="955.0" y="67.5" font-size="12.5" fill="#1a1a1a" text-anchor="middle" font-weight="bold" >Router</text>
+<rect x="1055" y="40" width="140" height="46" rx="0" fill="#e8f0fb" stroke="#4a6f9e" stroke-width="1.6" />
+<text x="1125.0" y="67.5" font-size="12.5" fill="#1a1a1a" text-anchor="middle" font-weight="bold" >SQLite</text>
+<rect x="120" y="900" width="300" height="54" rx="10" fill="#fffbe6" stroke="#b8a13a" stroke-width="1.6" stroke-dasharray="7 5" />
+<text x="270.0" y="931.32" font-size="12" fill="#1a1a1a" text-anchor="middle" font-weight="bold"  direction="rtl" unicode-bidi="plaintext">يُنفَّذ فقط للمستخدم المسجّل</text>
+<polyline points="105,86 105,880" fill="none" stroke="#9aa5b1" stroke-width="1.7" stroke-dasharray="7 5" />
+<polyline points="275,86 275,880" fill="none" stroke="#9aa5b1" stroke-width="1.7" stroke-dasharray="7 5" />
+<polyline points="445,86 445,880" fill="none" stroke="#9aa5b1" stroke-width="1.7" stroke-dasharray="7 5" />
+<polyline points="615,86 615,880" fill="none" stroke="#9aa5b1" stroke-width="1.7" stroke-dasharray="7 5" />
+<polyline points="785,86 785,880" fill="none" stroke="#9aa5b1" stroke-width="1.7" stroke-dasharray="7 5" />
+<polyline points="955,86 955,880" fill="none" stroke="#9aa5b1" stroke-width="1.7" stroke-dasharray="7 5" />
+<polyline points="1125,86 1125,880" fill="none" stroke="#9aa5b1" stroke-width="1.7" stroke-dasharray="7 5" />
+<polyline points="105,150 275,150" fill="none" stroke="#1f4e79" stroke-width="1.7" marker-end="url(#ar-end)" />
+<rect x="129.395" y="126.5" width="121.21" height="19.5" fill="#ffffff" fill-opacity="0.94" rx="4" stroke="#d8d8d8" stroke-width="0.7"/>
+<text x="190.0" y="141.0" font-size="11.5" fill="#333" text-anchor="middle" direction="rtl" unicode-bidi="plaintext" font-style="italic">«اكتب جملة عربية»</text>
+<polyline points="275,210 445,210" fill="none" stroke="#1f4e79" stroke-width="1.7" marker-end="url(#ar-end)" />
+<rect x="274.44" y="186.5" width="171.12" height="19.5" fill="#ffffff" fill-opacity="0.94" rx="4" stroke="#d8d8d8" stroke-width="0.7"/>
+<text x="360.0" y="201.0" font-size="11.5" fill="#333" text-anchor="middle" font-style="italic">POST /api/command {text}</text>
+<polyline points="445,270 615,270" fill="none" stroke="#1f4e79" stroke-width="1.7" marker-end="url(#ar-end)" />
+<rect x="462.265" y="246.5" width="135.47" height="19.5" fill="#ffffff" fill-opacity="0.94" rx="4" stroke="#d8d8d8" stroke-width="0.7"/>
+<text x="530.0" y="261.0" font-size="11.5" fill="#333" text-anchor="middle" font-style="italic">parse_command(text)</text>
+<polyline points="615,330 785,330" fill="none" stroke="#1f4e79" stroke-width="1.7" marker-end="url(#ar-end)" />
+<rect x="618.005" y="306.5" width="163.99" height="19.5" fill="#ffffff" fill-opacity="0.94" rx="4" stroke="#d8d8d8" stroke-width="0.7"/>
+<text x="700.0" y="321.0" font-size="11.5" fill="#333" text-anchor="middle" font-style="italic">find_node_by_name(dest)</text>
+<polyline points="785,390 615,390" fill="none" stroke="#8a5a00" stroke-width="1.7" stroke-dasharray="7 5" marker-end="url(#ar-open)" />
+<rect x="675.045" y="366.5" width="49.91" height="19.5" fill="#ffffff" fill-opacity="0.94" rx="4" stroke="#d8d8d8" stroke-width="0.7"/>
+<text x="700.0" y="381.0" font-size="11.5" fill="#333" text-anchor="middle" font-style="italic">node_id</text>
+<polyline points="615,450 785,450" fill="none" stroke="#1f4e79" stroke-width="1.7" marker-end="url(#ar-end)" />
+<rect x="603.745" y="426.5" width="192.51" height="19.5" fill="#ffffff" fill-opacity="0.94" rx="4" stroke="#d8d8d8" stroke-width="0.7"/>
+<text x="700.0" y="441.0" font-size="11.5" fill="#333" text-anchor="middle" font-style="italic">find_streets_by_name(avoid)</text>
+<polyline points="785,510 615,510" fill="none" stroke="#8a5a00" stroke-width="1.7" stroke-dasharray="7 5" marker-end="url(#ar-open)" />
+<rect x="667.915" y="486.5" width="64.17" height="19.5" fill="#ffffff" fill-opacity="0.94" rx="4" stroke="#d8d8d8" stroke-width="0.7"/>
+<text x="700.0" y="501.0" font-size="11.5" fill="#333" text-anchor="middle" font-style="italic">[streets]</text>
+<polyline points="615,570 445,570" fill="none" stroke="#8a5a00" stroke-width="1.7" stroke-dasharray="7 5" marker-end="url(#ar-open)" />
+<rect x="412.355" y="546.5" width="235.29" height="19.5" fill="#ffffff" fill-opacity="0.94" rx="4" stroke="#d8d8d8" stroke-width="0.7"/>
+<text x="530.0" y="561.0" font-size="11.5" fill="#333" text-anchor="middle" font-style="italic">{destination_node, avoid, source}</text>
+<polyline points="445,630 955,630" fill="none" stroke="#1f4e79" stroke-width="1.7" marker-end="url(#ar-end)" />
+<rect x="571.66" y="606.5" width="256.68" height="19.5" fill="#ffffff" fill-opacity="0.94" rx="4" stroke="#d8d8d8" stroke-width="0.7"/>
+<text x="700.0" y="621.0" font-size="11.5" fill="#333" text-anchor="middle" font-style="italic">find_path(start, goal, astar, avoid)</text>
+<polyline points="955,690 445,690" fill="none" stroke="#8a5a00" stroke-width="1.7" stroke-dasharray="7 5" marker-end="url(#ar-open)" />
+<rect x="582.355" y="666.5" width="235.29" height="19.5" fill="#ffffff" fill-opacity="0.94" rx="4" stroke="#d8d8d8" stroke-width="0.7"/>
+<text x="700.0" y="681.0" font-size="11.5" fill="#333" text-anchor="middle" font-style="italic">PathResult {path, cost, expanded}</text>
+<polyline points="445,750 1125,750" fill="none" stroke="#1f4e79" stroke-width="1.7" marker-end="url(#ar-end)" />
+<rect x="710.135" y="726.5" width="149.73" height="19.5" fill="#ffffff" fill-opacity="0.94" rx="4" stroke="#d8d8d8" stroke-width="0.7"/>
+<text x="785.0" y="741.0" font-size="11.5" fill="#333" text-anchor="middle" font-style="italic">INSERT search_history</text>
+<polyline points="445,810 275,810" fill="none" stroke="#8a5a00" stroke-width="1.7" stroke-dasharray="7 5" marker-end="url(#ar-open)" />
+<rect x="285.135" y="786.5" width="149.73" height="19.5" fill="#ffffff" fill-opacity="0.94" rx="4" stroke="#d8d8d8" stroke-width="0.7"/>
+<text x="360.0" y="801.0" font-size="11.5" fill="#333" text-anchor="middle" font-style="italic">JSON {parsed, result}</text>
+<polyline points="275,870 105,870" fill="none" stroke="#8a5a00" stroke-width="1.7" stroke-dasharray="7 5" marker-end="url(#ar-open)" />
+<rect x="111.57000000000001" y="846.5" width="156.85999999999999" height="19.5" fill="#ffffff" fill-opacity="0.94" rx="4" stroke="#d8d8d8" stroke-width="0.7"/>
+<text x="190.0" y="861.0" font-size="11.5" fill="#333" text-anchor="middle" direction="rtl" unicode-bidi="plaintext" font-style="italic">عرض المسار على الخريطة</text>
+<text x="625" y="30" font-size="14" fill="#1f4e79" text-anchor="middle" font-weight="bold"  direction="rtl" unicode-bidi="plaintext">مخطط التسلسل — معالجة أمر لغوي عربي «ودّيني حدة، إيّاك تمر من شارع الزبيري»</text>
+</svg>

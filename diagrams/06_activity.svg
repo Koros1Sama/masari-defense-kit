@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1250" height="1290" viewBox="0 0 1250 1290" font-family="Cairo, Segoe UI, Amiri, sans-serif">
+<defs><marker id="ar-end" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#595959"/></marker><marker id="ar-open" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M1,1 L9,5 L1,9" fill="none" stroke="#595959" stroke-width="1.6"/></marker><marker id="ar-start" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M10,0 L0,5 L10,10 z" fill="#595959"/></marker></defs>
+<rect width="1250" height="1290" fill="#ffffff"/>
+<ellipse cx="625.0" cy="62.0" rx="12.0" ry="12.0" fill="#000" stroke="#000" stroke-width="1.6" />
+<rect x="495" y="100" width="260" height="58" rx="10" fill="#dae8fc" stroke="#6c8ebf" stroke-width="1.6" />
+<text x="625.0" y="133.68" font-size="13" fill="#1a1a1a" text-anchor="middle" font-weight="bold"  direction="rtl" unicode-bidi="plaintext">استلام طلب المسار</text>
+<text x="625.0" y="152.68" font-size="13" fill="#1a1a1a" text-anchor="middle" font-weight="bold"  direction="rtl" unicode-bidi="plaintext">(start, goal, algorithm, avoid)</text>
+<polygon points="625.0,195 775,243.0 625.0,291 475,243.0" fill="#fff2cc" stroke="#d6b656" stroke-width="1.6" />
+<text x="625.0" y="247.68" font-size="13" fill="#1a1a1a" text-anchor="middle" font-weight="bold"  direction="rtl" unicode-bidi="plaintext">هل البداية والوجهة</text>
+<text x="625.0" y="266.68" font-size="13" fill="#1a1a1a" text-anchor="middle" font-weight="bold"  direction="rtl" unicode-bidi="plaintext">موجودتان في الخريطة؟</text>
+<rect x="845" y="210" width="200" height="62" rx="10" fill="#f8cecc" stroke="#b85450" stroke-width="1.6" />
+<text x="945.0" y="245.32" font-size="12" fill="#1a1a1a" text-anchor="middle" font-weight="bold" >HTTP 400</text>
+<text x="945.0" y="263.32" font-size="12" fill="#1a1a1a" text-anchor="middle" font-weight="bold" >Unknown place</text>
+<rect x="435" y="340" width="380" height="58" rx="10" fill="#d5e8d4" stroke="#82b366" stroke-width="1.6" />
+<text x="625.0" y="373.5" font-size="12.5" fill="#1a1a1a" text-anchor="middle" font-weight="bold"  direction="rtl" unicode-bidi="plaintext">إعفاء البداية والوجهة من قائمة الاستثناء</text>
+<polygon points="625.0,435 775,483.0 625.0,531 475,483.0" fill="#fff2cc" stroke="#d6b656" stroke-width="1.6" />
+<text x="625.0" y="487.68" font-size="13" fill="#1a1a1a" text-anchor="middle" font-weight="bold"  direction="rtl" unicode-bidi="plaintext">اختيار الاستراتيجية</text>
+<text x="625.0" y="506.68" font-size="13" fill="#1a1a1a" text-anchor="middle" font-weight="bold"  direction="rtl" unicode-bidi="plaintext">(astar أم ucs)</text>
+<rect x="295" y="570" width="210" height="56" rx="10" fill="#dae8fc" stroke="#6c8ebf" stroke-width="1.6" />
+<text x="400.0" y="602.32" font-size="12" fill="#1a1a1a" text-anchor="middle" font-weight="bold" >A*  — f = g + h</text>
+<rect x="745" y="570" width="210" height="56" rx="10" fill="#dae8fc" stroke="#6c8ebf" stroke-width="1.6" />
+<text x="850.0" y="602.32" font-size="12" fill="#1a1a1a" text-anchor="middle" font-weight="bold" >UCS — g فقط</text>
+<rect x="385" y="680" width="480" height="140" rx="10" fill="#fbfbfb" stroke="#888" stroke-width="1.6" stroke-dasharray="7 5" />
+<polygon points="625.0,875 775,921.0 625.0,967 475,921.0" fill="#fff2cc" stroke="#d6b656" stroke-width="1.6" />
+<text x="625.0" y="925.68" font-size="13" fill="#1a1a1a" text-anchor="middle" font-weight="bold"  direction="rtl" unicode-bidi="plaintext">هل وُجد مسار؟</text>
+<rect x="845" y="888" width="230" height="64" rx="10" fill="#f8cecc" stroke="#b85450" stroke-width="1.6" />
+<text x="960.0" y="924.32" font-size="12" fill="#1a1a1a" text-anchor="middle" font-weight="bold" >PathResult</text>
+<text x="960.0" y="942.32" font-size="12" fill="#1a1a1a" text-anchor="middle" font-weight="bold" >found = false</text>
+<rect x="435" y="1020" width="380" height="56" rx="10" fill="#d5e8d4" stroke="#82b366" stroke-width="1.6" />
+<text x="625.0" y="1052.5" font-size="12.5" fill="#1a1a1a" text-anchor="middle" font-weight="bold"  direction="rtl" unicode-bidi="plaintext">إعادة بناء المسار + الأسماء العربية</text>
+<rect x="435" y="1110" width="380" height="56" rx="10" fill="#d5e8d4" stroke="#82b366" stroke-width="1.6" />
+<text x="625.0" y="1142.5" font-size="12.5" fill="#1a1a1a" text-anchor="middle" font-weight="bold"  direction="rtl" unicode-bidi="plaintext">حفظ السجل «إن مسجّل» + إعادة JSON</text>
+<ellipse cx="625.0" cy="1212.0" rx="12.0" ry="12.0" fill="#000" stroke="#000" stroke-width="1.6" />
+<ellipse cx="1150.0" cy="1212.0" rx="12.0" ry="12.0" fill="#000" stroke="#000" stroke-width="1.6" />
+<polyline points="400,626 555,680" fill="none" stroke="#595959" stroke-width="1.7" marker-end="url(#ar-end)" />
+<polyline points="850,626 695,680" fill="none" stroke="#595959" stroke-width="1.7" marker-end="url(#ar-end)" />
+<polyline points="625,820 625,875" fill="none" stroke="#595959" stroke-width="1.7" marker-end="url(#ar-end)" />
+<polyline points="625,1166 625,1200" fill="none" stroke="#595959" stroke-width="1.7" marker-end="url(#ar-end)" />
+<polyline points="625.0,74 625.0,100" fill="none" stroke="#595959" stroke-width="1.7" marker-end="url(#ar-end)" />
+<polyline points="625.0,158 625.0,195" fill="none" stroke="#595959" stroke-width="1.7" marker-end="url(#ar-end)" />
+<polyline points="775,243.0 827,241.0 845,241.0" fill="none" stroke="#b83b3b" stroke-width="1.7" marker-end="url(#ar-end)" />
+<rect x="784.0" y="218.0" width="34" height="20" fill="#ffffff" fill-opacity="0.94" rx="4" stroke="#d8d8d8" stroke-width="0.7"/>
+<text x="801.0" y="233.0" font-size="12" fill="#333" text-anchor="middle" direction="rtl" unicode-bidi="plaintext" font-style="italic">لا</text>
+<polyline points="625.0,291 625.0,340" fill="none" stroke="#2d6a2d" stroke-width="1.7" marker-end="url(#ar-end)" />
+<rect x="635.0" y="304.5" width="34" height="20" fill="#ffffff" fill-opacity="0.94" rx="4" stroke="#d8d8d8" stroke-width="0.7"/>
+<text x="652.0" y="319.5" font-size="12" fill="#333" text-anchor="middle" direction="rtl" unicode-bidi="plaintext" font-style="italic">نعم</text>
+<polyline points="625.0,398 625.0,435" fill="none" stroke="#595959" stroke-width="1.7" marker-end="url(#ar-end)" />
+<polyline points="475,483.0 455.0,495.0 455.0,555.0 525.0,555.0 523,598.0 505,598.0" fill="none" stroke="#595959" stroke-width="1.7" marker-end="url(#ar-end)" />
+<rect x="471.4" y="531.0" width="37.2" height="20" fill="#ffffff" fill-opacity="0.94" rx="4" stroke="#d8d8d8" stroke-width="0.7"/>
+<text x="490.0" y="546.0" font-size="12" fill="#333" text-anchor="middle" font-style="italic">astar</text>
+<polyline points="775,483.0 795.0,495.0 795.0,555.0 725.0,555.0 727,598.0 745,598.0" fill="none" stroke="#595959" stroke-width="1.7" marker-end="url(#ar-end)" />
+<rect x="743.0" y="531.0" width="34" height="20" fill="#ffffff" fill-opacity="0.94" rx="4" stroke="#d8d8d8" stroke-width="0.7"/>
+<text x="760.0" y="546.0" font-size="12" fill="#333" text-anchor="middle" font-style="italic">ucs</text>
+<polyline points="775,921.0 827,920.0 845,920.0" fill="none" stroke="#b83b3b" stroke-width="1.7" marker-end="url(#ar-end)" />
+<rect x="784.0" y="896.5" width="34" height="20" fill="#ffffff" fill-opacity="0.94" rx="4" stroke="#d8d8d8" stroke-width="0.7"/>
+<text x="801.0" y="911.5" font-size="12" fill="#333" text-anchor="middle" direction="rtl" unicode-bidi="plaintext" font-style="italic">لا</text>
+<polyline points="625.0,967 625.0,1020" fill="none" stroke="#2d6a2d" stroke-width="1.7" marker-end="url(#ar-end)" />
+<rect x="635.0" y="982.5" width="34" height="20" fill="#ffffff" fill-opacity="0.94" rx="4" stroke="#d8d8d8" stroke-width="0.7"/>
+<text x="652.0" y="997.5" font-size="12" fill="#333" text-anchor="middle" direction="rtl" unicode-bidi="plaintext" font-style="italic">نعم</text>
+<polyline points="625.0,1076 625.0,1110" fill="none" stroke="#595959" stroke-width="1.7" marker-end="url(#ar-end)" />
+<polyline points="945.0,272 955.0,295.0 1145.0,295.0 1145.992,1182 1145.992,1200" fill="none" stroke="#b83b3b" stroke-width="1.7" marker-end="url(#ar-end)" />
+<polyline points="1075,939.2 1095.0,945.0 1154.008,1182 1154.008,1200" fill="none" stroke="#b83b3b" stroke-width="1.7" marker-end="url(#ar-end)" />
+<text x="625" y="706" font-size="13" fill="#555" text-anchor="middle" font-weight="bold"  direction="rtl" unicode-bidi="plaintext">«حلقة البحث»</text>
+<text x="625" y="738" font-size="12.5" fill="#333" text-anchor="middle"  direction="rtl" unicode-bidi="plaintext">① افتح العقدة ذات الأولوى الأقل من الطابور</text>
+<text x="625" y="764" font-size="12.5" fill="#333" text-anchor="middle"  direction="rtl" unicode-bidi="plaintext">② تجاهل الوصلات التي شارعها أو جارها ∈ avoid</text>
+<text x="625" y="790" font-size="12.5" fill="#333" text-anchor="middle"  direction="rtl" unicode-bidi="plaintext">③ حدّث cost_so_far و came_from</text>
+<text x="625" y="816" font-size="12.5" fill="#333" text-anchor="middle"  direction="rtl" unicode-bidi="plaintext">④ توقّف عند بلوغ الهدف</text>
+<text x="1775" y="1258" font-size="11" fill="#888" text-anchor="middle" >abort</text>
+</svg>

@@ -1,0 +1,282 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="حقيبة مناقشة مشروع مساري — نظام التنقل الذكي في صنعاء (هندسة البرمجيات): شرح متعدد المستويات، صفحة-بصفحة، الرسمات، دروس المنهج، وأسئلة المناقشة.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<title>البداية — حقيبة مناقشة مساري</title><style>
+:root{
+ --cream:#FAF6ED; --paper:#FFFFFF; --ink:#27211A; --mut:#83765F;
+ --emerald:#0E5F4E; --emerald2:#177E62; --gold:#B9892F; --gold2:#D8B25E;
+ --hair:rgba(39,33,26,.11); --hair2:rgba(39,33,26,.07);
+ --ease:cubic-bezier(.32,.72,0,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);
+ font-family:'IBM Plex Sans Arabic','Segoe UI',Tahoma,sans-serif;
+ line-height:2;font-size:16px;-webkit-font-smoothing:antialiased}
+::selection{background:rgba(185,137,47,.25)}
+
+/* ——— نسيج ورقي خفيف (ثابت، لا يعيق التمرير) ——— */
+.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.05;
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E")}
+
+/* ——— شريط التقدم ——— */
+#prog{position:fixed;top:0;right:0;left:0;height:3px;z-index:80;
+ background:linear-gradient(270deg,var(--gold),var(--emerald2));
+ transform:scaleX(0);transform-origin:right;transition:transform .15s linear}
+
+/* ——— الكبسولة الطافية (Nav) ——— */
+.pillnav{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:70;
+ display:flex;gap:4px;flex-wrap:wrap;justify-content:center;max-width:calc(100vw - 24px);
+ padding:6px;border-radius:999px;background:rgba(255,252,244,.72);
+ backdrop-filter:blur(16px) saturate(1.5);-webkit-backdrop-filter:blur(16px) saturate(1.5);
+ border:1px solid var(--hair);box-shadow:0 18px 40px -22px rgba(39,33,26,.35)}
+.pillnav a{text-decoration:none;font-size:12.5px;font-weight:500;color:var(--ink);
+ padding:6px 13px;border-radius:999px;white-space:nowrap;transition:background .45s var(--ease),transform .45s var(--ease)}
+.pillnav a:hover{background:rgba(39,33,26,.07);transform:translateY(-1px)}
+.pillnav a.on{background:var(--ink);color:#F7F1E4}
+
+/* ——— البطل Hero ——— */
+.hero{position:relative;overflow:hidden;text-align:center;
+ padding:128px 22px 64px;border-bottom:1px solid var(--hair)}
+.hero::before{content:'';position:absolute;inset:0;z-index:-1;
+ background:
+  radial-gradient(560px 300px at 12% -10%,rgba(23,126,98,.14),transparent 65%),
+  radial-gradient(520px 320px at 88% 0%,rgba(216,178,94,.18),transparent 65%),
+  radial-gradient(700px 420px at 50% 115%,rgba(14,95,78,.08),transparent 70%)}
+.eyebrow{display:inline-block;font-size:10px;letter-spacing:.28em;font-weight:600;
+ color:var(--gold);border:1px solid rgba(185,137,47,.35);border-radius:999px;
+ padding:5px 16px;margin-bottom:18px;background:rgba(255,253,246,.6)}
+.hero h1{font-family:'Amiri',serif;font-weight:700;font-size:clamp(30px,5vw,50px);
+ margin:0 0 10px;color:var(--ink)}
+.hero h1 em{font-style:normal;color:var(--emerald)}
+.hero p{max-width:760px;margin:6px auto;color:var(--mut);font-size:15.5px}
+.badges{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:22px}
+.badge{font-size:13px;font-weight:500;color:var(--emerald);background:#fff;
+ border:1px solid var(--hair);border-radius:999px;padding:5px 15px;
+ box-shadow:0 10px 24px -18px rgba(14,95,78,.5)}
+
+/* ——— الهيكل ——— */
+.wrap{position:relative;z-index:2;max-width:1150px;margin:0 auto;padding:34px 20px 90px}
+h2.sec{font-family:'Amiri',serif;font-size:29px;font-weight:700;color:var(--ink);
+ margin:46px 0 4px;display:flex;align-items:center;gap:12px}
+h2.sec::after{content:'';flex:1;height:1px;background:linear-gradient(270deg,var(--hair),transparent)}
+h2.sec .no{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--gold);
+ border:1px solid rgba(185,137,47,.35);border-radius:999px;padding:2px 12px}
+.sub{color:var(--mut);margin:0 0 18px;font-size:14.5px}
+
+/* ——— الكروت مزدوجة الإطار (Double-Bezel) ——— */
+.bezel{background:rgba(39,33,26,.045);border:1px solid var(--hair2);
+ border-radius:28px;padding:8px;transition:transform .6s var(--ease)}
+.bezel:hover{transform:translateY(-3px)}
+.core{background:var(--paper);border-radius:20px;padding:24px 26px;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.95),0 24px 48px -34px rgba(39,33,26,.4)}
+h3{font-family:'Amiri',serif;font-size:23px;font-weight:700;margin:0 0 10px;color:var(--ink)}
+h4{font-size:14px;font-weight:600;color:var(--mut);margin:20px 0 8px;
+ letter-spacing:.04em;display:flex;align-items:center;gap:8px}
+h4::after{content:'';flex:1;height:1px;background:var(--hair2)}
+
+/* ——— بنتو غير متماثل للفهرس ——— */
+.bento{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+.bento .bezel{margin:0}
+.sp7{grid-column:span 7}.sp5{grid-column:span 5}.sp12{grid-column:span 12}
+@media(max-width:860px){.sp7,.sp5,.sp12{grid-column:span 12}}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:860px){.grid2{grid-template-columns:1fr}}
+
+/* ——— الشرائح Chips (مُصلَّحة التباين) ——— */
+.chiprow{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:26px}
+.chip{font-family:inherit;font-size:13px;font-weight:500;color:var(--ink);cursor:pointer;user-select:none;
+ background:rgba(255,255,255,.85);border:1px solid var(--hair);border-radius:999px;padding:6px 15px;
+ transition:all .5s var(--ease)}
+.chip:hover{transform:translateY(-2px);box-shadow:0 12px 22px -16px rgba(39,33,26,.5)}
+.chip.on{background:var(--ink);color:#F7F1E4;border-color:var(--ink)}
+
+/* ——— ملاحظات ملوّنة ——— */
+.note{border-radius:14px;padding:13px 16px;margin:12px 0;border:1px solid}
+.note p{margin:4px 0}
+.note .lab{display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:1px 12px;margin-bottom:6px}
+.n-why{background:rgba(185,137,47,.07);border-color:rgba(185,137,47,.25)}
+.n-why .lab{background:rgba(185,137,47,.15);color:#8A6420}
+.n-ex{background:rgba(14,95,78,.06);border-color:rgba(14,95,78,.22)}
+.n-ex .lab{background:rgba(14,95,78,.12);color:var(--emerald)}
+.n-q{background:rgba(160,60,60,.05);border-color:rgba(160,60,60,.2)}
+.n-q .lab{background:rgba(160,60,60,.12);color:#8F3A3A}
+
+/* ——— قوائم ——— */
+ul{margin:8px 0;padding:0;list-style:none}
+ul li{padding:5px 26px 5px 0;position:relative}
+ul li::before{content:'✦';position:absolute;right:2px;top:5px;font-size:11px;color:var(--gold)}
+ol{margin:8px 0;padding-right:22px}
+ol li{margin:6px 0}
+
+/* ——— جداول شعرية ناعمة ——— */
+table{border-collapse:collapse;width:100%;background:transparent;font-size:14.5px;margin:8px 0}
+th{font-size:12.5px;font-weight:600;color:var(--mut);text-align:right;
+ letter-spacing:.04em;padding:10px 12px;border-bottom:1px solid var(--hair)}
+td{padding:11px 12px;border-bottom:1px solid var(--hair2);vertical-align:top}
+tr:last-child td{border-bottom:none}
+
+/* ——— أسئلة قابلة للفتح ——— */
+details.qa{background:transparent;border:1px solid var(--hair2);border-radius:14px;
+ margin:8px 0;overflow:hidden;transition:border-color .4s var(--ease)}
+details.qa[open]{border-color:rgba(185,137,47,.4)}
+details.qa summary{cursor:pointer;list-style:none;display:flex;align-items:baseline;gap:10px;
+ padding:12px 16px;font-weight:600;font-size:14.5px;color:var(--ink)}
+details.qa summary::-webkit-details-marker{display:none}
+details.qa summary::before{content:'+';font-family:'IBM Plex Mono',monospace;font-weight:500;
+ color:var(--gold);font-size:16px;flex-shrink:0;transition:transform .5s var(--ease)}
+details.qa[open] summary::before{transform:rotate(45deg)}
+details.qa .ans{padding:2px 18px 14px;color:#4A4136;font-size:14.5px}
+
+/* ——— صفحات الوثيقة ——— */
+.flexp{display:grid;grid-template-columns:minmax(300px,44%) 1fr;gap:20px;align-items:start;margin-top:14px}
+@media(max-width:960px){.flexp{grid-template-columns:1fr}}
+.pgimg{width:100%;display:block;border-radius:12px;border:1px solid var(--hair);
+ background:#fff;transition:transform .6s var(--ease),box-shadow .6s var(--ease)}
+.pgimg:hover{transform:translateY(-3px);box-shadow:0 26px 44px -30px rgba(39,33,26,.55)}
+.pgnum{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:500;color:#fff;
+ background:linear-gradient(135deg,var(--emerald),var(--emerald2));
+ border-radius:999px;padding:3px 14px;white-space:nowrap}
+.tag{font-size:11px;font-weight:500;color:var(--mut);background:rgba(39,33,26,.05);
+ border:1px solid var(--hair2);border-radius:6px;padding:1px 9px;margin-inline-start:8px}
+.zoom{display:inline-flex;align-items:center;gap:7px;text-decoration:none;font-size:12.5px;
+ color:var(--ink);background:rgba(39,33,26,.05);border:1px solid var(--hair2);
+ border-radius:999px;padding:4px 6px 4px 13px;transition:background .45s var(--ease)}
+.zoom:hover{background:rgba(39,33,26,.1)}
+.zoom .ic{width:22px;height:22px;border-radius:999px;background:#fff;border:1px solid var(--hair);
+ display:inline-flex;align-items:center;justify-content:center;font-size:11px;transition:transform .45s var(--ease)}
+.zoom:hover .ic{transform:translate(-2px,-2px)}
+.pghead{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.pghead h3{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:20px}
+
+/* ——— خطابات وأرقام ——— */
+.speech{background:#FFFDF4;border:1px solid rgba(185,137,47,.3);border-radius:20px;
+ padding:22px 26px;font-family:'Amiri',serif;font-size:19px;line-height:2.2;position:relative}
+.speech::before{content:'❝';position:absolute;top:-6px;right:18px;font-size:34px;color:var(--gold2);opacity:.6}
+.num{font-family:'IBM Plex Mono',monospace;font-weight:500;color:var(--emerald);
+ font-size:19px;white-space:nowrap}
+td .num{font-size:16px}
+.kpi{text-align:center;padding:18px 10px}
+.kpi .n{font-family:'IBM Plex Mono',monospace;font-size:24px;font-weight:600;color:var(--emerald)}
+.kpi .t{font-size:12.5px;color:var(--mut);margin-top:4px}
+
+/* ——— الرسمات ——— */
+.story{background:linear-gradient(180deg,rgba(14,95,78,.06),#fff);
+ border:1px solid rgba(14,95,78,.2);border-radius:18px;padding:18px 22px;font-size:15.5px}
+.story p{margin:6px 0}
+
+/* ——— الدروس ——— */
+.ava{width:46px;height:46px;border-radius:999px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+ font-family:'Amiri',serif;font-size:22px;font-weight:700;color:#fff;
+ background:linear-gradient(135deg,var(--emerald),var(--gold))}
+.memgrid li::before{content:'⚡';font-size:12px}
+
+/* ——— البحث ——— */
+.search{width:100%;max-width:430px;padding:11px 18px;font-family:inherit;font-size:14.5px;
+ color:var(--ink);background:#fff;border:1px solid var(--hair);border-radius:999px;outline:none;
+ transition:border-color .4s var(--ease),box-shadow .4s var(--ease)}
+.search:focus{border-color:rgba(185,137,47,.55);box-shadow:0 0 0 4px rgba(185,137,47,.12)}
+.filterbar{position:sticky;top:66px;z-index:40;margin:0 0 18px}
+
+/* ——— الحركة ——— */
+.rv{opacity:0;transform:translateY(26px);filter:blur(7px)}
+.rv.vis{opacity:1;transform:none;filter:none;
+ transition:opacity .9s var(--ease),transform .9s var(--ease),filter .9s var(--ease)}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;filter:none}}
+
+/* ——— تذييل ——— */
+.foot{position:relative;z-index:2;text-align:center;padding:44px 20px 60px;
+ border-top:1px solid var(--hair);color:var(--mut);font-size:13px}
+.foot b{color:var(--emerald)}
+
+@media print{
+ .pillnav,.chip,.search,#prog,.grain,.filterbar,.zoom{display:none!important}
+ .rv{opacity:1!important;transform:none!important;filter:none!important}
+ body{background:#fff}
+ .bezel{transform:none;background:none;border:none;padding:0}
+ .core{border:1px solid #ddd;box-shadow:none}
+ .hero{padding:40px 10px 20px}
+ .bezel{break-inside:avoid}
+}
+</style></head><body>
+<div class="grain"></div><div id="prog"></div>
+<nav class="pillnav">
+<a class="on" href="index.html">البداية</a><a href="summary.html">الملخص</a>
+<a href="page-by-page.html">صفحة‑صفحة</a><a href="diagrams.html">الرسمات</a>
+<a href="lessons.html">دروس المنهج</a><a href="questions.html">الأسئلة</a>
+</nav><header class="hero">
+<div class="eyebrow">MASARI · SOFTWARE ENGINEERING · DEFENSE KIT</div>
+<h1>حقيبة مناقشة مشروع <em>«مساري»</em></h1>
+<p>نظام التنقل الذكي في مدينة صنعاء — شرح متعدد المستويات لفريق المشروع: ملخص ← صفحة‑صفحة ← رسمات ← دروس المنهج ← أسئلة المناقشة</p>
+<div class="badges">
+<span class="badge">56 صفحة وثيقة</span><span class="badge">9 مخططات</span>
+<span class="badge">17 محاضرة منهج</span><span class="badge">63 سؤالًا متوقعًا</span>
+</div></header>
+<div class="wrap">
+<div class="bezel rv"><div class="core">
+<h3>⏱️ خطة ليلة المناقشة — ساعتان ونصف فقط</h3>
+<table>
+<tr><th style="width:90px">الوقت</th><th>ماذا تذاكر</th><th style="width:130px">الملف</th></tr>
+<tr><td><span class="num">20 د</span></td><td>افهموا القصة معًا واحفظوا الرقمين الذهبيين: تكلفة <span class="num">56</span> — A* فحص <span class="num">6</span> عقد مقابل <span class="num">15</span> لـ UCS</td><td><a href="summary.html">الملخص السريع</a></td></tr>
+<tr><td><span class="num">40 د</span></td><td>امشوا على الوثيقة صفحة-صفحة — ركزوا على فصول المتطلبات والتصميم والنتائج</td><td><a href="page-by-page.html">صفحة‑صفحة</a></td></tr>
+<tr><td><span class="num">40 د</span></td><td>الرسمات التسع واحدة-واحدة: احفظ «المشية الكاملة» لكل رسمة</td><td><a href="diagrams.html">الرسمات</a></td></tr>
+<tr><td><span class="num">25 د</span></td><td>المحاضرات المرتبطة بالمشروع — خصوصًا UML والمتطلبات والجدوى</td><td><a href="lessons.html">دروس المنهج</a></td></tr>
+<tr><td><span class="num">25 د</span></td><td>اختبروا أنفسكم بالأسئلة — وكل عضو يقرأ نص إلقائه من توزيع الأدوار</td><td><a href="questions.html">الأسئلة</a></td></tr>
+</table></div></div>
+
+<div class="bento" style="margin-top:14px">
+<div class="bezel sp7 rv"><div class="core">
+<h3>⚡ <a href="summary.html">الملخص السريع</a></h3>
+<p>القصة كاملة في نصَّي إلقاء جاهزين للحفظ: <b>60 ثانية</b> و<b>5 دقائق</b>، مع ملخص الفصول السبعة، و34 رقمًا ذهبيًا، وتوزيع الأدوار على الأعضاء الأربعة بجمل افتتاحية لكل واحد.</p>
+<p style="color:var(--mut);font-size:13.5px;margin:0">ابدؤوا هنا معًا — ثم يتفرق كلٌّ إلى فصوله.</p>
+</div></div>
+<div class="bezel sp5 rv"><div class="core">
+<h3>📄 <a href="page-by-page.html">شرح صفحة‑صفحة</a></h3>
+<p>صفحات الـ PDF الـ 56 كلها <b>مدمجة كصور</b> داخل الصفحة، وبجانب كل صفحة: لماذا وُجدت، شرحها المبسط، نقاط الحفظ، وسؤال اللجنة المتوقع عنها.</p>
+</div></div>
+<div class="bezel sp5 rv"><div class="core">
+<h3>🗺️ <a href="diagrams.html">الرسمات التسع</a></h3>
+<p>لكل رسمة: نظريتها من المنهج، طريقة قراءتها، <b>جدول بكل عنصر فيها بالاسم</b>، سرد «امشِ لي على الرسمة» جاهز للحفظ، وأسئلتها المتوقعة.</p>
+</div></div>
+<div class="bezel sp7 rv"><div class="core">
+<h3>📚 <a href="lessons.html">دروس المنهج المرتبطة</a></h3>
+<p>17 محاضرة من مقرركم مشروحة ببساطة — وكل مفهوم مربوط بمكانه الفعلي في مشروع مساري، مع خريطة «محاضرة ↔ فصل» وقائمة حفظ سريع قبل النوم.</p>
+</div></div>
+<div class="bezel sp12 rv"><div class="core">
+<h3>❓ <a href="questions.html">أسئلة المناقشة</a></h3>
+<p>53 سؤالًا بإجابات نموذجية قابلة للتصفية والبحث + 10 أسئلة حادة بردود آمنة — ومع أسئلة الصفحات والرسمات يصبح المجموع <b>أكثر من 150 سؤالًا</b>.</p>
+</div></div>
+</div>
+
+<h2 class="sec"><span class="no">01</span> الأرقام الذهبية</h2>
+<p class="sub">إن نسيت كل شيء، لا تنسَ هذه — فهي مفتاح الثقة أمام اللجنة.</p>
+<div class="grid2"><div class="bezel"><div class="core kpi"><div class="n">17 عقدة</div><div class="t">عدد عقد الخريطة (أشهر أحياء وتقاطعات صنعاء…</div></div></div><div class="bezel"><div class="core kpi"><div class="n">21 وصلة</div><div class="t">عدد وصلات (شوارع) الخريطة — تُعاد من /api/…</div></div></div><div class="bezel"><div class="core kpi"><div class="n">10 شوارع مسماة</div><div class="t">الشوارع الحقيقية الممثلة: الستين بثلاثة أج…</div></div></div><div class="bezel"><div class="core kpi"><div class="n">56</div><div class="t">التكلفة المثلى للرحلة المرجعية جامعة صنعاء…</div></div></div>
+<div class="bezel"><div class="core" style="text-align:center;padding:14px">
+<a href="summary.html#numbers" style="text-decoration:none"><span class="num">كل الأرقام (34) ←</span></a>
+</div></div></div>
+
+<h2 class="sec"><span class="no">02</span> قواعد ذهبية للمناقشة</h2>
+<div class="bezel rv"><div class="core"><ol>
+<li>ما تعرفه قُله بثقة، وما لا تعرفه: <b>«هذا خارج نطاق إصدارنا الحالي، لكنه ضمن التوصيات المستقبلية في الفصل السابع»</b>.</li>
+<li>أي سؤال عن رسمة: ابدأ بتعريف نوعها (Use Case مثلًا) ثم امشِ على عناصرها بالترتيب من الرسمة نفسها.</li>
+<li>الأرقام مفتاح الثقة: المسار الأمثل تكلفته <span class="num">56</span>، وA* وسّع <span class="num">6</span> عقد مقابل <span class="num">15</span> لـ UCS — نفس النتيجة بجهد أقل.</li>
+<li>لا تختلقوا ما ليس في الوثيقة — كل الإجابات موجودة في هذه الحقيبة ومصدرها الوثيقة نفسها.</li>
+</ol></div></div>
+</div><script>
+(function(){
+var io=new IntersectionObserver(function(es){es.forEach(function(e){
+ if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target)}})},{threshold:.06});
+var i=0;document.querySelectorAll('.rv').forEach(function(el){
+ el.style.transitionDelay=((i++%7)*75)+'ms';io.observe(el)});
+var p=document.getElementById('prog');
+addEventListener('scroll',function(){var h=document.documentElement;
+ var m=h.scrollHeight-h.clientHeight;p.style.transform='scaleX('+(m?h.scrollTop/m:0)+')'},{passive:true});
+})();
+</script><footer class="foot">
+<b>فريق مساري</b> — عبدالرحمن سيف · ليث الجعفري · أيمن النزيلي · خالد عيسى<br>
+أُعدّت هذه الحقيبة آليًا من وثيقة المشروع (56 صفحة) ومحاضرات مقرر هندسة البرمجيات — بالتوفيق في المناقشة 🌟
+</footer></body></html>

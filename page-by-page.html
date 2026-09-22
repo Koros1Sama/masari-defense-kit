@@ -1,0 +1,906 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="حقيبة مناقشة مشروع مساري — نظام التنقل الذكي في صنعاء (هندسة البرمجيات): شرح متعدد المستويات، صفحة-بصفحة، الرسمات، دروس المنهج، وأسئلة المناقشة.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<title>شرح صفحة-صفحة — حقيبة مناقشة مساري</title><style>
+:root{
+ --cream:#FAF6ED; --paper:#FFFFFF; --ink:#27211A; --mut:#83765F;
+ --emerald:#0E5F4E; --emerald2:#177E62; --gold:#B9892F; --gold2:#D8B25E;
+ --hair:rgba(39,33,26,.11); --hair2:rgba(39,33,26,.07);
+ --ease:cubic-bezier(.32,.72,0,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);
+ font-family:'IBM Plex Sans Arabic','Segoe UI',Tahoma,sans-serif;
+ line-height:2;font-size:16px;-webkit-font-smoothing:antialiased}
+::selection{background:rgba(185,137,47,.25)}
+
+/* ——— نسيج ورقي خفيف (ثابت، لا يعيق التمرير) ——— */
+.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.05;
+ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E")}
+
+/* ——— شريط التقدم ——— */
+#prog{position:fixed;top:0;right:0;left:0;height:3px;z-index:80;
+ background:linear-gradient(270deg,var(--gold),var(--emerald2));
+ transform:scaleX(0);transform-origin:right;transition:transform .15s linear}
+
+/* ——— الكبسولة الطافية (Nav) ——— */
+.pillnav{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:70;
+ display:flex;gap:4px;flex-wrap:wrap;justify-content:center;max-width:calc(100vw - 24px);
+ padding:6px;border-radius:999px;background:rgba(255,252,244,.72);
+ backdrop-filter:blur(16px) saturate(1.5);-webkit-backdrop-filter:blur(16px) saturate(1.5);
+ border:1px solid var(--hair);box-shadow:0 18px 40px -22px rgba(39,33,26,.35)}
+.pillnav a{text-decoration:none;font-size:12.5px;font-weight:500;color:var(--ink);
+ padding:6px 13px;border-radius:999px;white-space:nowrap;transition:background .45s var(--ease),transform .45s var(--ease)}
+.pillnav a:hover{background:rgba(39,33,26,.07);transform:translateY(-1px)}
+.pillnav a.on{background:var(--ink);color:#F7F1E4}
+
+/* ——— البطل Hero ——— */
+.hero{position:relative;overflow:hidden;text-align:center;
+ padding:128px 22px 64px;border-bottom:1px solid var(--hair)}
+.hero::before{content:'';position:absolute;inset:0;z-index:-1;
+ background:
+  radial-gradient(560px 300px at 12% -10%,rgba(23,126,98,.14),transparent 65%),
+  radial-gradient(520px 320px at 88% 0%,rgba(216,178,94,.18),transparent 65%),
+  radial-gradient(700px 420px at 50% 115%,rgba(14,95,78,.08),transparent 70%)}
+.eyebrow{display:inline-block;font-size:10px;letter-spacing:.28em;font-weight:600;
+ color:var(--gold);border:1px solid rgba(185,137,47,.35);border-radius:999px;
+ padding:5px 16px;margin-bottom:18px;background:rgba(255,253,246,.6)}
+.hero h1{font-family:'Amiri',serif;font-weight:700;font-size:clamp(30px,5vw,50px);
+ margin:0 0 10px;color:var(--ink)}
+.hero h1 em{font-style:normal;color:var(--emerald)}
+.hero p{max-width:760px;margin:6px auto;color:var(--mut);font-size:15.5px}
+.badges{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:22px}
+.badge{font-size:13px;font-weight:500;color:var(--emerald);background:#fff;
+ border:1px solid var(--hair);border-radius:999px;padding:5px 15px;
+ box-shadow:0 10px 24px -18px rgba(14,95,78,.5)}
+
+/* ——— الهيكل ——— */
+.wrap{position:relative;z-index:2;max-width:1150px;margin:0 auto;padding:34px 20px 90px}
+h2.sec{font-family:'Amiri',serif;font-size:29px;font-weight:700;color:var(--ink);
+ margin:46px 0 4px;display:flex;align-items:center;gap:12px}
+h2.sec::after{content:'';flex:1;height:1px;background:linear-gradient(270deg,var(--hair),transparent)}
+h2.sec .no{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--gold);
+ border:1px solid rgba(185,137,47,.35);border-radius:999px;padding:2px 12px}
+.sub{color:var(--mut);margin:0 0 18px;font-size:14.5px}
+
+/* ——— الكروت مزدوجة الإطار (Double-Bezel) ——— */
+.bezel{background:rgba(39,33,26,.045);border:1px solid var(--hair2);
+ border-radius:28px;padding:8px;transition:transform .6s var(--ease)}
+.bezel:hover{transform:translateY(-3px)}
+.core{background:var(--paper);border-radius:20px;padding:24px 26px;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.95),0 24px 48px -34px rgba(39,33,26,.4)}
+h3{font-family:'Amiri',serif;font-size:23px;font-weight:700;margin:0 0 10px;color:var(--ink)}
+h4{font-size:14px;font-weight:600;color:var(--mut);margin:20px 0 8px;
+ letter-spacing:.04em;display:flex;align-items:center;gap:8px}
+h4::after{content:'';flex:1;height:1px;background:var(--hair2)}
+
+/* ——— بنتو غير متماثل للفهرس ——— */
+.bento{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+.bento .bezel{margin:0}
+.sp7{grid-column:span 7}.sp5{grid-column:span 5}.sp12{grid-column:span 12}
+@media(max-width:860px){.sp7,.sp5,.sp12{grid-column:span 12}}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:860px){.grid2{grid-template-columns:1fr}}
+
+/* ——— الشرائح Chips (مُصلَّحة التباين) ——— */
+.chiprow{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:26px}
+.chip{font-family:inherit;font-size:13px;font-weight:500;color:var(--ink);cursor:pointer;user-select:none;
+ background:rgba(255,255,255,.85);border:1px solid var(--hair);border-radius:999px;padding:6px 15px;
+ transition:all .5s var(--ease)}
+.chip:hover{transform:translateY(-2px);box-shadow:0 12px 22px -16px rgba(39,33,26,.5)}
+.chip.on{background:var(--ink);color:#F7F1E4;border-color:var(--ink)}
+
+/* ——— ملاحظات ملوّنة ——— */
+.note{border-radius:14px;padding:13px 16px;margin:12px 0;border:1px solid}
+.note p{margin:4px 0}
+.note .lab{display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:1px 12px;margin-bottom:6px}
+.n-why{background:rgba(185,137,47,.07);border-color:rgba(185,137,47,.25)}
+.n-why .lab{background:rgba(185,137,47,.15);color:#8A6420}
+.n-ex{background:rgba(14,95,78,.06);border-color:rgba(14,95,78,.22)}
+.n-ex .lab{background:rgba(14,95,78,.12);color:var(--emerald)}
+.n-q{background:rgba(160,60,60,.05);border-color:rgba(160,60,60,.2)}
+.n-q .lab{background:rgba(160,60,60,.12);color:#8F3A3A}
+
+/* ——— قوائم ——— */
+ul{margin:8px 0;padding:0;list-style:none}
+ul li{padding:5px 26px 5px 0;position:relative}
+ul li::before{content:'✦';position:absolute;right:2px;top:5px;font-size:11px;color:var(--gold)}
+ol{margin:8px 0;padding-right:22px}
+ol li{margin:6px 0}
+
+/* ——— جداول شعرية ناعمة ——— */
+table{border-collapse:collapse;width:100%;background:transparent;font-size:14.5px;margin:8px 0}
+th{font-size:12.5px;font-weight:600;color:var(--mut);text-align:right;
+ letter-spacing:.04em;padding:10px 12px;border-bottom:1px solid var(--hair)}
+td{padding:11px 12px;border-bottom:1px solid var(--hair2);vertical-align:top}
+tr:last-child td{border-bottom:none}
+
+/* ——— أسئلة قابلة للفتح ——— */
+details.qa{background:transparent;border:1px solid var(--hair2);border-radius:14px;
+ margin:8px 0;overflow:hidden;transition:border-color .4s var(--ease)}
+details.qa[open]{border-color:rgba(185,137,47,.4)}
+details.qa summary{cursor:pointer;list-style:none;display:flex;align-items:baseline;gap:10px;
+ padding:12px 16px;font-weight:600;font-size:14.5px;color:var(--ink)}
+details.qa summary::-webkit-details-marker{display:none}
+details.qa summary::before{content:'+';font-family:'IBM Plex Mono',monospace;font-weight:500;
+ color:var(--gold);font-size:16px;flex-shrink:0;transition:transform .5s var(--ease)}
+details.qa[open] summary::before{transform:rotate(45deg)}
+details.qa .ans{padding:2px 18px 14px;color:#4A4136;font-size:14.5px}
+
+/* ——— صفحات الوثيقة ——— */
+.flexp{display:grid;grid-template-columns:minmax(300px,44%) 1fr;gap:20px;align-items:start;margin-top:14px}
+@media(max-width:960px){.flexp{grid-template-columns:1fr}}
+.pgimg{width:100%;display:block;border-radius:12px;border:1px solid var(--hair);
+ background:#fff;transition:transform .6s var(--ease),box-shadow .6s var(--ease)}
+.pgimg:hover{transform:translateY(-3px);box-shadow:0 26px 44px -30px rgba(39,33,26,.55)}
+.pgnum{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:500;color:#fff;
+ background:linear-gradient(135deg,var(--emerald),var(--emerald2));
+ border-radius:999px;padding:3px 14px;white-space:nowrap}
+.tag{font-size:11px;font-weight:500;color:var(--mut);background:rgba(39,33,26,.05);
+ border:1px solid var(--hair2);border-radius:6px;padding:1px 9px;margin-inline-start:8px}
+.zoom{display:inline-flex;align-items:center;gap:7px;text-decoration:none;font-size:12.5px;
+ color:var(--ink);background:rgba(39,33,26,.05);border:1px solid var(--hair2);
+ border-radius:999px;padding:4px 6px 4px 13px;transition:background .45s var(--ease)}
+.zoom:hover{background:rgba(39,33,26,.1)}
+.zoom .ic{width:22px;height:22px;border-radius:999px;background:#fff;border:1px solid var(--hair);
+ display:inline-flex;align-items:center;justify-content:center;font-size:11px;transition:transform .45s var(--ease)}
+.zoom:hover .ic{transform:translate(-2px,-2px)}
+.pghead{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.pghead h3{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:20px}
+
+/* ——— خطابات وأرقام ——— */
+.speech{background:#FFFDF4;border:1px solid rgba(185,137,47,.3);border-radius:20px;
+ padding:22px 26px;font-family:'Amiri',serif;font-size:19px;line-height:2.2;position:relative}
+.speech::before{content:'❝';position:absolute;top:-6px;right:18px;font-size:34px;color:var(--gold2);opacity:.6}
+.num{font-family:'IBM Plex Mono',monospace;font-weight:500;color:var(--emerald);
+ font-size:19px;white-space:nowrap}
+td .num{font-size:16px}
+.kpi{text-align:center;padding:18px 10px}
+.kpi .n{font-family:'IBM Plex Mono',monospace;font-size:24px;font-weight:600;color:var(--emerald)}
+.kpi .t{font-size:12.5px;color:var(--mut);margin-top:4px}
+
+/* ——— الرسمات ——— */
+.story{background:linear-gradient(180deg,rgba(14,95,78,.06),#fff);
+ border:1px solid rgba(14,95,78,.2);border-radius:18px;padding:18px 22px;font-size:15.5px}
+.story p{margin:6px 0}
+
+/* ——— الدروس ——— */
+.ava{width:46px;height:46px;border-radius:999px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+ font-family:'Amiri',serif;font-size:22px;font-weight:700;color:#fff;
+ background:linear-gradient(135deg,var(--emerald),var(--gold))}
+.memgrid li::before{content:'⚡';font-size:12px}
+
+/* ——— البحث ——— */
+.search{width:100%;max-width:430px;padding:11px 18px;font-family:inherit;font-size:14.5px;
+ color:var(--ink);background:#fff;border:1px solid var(--hair);border-radius:999px;outline:none;
+ transition:border-color .4s var(--ease),box-shadow .4s var(--ease)}
+.search:focus{border-color:rgba(185,137,47,.55);box-shadow:0 0 0 4px rgba(185,137,47,.12)}
+.filterbar{position:sticky;top:66px;z-index:40;margin:0 0 18px}
+
+/* ——— الحركة ——— */
+.rv{opacity:0;transform:translateY(26px);filter:blur(7px)}
+.rv.vis{opacity:1;transform:none;filter:none;
+ transition:opacity .9s var(--ease),transform .9s var(--ease),filter .9s var(--ease)}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;filter:none}}
+
+/* ——— تذييل ——— */
+.foot{position:relative;z-index:2;text-align:center;padding:44px 20px 60px;
+ border-top:1px solid var(--hair);color:var(--mut);font-size:13px}
+.foot b{color:var(--emerald)}
+
+@media print{
+ .pillnav,.chip,.search,#prog,.grain,.filterbar,.zoom{display:none!important}
+ .rv{opacity:1!important;transform:none!important;filter:none!important}
+ body{background:#fff}
+ .bezel{transform:none;background:none;border:none;padding:0}
+ .core{border:1px solid #ddd;box-shadow:none}
+ .hero{padding:40px 10px 20px}
+ .bezel{break-inside:avoid}
+}
+</style></head><body>
+<div class="grain"></div><div id="prog"></div>
+<nav class="pillnav">
+<a href="index.html">البداية</a><a href="summary.html">الملخص</a>
+<a class="on" href="page-by-page.html">صفحة‑صفحة</a><a href="diagrams.html">الرسمات</a>
+<a href="lessons.html">دروس المنهج</a><a href="questions.html">الأسئلة</a>
+</nav><header class="hero"><div class="eyebrow">LEVEL 2 · PAGE BY PAGE</div><h1>الوثيقة <em>صفحة‑صفحة</em></h1><p>كل صفحة من صفحات الـ PDF الخمس والخمسين مدمجة كصورة وبجانبها شرحها — تنقّل بالأسهم ← → بين الصفحات</p><div class="chiprow"><span class="chip" onclick="jump(1)">ص 1–13 — التمهيد والفهارس</span><span class="chip" onclick="jump(14)">ص 14–18 — الفصل 1: المقدمة</span><span class="chip" onclick="jump(19)">ص 19–22 — الفصل 2: الخلفية والدراسات</span><span class="chip" onclick="jump(23)">ص 23–34 — الفصل 3: المتطلبات والمخططات</span><span class="chip" onclick="jump(35)">ص 35–42 — الفصل 4: التصميم</span><span class="chip" onclick="jump(43)">ص 43–47 — الفصل 5: التنفيذ والاختبار</span><span class="chip" onclick="jump(48)">ص 48–50 — الفصل 6: النتائج</span><span class="chip" onclick="jump(51)">ص 51–52 — الفصل 7: الاستنتاجات</span><span class="chip" onclick="jump(53)">ص 53–56 — المراجع والملاحق</span></div></header><div class="wrap">
+<div class="bezel rv" id="p1"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 1</span>صفحة الغلاف — مساري (Masari): نظام التنقّل الذكي في مدينة صنعاء<span class="tag">الغلاف (Cover Page)</span></h3>
+<a class="zoom" href="pages/p001.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p001.png" target="_blank"><img class="pgimg" src="pages/p001.png" alt="صفحة 1" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>أي تقرير تخرج يبدأ بغلاف رسمي. وظيفته تعريف القارئ بالمشروع والجامعة والفريق والمشرف قبل أي شيء آخر. اللجنة تتوقع وجوده بمعلومات كاملة.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>هذه أول صفحة في التقرير. فيها اسم المشروع بالعربي والإنجليزي: «مساري» أي Smart Navigation System for the City of Sana&#x27;a. تحته أسماء الطلاب الأربعة: عبدالرحمن إسماعيل محمد سيف، ليث توفيق الجعفري، أيمن النزيلي، خالد عيسى. المشرف: أ. امتياز الصمصام (مدرّس المقرر العملي). السنة 2025/2026، والجهة: جامعة صنعاء — كلية العلوم الإدارية والحاسوب — قسم علوم الحاسوب، والدرجة المطلوبة: بكالوريوس علوم حاسوب.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>اسم المشروع: مساري — نظام تنقّل ذكي لمدينة صنعاء</li><li>الفريق: 4 طلاب (عبدالرحمن، ليث، أيمن، خالد)</li><li>المشرف: أ. امتياز الصمصام</li><li>الجامعة: صنعاء — قسم علوم الحاسوب — عام 2025/2026</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>ليش عمود الرقم الجامعي فاضي؟</span></summary><div class="ans"><b>الإجابة:</b><p>موضع مخصص يُملأ عند الطباعة النهائية للتسليم، ولا يؤثر على محتوى التقرير.</p></div></details><details class="qa"><summary><span>ما معنى اسم «مساري»؟</span></summary><div class="ans"><b>الإجابة:</b><p>«مساري» جمع «مسار»، أي الطرق التي يسلكها المستخدم — الاسم يعكس وظيفة النظام: إيجاد المسار في صنعاء.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p2"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 2</span>الملخص (Abstract) + بداية صفحة التخويل (Authorization)<span class="tag">التمهيد — الملخص (أ)</span></h3>
+<a class="zoom" href="pages/p002.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p002.png" target="_blank"><img class="pgimg" src="pages/p002.png" alt="صفحة 2" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>الملخص هو بطاقة المشروع: من يقرأه فقط يعرف المشكلة والحل والنتيجة. لجان المناقشة كثيرًا تبدأ منه، ولهذا يجب حفظه جيدًا.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>الصفحة تلخص المشروع كله في فقرات: المشكلة هي أن التطبيقات العالمية (مثل خرائط جوجل) لا تفهم شوارع صنعاء ولا لهجتها ولا تعطي المستخدم تحكمًا في الطريق. الحل نظام من منصتين: خادم خلفي (Backend) بلغة Python وإطار FastAPI يقدم واجهات REST API ويطبق خوارزميتي A* و UCS من الصفر، وعميل ويب (Web Client) بـ HTML/CSS/JavaScript يعرض خريطة تفاعلية بتقنية SVG، وقاعدة بيانات SQLite. أبرز نتيجة: A* فتحت 6 عقد فقط مقابل 15 عقدة لـ UCS بنفس التكلفة المثلى 56. النظام يفهم عامية مثل «ودّيني حدة، إيّاك تمر من شارع الزبيري». في أسفل الصفحة يبدأ نص التخويل (صلاحية الجامعة لنسخ التقرير واستخدامه في المسابقات) مع توقيع أول طالب.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>المشكلة: لا يوجد تطبيق تنقّل يفهم صنعاء (شوارعها، لهجتها، ازدحامها)</li><li>الحل: خادم Python/FastAPI + واجهة ويب HTML/CSS/JS + خريطة SVG + قاعدة SQLite</li><li>الخوارزميات: A* و UCS منفذتان من الصفر (not from scratch library)</li><li>النتيجة الأبرز: A* فتحت 6 عقد مقابل 15 لـ UCS بنفس التكلفة المثلى 56</li><li>مثال فهم العامية: «ودّيني حدة، إيّاك تمر من شارع الزبيري»</li><li>التوصية المستقبلية: GPS حي + ملاحة صوتية + بيانات ازدحام لحظية</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>لخّص لي مشروعك في دقيقة.</span></summary><div class="ans"><b>الإجابة:</b><p>مساري نظام تنقّل لصنعاء: خريطة تفاعلية لـ 17 عقدة و21 وصلة، يبحث عن أقصر مسار بخوارزميتي A* و UCS منفذتين من الصفر، يفهم الأوامر بالعامية اليمنية، ويسمح باستثناء شارع أو مكان من المسار.</p></div></details><details class="qa"><summary><span>ما أهم رقم في الملخص؟</span></summary><div class="ans"><b>الإجابة:</b><p>تفوق A* على UCS: 6 عقد مفتوحة مقابل 15 عقدة، وبنفس التكلفة المثلى 56 — يعني أسرع وصولًا لنفس النتيجة الأمثل.</p></div></details><details class="qa"><summary><span>ليش ما في ملخص إنجليزي منفصل؟</span></summary><div class="ans"><b>الإجابة:</b><p>الملخص العربي يحتوي المصطلحات التقنية بالإنجليزية (FastAPI، A*، UCS...) وهذا يغطي الحاجة، والعنوان نفسه ثنائي اللغة في الغلاف.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p3"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 3</span>تكملة جدول التخويل — توقيعات بقية الطلاب<span class="tag">التمهيد — التخويل (ب)</span></h3>
+<a class="zoom" href="pages/p003.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p003.png" target="_blank"><img class="pgimg" src="pages/p003.png" alt="صفحة 3" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>التخويل صفحة رسمية تُثبت موافقة كل طالب منفردًا على منح الجامعة صلاحية نسخ التقرير. لذلك يحتاج توقيع كل عضو في الفريق.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>هذه الصفحة بسيطة: فيها ثلاثة أسطر من جدول التخويل لأسماء الطلاب الثلاثة الباقين: ليث توفيق الجعفري، أيمن النزيلي، خالد عيسى، مع خانات التوقيع والتاريخ (…/…/2026). لا يوجد فيها محتوى علمي — هي ورقة رسمية إجرائية فقط.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>تكملة توقيعات التخويل لثلاثة طلاب</li><li>التاريخ المخصص: …/…/2026</li><li>صفحة إجرائية بلا محتوى علمي</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>ما فائدة صفحة التخويل؟</span></summary><div class="ans"><b>الإجابة:</b><p>إذن رسمي منا للجامعة بتوزيع نسخ من التقرير على المكتبات والجهات واستخدامه في المسابقات المحلية أو الدولية.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p4"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 4</span>الإهداء (Dedication)<span class="tag">التمهيد — الإهداء (ج)</span></h3>
+<a class="zoom" href="pages/p004.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p004.png" target="_blank"><img class="pgimg" src="pages/p004.png" alt="صفحة 4" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>عادة أكاديمية في تقارير التخرج: صفحة قصيرة يوجه فيها الفريق شكرهم العاطفي لأهلهم وذويهم قبل الدخول في المحتوى العلمي.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>الصفحة إهداء كتبه فريق مساري إلى: الآباء والأمهات، والإخوة والأخوات، وكل طالب علم في صنعاء يبحث عن طريقه وسط الازدحام (وهنا ربط لطيف بفكرة المشروع نفسه)، وإلى أرض اليمن. موقعة باسم «طاقم مشروع مساري». لا شيء تقنيًا يُسأل عنه هنا.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>إهداء للوالدين والإخوة وطلاب صنعاء واليمن</li><li>جملة مرتبطة بالمشروع: «طالب علم في صنعاء يبحث عن طريقه وسط الازدحام»</li><li>صفحة أدبية قصيرة، ليست علمية</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>هل للإهداء علاقة بالتقييم؟</span></summary><div class="ans"><b>الإجابة:</b><p>لا، هو تقاليد رسمية في وثائق التخرج، لكنه يعكس دافع الفريق: خدمة مستخدمي صنعاء.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p5"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 5</span>الشكر والتقدير (Acknowledgment)<span class="tag">التمهيد — الشكر والتقدير (د)</span></h3>
+<a class="zoom" href="pages/p005.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p005.png" target="_blank"><img class="pgimg" src="pages/p005.png" alt="صفحة 5" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>صفحة شكر رسمية تعترف بفضل المشرف والقسم والعائلات — جزء متوقع من هيكل تقرير التخرج، وتُظهر احترام الفريق للعمل الجماعي.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>الفريق يحمد الله أولًا، ثم يشكر المشرف أ. امتياز الصمصام على التوجيه والمتابعة المستمرة، وأعضاء هيئة التدريس في مقرر هندسة البرمجيات (Software Engineering) لأنهم شكلوا الإطار النظري للمشروع، وزملاء الدفعة الذين جربوا النموذج الأولي وأعطوا ملاحظات (منها جاءت فكرة استثناء الشوارع)، والعائلات. موقعة من «طاقم مشروع مساري».</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>شكر للمشرف أ. امتياز الصمصام</li><li>شكر لمقرر هندسة البرمجيات — الأساس النظري للمشروع</li><li>زملاء الدفعة جربوا النموذج الأولي وملاحظاتهم حسّنت المشروع</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>من ساعدكم غير المشرف؟</span></summary><div class="ans"><b>الإجابة:</b><p>ملاحظات الزملاء على النموذج الأولي (Prototype) قادت مباشرة إلى ميزة استثناء الشوارع والتصميم الموجه للموبايل.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p6"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 6</span>شهادة المُشرِف (Supervisor Certification)<span class="tag">التمهيد — شهادة المشرف (هـ)</span></h3>
+<a class="zoom" href="pages/p006.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p006.png" target="_blank"><img class="pgimg" src="pages/p006.png" alt="صفحة 6" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>إقرار رسمي من المشرف بأن هذا العمل تم تحت إشرافه وبأسماء أصحابه الحقيقيين — يحمي الطالب والمشرف ويوثق ملكية المشروع.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>الصفحة شهادة يوقعها المشرف أ. امتياز الصمصام تقر فيها بأن المشروع بعنوان «مساري — نظام التنقّل الذكي في مدينة صنعاء» (Masari — Smart Navigation System for the City of Sana&#x27;a) أعاده وأعدّه كل من: عبدالرحمن إسماعيل محمد سيف، ليث توفيق الجعفري، أيمن النزيلي، خالد عيسى، وقد تم تحت إشرافه في قسم علوم الحاسوب استكمالًا لمتطلبات درجة البكالوريوس. فيها جدول توقيع وتاريخ فارغ يُملأ لاحقًا.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>إقرار رسمي: المشروع تم تحت إشراف أ. امتياز الصمصام</li><li>أسماء الفريق الأربعة مذكورة بالكامل</li><li>الغرض: استكمال متطلبات بكالوريوس علوم الحاسوب</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>ما وظيفة هذه الصفحة؟</span></summary><div class="ans"><b>الإجابة:</b><p>توثيق رسمي أن المشروع من إعداد الطلاب المذكورين وتحت إشراف المشرف في قسم علوم الحاسوب — إثبات ملكية وانتماء.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p7"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 7</span>لجنة المناقشة (Examiner Committee)<span class="tag">التمهيد — لجنة المناقشة (و)</span></h3>
+<a class="zoom" href="pages/p007.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p007.png" target="_blank"><img class="pgimg" src="pages/p007.png" alt="صفحة 7" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>صفحة رسمية تتسلمها لجنة المناقشة يوم المناقشة لتوثيق أسماء المناقشين وتوقيعاتهم — دليل على شرعية عملية التقييم.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>الصفحة تحمل عنوان المشروع، ثم جدولين: الأول للمشرف أ. امتياز الصمصام (المنصب: مشرف)، والثاني لثلاثة مناقشين أسماؤهم فارغة تُملأ يوم المناقشة (المنصب: مناقش)، وفي الأسفل خانة لرئيس القسم. كل جدول فيه أعمدة: الرقم، الاسم، المنصب، التوقيع.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>جدول المشرف + جدول لثلاثة مناقشين + خانة رئيس القسم</li><li>تُملأ الأسماء والتوقيعات يوم المناقشة</li><li>توثيق رسمي لعملية التقييم</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>ليش الجدول فاضي؟</span></summary><div class="ans"><b>الإجابة:</b><p>يُملأ يوم المناقشة بأسماء أعضاء اللجنة وتوقيعاتهم بعد انتهاء المناقشة — هذا هو المعتاد.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p8"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 8</span>فهرس المحتويات (Table of Contents) — الجزء الأول<span class="tag">التمهيد — فهرس المحتويات (ز)</span></h3>
+<a class="zoom" href="pages/p008.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p008.png" target="_blank"><img class="pgimg" src="pages/p008.png" alt="صفحة 8" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>خريطة التقرير: يظهر منه ترتيب الأقسام وأرقام الصفحات حتى يجد القارئ أي فصل بسرعة. أول ما تفتحه اللجنة لتفهم هيكل العمل.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>هذه أول صفحة من فهرس المحتويات. تُظهر أن التمهيد مرتب بترتيب رسمي: الملخص (أ)، التخويل (ب)، الإهداء (ج)، الشكر (د)، شهادة المشرف (هـ)، لجنة المناقشة (و)، فهارس المحتويات والأشكال والجداول والاختصارات (ز، ح، ط، ي). ثم الفصول: الفصل الأول المقدمة يبدأ صفحة 1 (نظرة عامة 1.1، المشكلة 1.2 صفحة 2، الأهداف 1.3 والنطاق 1.4 صفحة 3، المنهجية 1.5 صفحة 4، تنظيم التقرير 1.6 صفحة 5)، الفصل الثاني الخلفية والدراسات السابقة صفحة 6، الفصل الثالث تحليل المتطلبات والنمذجة صفحة 11.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>التمهيد بحروف أبجدية (أ–ي)، والفصول بأرقام (1–7)</li><li>الفصل 1: المقدمة ص1 / الفصل 2: الخلفية ص6 / الفصل 3: تحليل المتطلبات ص11</li><li>الفصل 4: التصميم ص23 / الفصل 5: التنفيذ والاختبار ص31 / الفصل 6: النتائج ص37 / الفصل 7: الاستنتاجات ص40</li><li>المراجع ص43 والملاحق ص44</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>كيف رتبتم التقرير؟</span></summary><div class="ans"><b>الإجابة:</b><p>تمهيد رسمي (ملخص، تخويل، إهداء...) ثم سبعة فصول بالترتيب المنطقي لهندسة البرمجيات: مقدمة، خلفية، تحليل متطلبات، تصميم، تنفيذ واختبار، نتائج، استنتاجات.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p9"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 9</span>فهرس المحتويات (Table of Contents) — الجزء الثاني<span class="tag">التمهيد — فهرس المحتويات (ز)</span></h3>
+<a class="zoom" href="pages/p009.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p009.png" target="_blank"><img class="pgimg" src="pages/p009.png" alt="صفحة 9" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>تكملة الفهرس: تفصيل فصول التحليل والتصميم والتنفيذ حتى يعرف القارئ أين يجد كل مخطط وجدول بالضبط.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>هذه الصفحة تكمل الفهرس وتفصّل الفصول 3 إلى 7: الفصل الثالث (نظرة عامة 3.1 ص11، أدوات جمع البيانات 3.2 ص11، المتطلبات 3.3 ص12، السيناريو 3.4 ص15، مخططات النظام 3.5 ص16، توصيف المخططات 3.6 ص21). الفصل الرابع (المقدمة والمعمارية 4.1 ص23، قاعدة البيانات 4.2 ص25، الواجهات 4.3 ص27، الخوارزميات 4.4 ص28، الأمان 4.5 ص30). الفصل الخامس (التنفيذ 5.2 ص31، الاختبار 5.3 ص34). ثم النتائج ص37 والاستنتاجات ص40 والمراجع ص43 والملاحق ص44.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>الفصل 3 أقسامه: متطلبات، سيناريو، مخططات، توصيف مخططات</li><li>الفصل 4: معمارية، قاعدة بيانات، واجهات، خوارزميات، أمان</li><li>الفصل 5: تنفيذ ثم اختبار (وحدة/تكامل/نظام/قبول)</li><li>آخر التقرير: نتائج (ف6)، استنتاجات وتوصيات (ف7)، مراجع، ملاحق</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>وين ألاقي مخططات UML في التقرير؟</span></summary><div class="ans"><b>الإجابة:</b><p>في الفصل الثالث القسم 3.5 (صفحات 16–22): Use Case، ERD، Class، Sequence، Activity، State، DFD.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p10"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 10</span>فهرس الأشكال (List of Figures) + بداية فهرس الجداول (List of Tables)<span class="tag">التمهيد — فهرس الأشكال (ح) وفهرس الجداول (ط)</span></h3>
+<a class="zoom" href="pages/p010.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p010.png" target="_blank"><img class="pgimg" src="pages/p010.png" alt="صفحة 10" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>قائمتان مرجعيتان تسهّلان على اللجنة الوصول لأي رسمة أو جدول برقمه وصفحته — مهم لأن مشروعكم غني بالمخططات (14 شكلًا و12 جدولًا).</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>الصفحة الأولى لفهرس الأشكال: 14 شكلًا، أبرزها: شكل 1-1 مخطط المنهجية ص4، شكل 1-2 مقارنة UCS و A* ص7، شكل 3-1 Use Case Diagram ص16، شكل 3-2 ERD ص17، شكل 3-3 Class Diagram ص18، شكل 3-4 مخطط التتابع ص19، شكل 3-5 النشاط ص20، شكل 3-6 الحالات ص21، شكل 3-7 DFD ص22، شكل 4-1 المعمارية ص23، شكل 4-2 تدفق REST ص24، شكل 4-3 خريطة صنعاء (17 عقدة، 21 وصلة) ص27، ولقطتا واجهة في الفصل الخامس ص32 و33. ثم تبدأ قائمة الجداول: جدول 3-1 المتطلبات الوظيفية ص12، جدول 3-2 غير الوظيفية ص13، جدول 3-3 متطلبات النظام ص14، جدول 3-4 توصيف حالة استخدام ص21.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>14 شكلًا إجمالًا، أولها المنهجية (1-1) وآخرها لقطة نتيجة المسار (5-2)</li><li>مخططات UML السبعة موجودة في الفصل الثالث صفحات 16–22</li><li>شكل 4-3 هو خريطة صنعاء: 17 عقدة و21 وصلة</li><li>الجداول تبدأ من جدول 3-1 (المتطلبات الوظيفية) ص12</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>كم مخططًا في تقريركم وما هي؟</span></summary><div class="ans"><b>الإجابة:</b><p>14 شكلًا: منهجية، مقارنة UCS/A*، ثم 7 مخططات UML/DFD في التحليل، 3 في التصميم، ولقطتا شاشة في التنفيذ.</p></div></details><details class="qa"><summary><span>وين ألاقي جدول مقارنة الأداء؟</span></summary><div class="ans"><b>الإجابة:</b><p>جدول 6-1 (تحليل أداء A* مقابل UCS عبر حالات اختبار) صفحة 37 في فصل النتائج.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p11"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 11</span>تكملة فهرس الجداول (List of Tables)<span class="tag">التمهيد — فهرس الجداول (ط)</span></h3>
+<a class="zoom" href="pages/p011.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p011.png" target="_blank"><img class="pgimg" src="pages/p011.png" alt="صفحة 11" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>تكملة القائمة المرجعية للجداول — تُظهر للجنة أن كل جزء من التصميم والتنفيذ موثق بجدول رقمي.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>الصفحة تكمل جداول التقرير: في التصميم (الفصل 4): جدول 4-1 جدول المستخدمين users ص25، جدول 4-2 سجل البحث search_history ص25، جدول 4-3 عقد الخريطة map_nodes ص26، جدول 4-4 وصلات الخريطة map_edges ص26. في التنفيذ (الفصل 5): جدول 5-1 التقنيات والأدوات ص31، جدول 5-2 الأنماط التصميمية المطبقة ص32، جدول 5-3 نتائج مقارنة A* مقابل UCS ص35. وفي النتائج: جدول 6-1 تحليل أداء A* مقابل UCS ص37.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>4 جداول تصميم قاعدة البيانات: users، search_history، map_nodes، map_edges</li><li>3 جداول تنفيذ: التقنيات، الأنماط التصميمية، مقارنة A*/UCS</li><li>جدول النتائج 6-1 في ص37</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>كم جدولًا في قاعدة بياناتكم؟</span></summary><div class="ans"><b>الإجابة:</b><p>أربعة: users و search_history و map_nodes و map_edges — موثقة في الفصل الرابع صفحات 25–26.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p12"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 12</span>قائمة الاختصارات (List of Abbreviations) — الجزء الأول<span class="tag">التمهيد — قائمة الاختصارات (ي)</span></h3>
+<a class="zoom" href="pages/p012.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p012.png" target="_blank"><img class="pgimg" src="pages/p012.png" alt="صفحة 12" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>قاموس مصغر للمصطلحات التقنية المستخدمة في التقرير — حتى يفهم أي قارئ الرموز مثل A* و UCS و REST من أول مرة.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>الصفحة جدول من عمودين: الاختصار وتعريفه، من A حتى SDK تقريبًا. أهم ما يجب حفظه لمناقشة الغد: A* (A-Star خوارزمية البحث الموجه)، UCS (Uniform-Cost Search)، API، CRUD (Create, Read, Update, Delete)، ERD، FR/NFR (متطلبات وظيفية/غير وظيفية)، GPS، HMAC، JSON، MVC، NLU (فهم اللغة الطبيعية)، PBKDF2 (تشفير كلمات المرور)، REST، DTO، SVG.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>قائمة مرجعية لكل اختصار تقني في التقرير</li><li>الأهم: A*، UCS، REST API، NLU، ERD، FR/NFR، PBKDF2، HMAC</li><li>تغطي الأبجدية من A إلى SDK في هذه الصفحة</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>ما معنى UCS و A*؟</span></summary><div class="ans"><b>الإجابة:</b><p>UCS (Uniform-Cost Search) بحث بالتكلفة المنتظمة مثل دايكسترا، و A* (A-Star) بحث موجه يستخدم كاشفًا (Heuristic) لتوجيه البحث نحو الهدف.</p></div></details><details class="qa"><summary><span>ما معنى NLU ولماذا تستخدمونه؟</span></summary><div class="ans"><b>الإجابة:</b><p>Natural-Language Understanding — فهم اللغة الطبيعية، نستخدمه لتحويل جملة عامية مثل «ودّيني حدة» إلى وجهة واستثناءات مفهومة للنظام.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p13"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 13</span>قائمة الاختصارات (List of Abbreviations) — الجزء الثاني<span class="tag">التمهيد — قائمة الاختصارات (ي)</span></h3>
+<a class="zoom" href="pages/p013.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p013.png" target="_blank"><img class="pgimg" src="pages/p013.png" alt="صفحة 13" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>تكملة القاموس — تصف الرموز التي تبدأ من S إلى U، وهي أغلب رموز هندسة البرمجيات المستخدمة في الفصول القادمة.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>تكملة الجدول: SE (هندسة البرمجيات)، SPA (تطبيق صفحة واحدة)، SQL، SRP (مبدأ المسؤولية الواحدة)، SRS (وثيقة متطلبات)، SVG (رسومات متجهية — بها نرسم الخريطة)، UAT (اختبار القبول)، UCS، UML (لغة النمذجة الموحدة — لغة المخططات)، UX (تجربة المستخدم). بهذه الصفحة ينتهي التمهيد كله، وتبدأ الصفحة التالية الفصل الأول.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>تكملة الاختصارات: SE، SPA، SQL، SRP، SRS، SVG، UAT، UCS، UML، UX</li><li>UML هي لغة رسم المخططات المستخدمة في الفصل الثالث</li><li>نهاية الصفحة = نهاية التمهيد، وبعدها يبدأ الفصل الأول</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>ما معنى UML و SVG؟</span></summary><div class="ans"><b>الإجابة:</b><p>UML (Unified Modeling Language) لغة موحدة لرسم مخططات النظام (Use Case, Class, Sequence...)، و SVG تقنية رسم متجهي في المتصفح نرسم بها خريطة صنعاء التفاعلية.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p14"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 14</span>الفصل الأول: المقدمة — نظرة عامة (1.1) والمشكلة (1.2)<span class="tag">الفصل الأول: المقدمة</span></h3>
+<a class="zoom" href="pages/p014.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p014.png" target="_blank"><img class="pgimg" src="pages/p014.png" alt="صفحة 14" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>المقدمة تجيب على سؤالين: لماذا هذا المشروع أصلًا (المشكلة)، وما سياقه العام. هي أول ما تقرؤه اللجنة من المحتوى العلمي.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>النظرة العامة تشرح أن العالم شهد ثورة رقمية والنقل تحول من خرائط ورقية إلى أنظمة ذكية تحسب المسار لحظيًا (أكثر من 5 مليارات إنسان يعتمدون على تطبيقات ذكية). لكن هذه التقنية لم تصل لمدننا اليمنية: خرائط جوجل (Google Maps) و Waze تحتاج بيانات مرور وطرق محدثة وهي شبه معدومة في صنعاء، ولا تفهم اللهجة ولا أسماء الأحياء الشعبية. ثم قسم المشكلة (Problem Statement) يفرّعها لأربع مشكلات: (1) غياب فهم محلي للشوارع — مثال تقسيم شارع الستين إلى شمالي وغربي وجنوبي والأسماء الشعبية مثل «حدة» و«الجامعة»، (2) عدم القدرة على التحكم في المسار (لا خيار استثناء شارع مزدحم)، (3) عائق اللغة واللهجة — المستخدم يقول «ودّيني حدة وإياك تمر من الزبيري» والأنظمة لا تفهمه، (4) ضعف موثوقية بيانات المرور.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>الفجوة: التطبيقات العالمية ناضجة عالميًا لكن بياناتها ضعيفة أو معدومة في صنعاء</li><li>مثال محلي: شارع الستين مقسم شمالي/غربي/جنوبي + أسماء شعبية «حدة» و«الجامعة»</li><li>4 مشكلات فرعية: فهم الشوارع، التحكم بالمسار، اللهجة، بيانات المرور</li><li>المستخدم المحلي يعرف شوارعه أفضل من أي خوارزمية — لذا نعطيه خيار الاستثناء</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>ما المشكلة الأساسية لمشروعكم؟</span></summary><div class="ans"><b>الإجابة:</b><p>غياب نظام تنقّل يفهم خصوصية صنعاء: شوارعها وأحياءها ولهجتها، مع منح المستخدم تحكمًا حقيقيًا في الطريق (استثناء شارع أو مكان).</p></div></details><details class="qa"><summary><span>ليش ما تكتفون بخرائط جوجل؟</span></summary><div class="ans"><b>الإجابة:</b><p>لأنها تعتمد على بيانات مرور وهيكل طرق محدّث — وهي ضعيفة أو معدومة في صنعاء — ولا تفهم العامية ولا تسمح باستثناء شارع بالاسم.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p15"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 15</span>تكملة المشكلة + أهداف المشروع (1.3) + نطاق المشروع (1.4)<span class="tag">الفصل الأول: المقدمة</span></h3>
+<a class="zoom" href="pages/p015.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p015.png" target="_blank"><img class="pgimg" src="pages/p015.png" alt="صفحة 15" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>بعد المشكلة يأتي الدواء: الأهداف تمثل الحلول المقابلة لكل مشكلة، والنطاق يحدد حدود العمل حتى لا يتهم المشروع بأنه يعد بأكثر مما يقدم.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>تكتمل المشكلة الخامسة: محدودية الإنترنت والأجهزة (أغلب المستخدمين هواتف أندرويد متوسطة بباقات محدودة — يلزم نظام خفيف). ثم 7 أهداف: (1) خريطة رقمية تفاعلية لصنعاء — 17 عقدة و21 وصلة على عشرة شوارع، (2) تنفيذ خوارزميتي A* و UCS من الصفر مع إثبات تفوق A* بعدد عقد أقل، (3) ميزة استثناء الشوارع والأماكن مع ضمان وصول الطرفين، (4) مساعد ذكي يفهم العامية اليمنية مع نسخة قواعدية (rules-based) تعمل دون إنترنت، (5) بنية متعددة الطبقات بأنماط Repository / Strategy / Singleton / DTO، (6) أمان: تشفير PBKDF2 وتوكنات HMAC، (7) واجهة عربية RTL مصممة بمبادئ UX. ثم النطاق (Scope): وظيفي (تسجيل، خريطة، تخطيط مسار، استثناء، NLU، سجل رحلات، لوحة إدارة CRUD)، جغرافي (صنعاء تحديدًا — الستين بأجزائه الثلاثة، الزبيري، الدائري، حدة، تعز، شعوب)، زمني (فصلان دراسيان 2025/2026).</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>7 أهداف أبرزها: خريطة 17 عقدة/21 وصلة، خوارزميتان من الصفر، الاستثناء، فهم العامية</li><li>النطاق الجغرافي: صنعاء فقط — شوارع حقيقية (الستين، الزبيري، الدائري، حدة، تعز، شعوب)</li><li>المدة الزمنية: فصلان دراسيان من 2025/2026</li><li>أنماط التصميم المستهدفة: Repository / Strategy / Singleton / DTO</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>كم هدفًا لمشروعكم وما أهمها؟</span></summary><div class="ans"><b>الإجابة:</b><p>سبعة أهداف، وأهمها: تنفيذ A* و UCS من الصفر (لا نسخ مكتبة جاهزة) مع إثبات أن A* تصل لنفس المسار الأمثل بعدد عقد أقل.</p></div></details><details class="qa"><summary><span>ليش الخريطة 17 عقدة فقط؟</span></summary><div class="ans"><b>الإجابة:</b><p>هذا هو النطاق المعلن: تمثيل أبرز الأحياء والتقاطعات لعشرة شوارع مشهورة، والخريطة قابلة للتوسيع عبر لوحة الإدارة (CRUD) دون تغيير الكود.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p16"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 16</span>محددات المشروع (Limitations) + منهجية المشروع (1.5)<span class="tag">الفصل الأول: المقدمة</span></h3>
+<a class="zoom" href="pages/p016.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p016.png" target="_blank"><img class="pgimg" src="pages/p016.png" alt="صفحة 16" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>المحددات تحمي الفريق: تعترف بصدق بما لا يفعله النظام حتى لا تفاجئكم اللجنة به. والمنهجية تشرح طريقة العمل — سؤال شبه مؤكد في المناقشة.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>المحددات (ما لا يفعله الإصدار الحالي): لا يوجد GPS حي ولا تتبع لحظي (البداية والوجهة تُختاران من قائمة)، لا بيانات مرور لحظية — الأوزان من المسافة الإقليدية (Euclidean) المعرفة مسبقًا، المساعد اللغوي يستخدم Groq LLM اختياريًا عند توفر مفتاح API ويعمل بنسخة القواعد (rules) دون اتصال دائمًا، لا ملاحة صوتية (الإدخال نصي فقط)، والنظام ويب للمتصفح وليس تطبيقًا أصيلًا (Native) للمتاجر. ثم المنهجية: اختار الفريق التطوير التزايدي الرشيق (Agile / Incremental) بدل الشلال (Waterfall) لثلاث أسباب: تغير المتطلبات يحتمل بالتكرارات (Iterations)، عرض مبكر لنموذج يعمل (runnable prototype)، وتطوير متوازٍ لأعضاء الفريق الأربعة ثم دمج (Integration) في نهاية كل تكرار.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>5 محددات: لا GPS، لا مرور لحظي، Groq اختياري مع بديل قواعدي، لا صوت، ويب لا Native</li><li>المنهجية: Agile/Incremental وليست Waterfall</li><li>أسباب اختيار Agile: تغير المتطلبات + عرض مبكر + عمل متوازٍ لفريق الـ4</li><li>سلسلة الإثراء: التسجيل ← الخريطة ← الاستثناءات ← المساعد اللغوي</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>ليش اخترتوا Agile مو Waterfall؟</span></summary><div class="ans"><b>الإجابة:</b><p>المشروع تفاعلي لا يكتمل تصور واجهته إلا بعد رؤية نموذج أولي، و Agile تتحمل تغير المتطلبات بالتكرارات، وتسمح بعرض نسخة تعمل مبكرًا وتطوير متوازٍ لأربعة طلاب ثم الدمج.</p></div></details><details class="qa"><summary><span>ليش ما تدعمون GPS؟</span></summary><div class="ans"><b>الإجابة:</b><p>محدد معلن في النطاق: الإصدار الحالي يعتمد اختيار البداية والوجهة من قائمة الأماكن، و GPS الحي توصية مستقبلية موثقة في الملخص والاستنتاجات.</p></div></details><details class="qa"><summary><span>وشلون يعمل النظام إذا انقطع النت؟</span></summary><div class="ans"><b>الإجابة:</b><p>المساعد اللغوي له مسار قواعدي (rules-based) يعمل دون إنترنت بديلًا عن Groq LLM — النظام لا يتعطل أبدًا في العرض الحي.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p17"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 17</span>شكل 1-1: مخطط منهجية تطوير المشروع (التطوير التزايدي الرشيق) + تنظيم التقرير (1.6)<span class="tag">الفصل الأول: المقدمة</span></h3>
+<a class="zoom" href="pages/p017.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p017.png" target="_blank"><img class="pgimg" src="pages/p017.png" alt="صفحة 17" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>المنهجية تُرسم لتوضيح مراحل كل تكرار (Sprint) بصريًا، وتنظيم التقرير خريطة إرشادية لبقية الفصول. الشكل هنا مرجع بصري لا نص.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>الصفحة تعرض شكل 1-1: مخطط المنهجية المنتج بأداة draw.io (ملفات المخططات في مجلد diagrams). المهم حفظه: المشروع نُفذ عبر أربعة تكرارات (Sprints): (1) بناء بيانات الخريطة وخوارزميات البحث، (2) بناء الخادم الخلفي وواجهات REST، (3) بناء العميل الأمامي التفاعلي، (4) دمج المساعد اللغوي وتحسينات الأمان وتجربة المستخدم. ثم قسم 1.6 تنظيم التقرير يستعرض ما سيتناوله كل فصل: الثاني الخلفية والدراسات السابقة (جوجل، Waze، أبحاث أكاديمية)، الثالث التحليل والمتطلبات والمخططات، الرابع التصميم، الخامس التنفيذ والاختبار (وحدة، تكامل، نظام، قبول). الشرح التفصيلي لرسمة المنهجية موجود في ملف الرسمات المنفصل — هنا يكفي فهم التكرارات الأربعة وترتيبها.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>شكل 1-1 منتج بأداة draw.io — تفاصيله في ملف الرسمات المنفصل</li><li>4 تكرارات: بيانات+خوارزميات ← خادم REST ← واجهة أمامية ← مساعد لغوي+أمان+UX</li><li>كل تكرار ينتهي بدمج (Integration) لعمل الأعضاء المتوازي</li><li>1.6 يعرّف بمحتوى كل فصل من فصول التقرير السبعة</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>وش سويتوا في كل تكرار (Sprint)؟</span></summary><div class="ans"><b>الإجابة:</b><p>الأول: بيانات الخريطة وخوارزميتا A*/UCS. الثاني: الخادم الخلفي بواجهات REST. الثالث: العميل الأمامي التفاعلي. الرابع: المساعد اللغوي وتحسينات الأمان و UX.</p></div></details><details class="qa"><summary><span>وين رسمة المنهجية لو طُلبت بالتفصيل؟</span></summary><div class="ans"><b>الإجابة:</b><p>شكل 1-1 في هذه الصفحة، والشرح التفصيلي للرسمة موجود في ملف شرح الرسمات المنفصل المرافق لدفتر المناقشة.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p18"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 18</span>تكملة تنظيم التقرير (1.6) — الفصول السادس والسابع<span class="tag">الفصل الأول: المقدمة</span></h3>
+<a class="zoom" href="pages/p018.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p018.png" target="_blank"><img class="pgimg" src="pages/p018.png" alt="صفحة 18" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>تُغلق هذه الصفحة الفصل الأول بتعريف آخر فصلين (النتائج والاستنتاجات) — حتى يعرف القارئ أن التقرير يكتمل بدورة كاملة: مشكلة ← حل ← نتائج ← توصيات.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>الصفحة قصيرة: تكمل وصف الفصول — الفصل السادس (النتائج والمناقشة) يعرض النتائج المتحققة ومقارنة A* مقابل UCS ومزايا النظام والتحديات التي واجهتها. الفصل السابع (الاستنتاجات والتوصيات) يلخص ما تم التوصل إليه ويقدم توصيات التطوير المستقبلي. ثم المراجع والملاحق. بهذا ينتهي الفصل الأول كاملًا.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>الفصل 6: نتائج + مقارنة A*/UCS + مزايا + تحديات</li><li>الفصل 7: استنتاجات وتوصيات مستقبلية</li><li>بعدها المراجع والملاحق — نهاية الفصل الأول</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>وين ألاقي نتائجكم ومقارنة الأداء؟</span></summary><div class="ans"><b>الإجابة:</b><p>الفصل السادس صفحة 37 وجدول 6-1 — تحليل أداء A* مقابل UCS عبر حالات اختبار.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p19"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 19</span>الفصل الثاني: الخلفية — أنظمة التنقّل الذكي (2.1.1) وخوارزميات البحث (2.1.2)<span class="tag">الفصل الثاني: الخلفية والدراسات السابقة</span></h3>
+<a class="zoom" href="pages/p019.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p019.png" target="_blank"><img class="pgimg" src="pages/p019.png" alt="صفحة 19" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>قبل أن تبني حلًا يجب أن تفهم نظريته. هذا الفصل يثبت للجنة أنكم تفهمون ما بنيتوه: ما هو نظام التنقل، وما الفرق بين نوعي خوارزميات البحث.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>الخلفية مقسمة لثلاثة محاور. الأول: أنظمة التنقّل الذكي (Smart Navigation Systems) — تطبيقات تجد الطريق بين نقطتين، تطورت من أجهزة GPS مستقلة (TomTom، Garmin) إلى تطبيقات سحابية (Google Maps، Apple Maps، Waze)، وتتكون من 3 طبقات: طبقة البيانات (الخريطة كرسم بياني Graph: عُقد Nodes ووصلات Edges بأوزان)، طبقة الذكاء (خوارزمية البحث)، طبقة الواجهة (العرض التفاعلي). المحور الثاني: خوارزميات البحث نوعان — غير الموجه (Uninformed) مثل UCS/دايكسترا (Dijkstra) يوسع البحث بالتكلفة المتراكمة g(n) فقط ويضمن الأمثل لكنه يفتح عقدًا كثيرة، والموجه (Informed) وعلى رأسه A* بدالة تقييم f(n) = g(n) + h(n) حيث h(n) الكاشف (Heuristic) — إذا كان الكاشف قابلًا للقبول (Admissible) أي لا يبالغ في التقدير، تصل A* لنفس المسار الأمثل بعدد عقد أقل.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>3 طبقات لنظام التنقل: بيانات (Graph)، ذكاء (خوارزمية)، واجهة</li><li>UCS = دايكسترا: يعتمد g(n) فقط — أمثل لكن بطيء (عقد كثيرة)</li><li>A*: دالة f(n) = g(n) + h(n) — أمثل إذا كان الكاشف Admissible وبعدد عقد أقل</li><li>تطور الأنظمة: TomTom/Garmin ← Google Maps/Apple Maps/Waze</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>ما الفرق الجوهري بين UCS و A*؟</span></summary><div class="ans"><b>الإجابة:</b><p>UCS يوسّع بالتكلفة المتراكمة g(n) فقط فيتوسع دائريًا بلا اتجاه، و A* يضيف الكاشف h(n) في المعادلة f(n)=g(n)+h(n) فتتجه مباشرة نحو الهدف — النتيجة نفس الأمثلية لكن بجهد أقل.</p></div></details><details class="qa"><summary><span>ما معنى Admissible؟</span></summary><div class="ans"><b>الإجابة:</b><p>كاشف لا يبالغ أبدًا في تقدير التكلفة الحقيقية المتبقية — وهذا الشرط يضمن أن A* تجد المسار الأمثل.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p20"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 20</span>ملاحظة الكاشف + شكل 1-2 مقارنة UCS/A* + فهم اللغة الطبيعية (2.1.3)<span class="tag">الفصل الثاني: الخلفية والدراسات السابقة</span></h3>
+<a class="zoom" href="pages/p020.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p020.png" target="_blank"><img class="pgimg" src="pages/p020.png" alt="صفحة 20" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>هذه الصفحة تجمع أهم نظريتين يميز مشروعكم: لماذا A* أمثل رياضيًا في مساري (إثبات الكاشف)، وكيف يفهم النظام العامية (NLU بمسارين).</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>أولًا ملاحظة هندسية مهمة: أوزان الوصلات في مساري مشتقة من المسافة الإقليدية مقسومة على ثابت، فالمسافة المستقيمة مقسومة على الثابت نفسه تصير حدًا أدنى مضمونًا على التكلفة الحقيقية — يعني الكاشف قابل للقبول والاتساق (admissible &amp; consistent)، وهذا هو الإثبات النظري لأمثلية A* في نظامنا. ثم شكل 1-2 (رسم ASCII): حالة الانتقال من «جامعة صنعاء» إلى «جولة فلسطين»: UCS يتوسع دائريًا ويفتح 15 عقدة، A* يتجه للهدف ويفتح 6 عقد فقط — كلتاهما تجد نفس التكلفة المثلى 56. ثم NLU (فهم اللغة الطبيعية): جملة «ودّيني حدة، إيّاك تمر من شارع الزبيري» تتحول لبيانات منظمة {destination: حدة، destination_node: Hadda، avoid: [شارع الزبيري]} — عبر مسارين: Groq LLM عند توفر المفتاح، أو القواعد (Regex) التي تلتقط كلمات مثل «ودّيني» و«إياك» و«تجنب» وتعمل دون إنترنت.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>إثبات الأمثلية: الأوزان = مسافة إقليدية ÷ ثابت ← الكاشف admissible &amp; consistent</li><li>مثال شكل 1-2: جامعة صنعاء ← جولة فلسطين: UCS فتح 15 عقدة، A* فتح 6 فقط، التكلفة المثلى 56 لكلتيهما</li><li>NLU بمسارين: Groq LLM (اختياري) + قواعد Regex (دائمًا دون نت)</li><li>كلمات مفتاحية يمنية ملتقطة: «ودّيني»، «إياك»، «تجنب»</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>كيثبت أن A* عندكم تعطي المسار الأمثل مو مجرد مسار؟</span></summary><div class="ans"><b>الإجابة:</b><p>لأن أوزان الوصلات مشتقة من المسافة الإقليدية مقسومة على ثابت، والمسافة المستقيمة بنفس القسمة تكون دائمًا أقل أو تساوي التكلفة الحقيقية — فالكاشف admissible &amp; consistent، و A* مضمونة الأمثلية نظريًا.</p></div></details><details class="qa"><summary><span>ليش تساوي مو بس A*؟</span></summary><div class="ans"><b>الإجابة:</b><p>A* أسرع عمليًا: تفتح عقدًا أقل بكثير (6 مقابل 15 في المثال الموحد)، وتحسين الأداء مهم لمستخدم موبايل بجهاز متوسط — ولهذا هي الافتراضية في النظام مع إتاحة UCS للمقارنة.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p21"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 21</span>الدراسات السابقة (2.2): خرائط جوجل (2.2.1) وتطبيق Waze (2.2.2) ودراسة أكاديمية (2.2.3)<span class="tag">الفصل الثاني: الخلفية والدراسات السابقة</span></h3>
+<a class="zoom" href="pages/p021.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p021.png" target="_blank"><img class="pgimg" src="pages/p021.png" alt="صفحة 21" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>مراجعة الأدبيات (Literature Review) تُظهر للجنة أنكم درستم ما قبلكم وتعرفون نقاط قوته وضعفه — ومن هنا بررت الحاجة لمشروعكم.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>ثلاث دراسات بترتيب ثابت (فكرة، مشكلة وأهداف، منهجية، مزايا، عيوب): (1) Google Maps: أكبر نظام عالمي، خرائط لأكثر من 220 دولة، يستخدم Modified Dijkstra / Contraction Hierarchies بلغات C++ و Java وخدمات Google Cloud — عيوبه في صنعاء: بيانات طرق ومرور ضعيفة، لا يفهم اللهجة، لا يعطي تحكمًا باستثناء شارع، يعتمد كليًا على الإنترنت. (2) Waze: نظام اجتماعي (Crowd-sourced) يعتمد تقارير المستخدمين عن الازدحام والحوادث، بـ GPS مستمر وإعادة توجيه ديناميكية، مكتوب بـ C++ و JavaScript — عيوبه: يحتاج قاعدة مستخدمين نشطة (غير متوفرة بكثافة في صنعاء)، اعتماد كلي على GPS والإنترنت، لا استثناء لشارع بالاسم. (3) دراسة أكاديمية «خوارزميات البحث عن المسار في الشبكات الحضرية»: تقارن BFS و DFS و UCS/Dijkstra و A* على شبكات محاكاة بمقاييس nodes expanded و time و optimality.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>Google Maps: 220+ دولة، Modified Dijkstra / Contraction Hierarchies، C++/Java</li><li>عيوب جوجل و Waze في صنعاء: بيانات ضعيفة، لا لهجة، لا استثناء، اعتماد كلي على النت</li><li>Waze: Crowdsourced — يحتاج مستخدمين نشطين غير متوفرين في صنعاء، C++/JavaScript</li><li>الدراسة الأكاديمية: تقارن BFS/DFS/UCS/A* بمقاييس nodes expanded و time و optimality</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>ما الفرق بين مساري وخرائط جوجل؟</span></summary><div class="ans"><b>الإجابة:</b><p>جوجل عالمي بقوة بيانات المرور لكنه ضعيف محليًا في صنعاء ولا يفهم اللهجة ولا يسمح باستثناء شارع بالاسم؛ مساري محلي بالضبط: شوارع حقيقية، استثناء كامل بالنص والنقر، وفهم عامية، وتشغيل NLU دون إنترنت.</p></div></details><details class="qa"><summary><span>ليش ما ينفع Waze في صنعاء؟</span></summary><div class="ans"><b>الإجابة:</b><p>لأن جوهره تقارير مستخدمين نشطين بكمية كبيرة، وهذه القاعدة غير متوفرة في صنعاء، فوق اعتماده الكلي على GPS والإنترنت.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p22"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 22</span>مزايا وعيوب الدراسة الأكاديمية + مقارنة عامة بـ«مساري» (2.2.4)<span class="tag">الفصل الثاني: الخلفية والدراسات السابقة</span></h3>
+<a class="zoom" href="pages/p022.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p022.png" target="_blank"><img class="pgimg" src="pages/p022.png" alt="صفحة 22" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>جدول المقارنة هو خلاصة الفصل الثاني: يضع مساري أمام المنافسين وجهًا لوجه ويبرر وجوده كبحث تخرج متمايز.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>تكتمل الدراسة الأكاديمية: مزاياها أساس نظري قوي يثبت تفوق A*، وعيوبها أنها نظرية بلا نظام تشغيلي ولا واجهة ولا لغة طبيعية. ثم جدول مقارنة من 7 أوجه بين Google Maps و Waze والدراسة الأكاديمية ومساري: الفهم المحلي لصنعاء (قوي لمساري فقط)، التحكم في استثناء شارع/مكان (كامل بالنص والنقر لمساري)، فهم العامية العربية (نعم: Groq + قواعد)، تشغيل دون إنترنت (نعم: قواعد NLU)، مقارنة الخوارزميات A*↔UCS (مدمجة للعرض)، إثبات أمثلية الكاشف (نعم باشتقاق الأوزان من المسافة)، واجهة عربية RTL أصيلة (نعم). وتنتهي بجملة ذكية: مساري لا ينافس التطبيقات العالمية في الشمول — بل يقدم قيمة محلية متمايزة ببنية هندسية تعليمية.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>7 أوجه مقارنة، مساري يتفوق في كلها</li><li>أبرز أوجه التميز: استثناء كامل + فهم العامية + عمل دون إنترنت + إثبات أمثلية الكاشف</li><li>موقف ناضج: لا ننافس جوجل في الشمول، نقدم قيمة محلية لمدينة واحدة</li><li>الدراسة الأكاديمية قوة نظرية لكن بلا نظام فعلي — ومساري يجمع النظرية بالتنفيذ</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>ما الذي يميز مساري عن كل ما سبق؟</span></summary><div class="ans"><b>الإجابة:</b><p>خمسة أشياء معًا: فهم محلي حقيقي لصنعاء، تحكم كامل باستثناء شوارع وأماكن، فهم العامية العربية (Groq + قواعد)، عمل ميزة NLU دون إنترنت، وإثبات رياضي لأمثلية الكاشف مشتق من طريقة بناء الأوزان.</p></div></details><details class="qa"><summary><span>ألا تعتبرون أنفسكم منافسين لجوجل؟</span></summary><div class="ans"><b>الإجابة:</b><p>لا — الشمول الجغرافي وبيانات المرور خارج نطاق مشروع تخرج؛ نحن نقدم قيمة محلية متمايزة: فهم صنعاء والتحكم بالمسار واللغة، مع تطبيق خوارزميات وأنماط تصميم من الصفر.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p23"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 23</span>الفصل الثالث: تحليل المتطلبات والنمذجة — نظرة عامة (3.1) وأدوات جمع البيانات (3.2)<span class="tag">الفصل الثالث: تحليل المتطلبات والنمذجة</span></h3>
+<a class="zoom" href="pages/p023.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p023.png" target="_blank"><img class="pgimg" src="pages/p023.png" alt="صفحة 23" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>قلب مرحلة التحليل في هندسة البرمجيات: تحويل احتياجات الناس إلى متطلبات دقيقة. اللجنة تريد أن ترى أن المتطلبات جاءت من بحث فعلي لا من الخيال.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>الفصل يجيب عن سؤال «ماذا يفعل النظام؟» (What) قبل «كيف ينفذ؟» (How) في الفصل الرابع. أدوات جمع البيانات نوعان: (أ) أساسية إلزامية — الأبحاث والدراسات السابقة (مراجعة جوجل و Waze والأبحاث الأكاديمية في خوارزميات البحث)، والنماذج والعينات (دراسة بنية بيانات الخرائط الرقمية Graph: nodes/edges وخرائط صنعاء الورقية لاستخلاص الشوارع الحقيقية). (ب) اختيارية استُخدمت اثنتان — الملاحظة المباشرة (Observation): رصد سلوك المستخدمين المحليين وأنماط لهجتهم («ودّيني»، «إياك تمر»)، والنماذج الأولية (Prototyping): نموذج مبكر عُرض على عينة من الزملاء وملاحظاتهم ولدت ميزة استثناء الشوارع والتصميم الموجه للموبايل.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>الفصل 3 = What (ماذا) قبل الفصل 4 = How (كيف)</li><li>أداتان أساسيتان: دراسات سابقة + دراسة بنية بيانات الخرائط والخرائط الورقية</li><li>أداتان اختياريتان: الملاحظة المباشرة + النموذج الأولي (Prototyping)</li><li>ميزة الاستثناء وُلدت من ملاحظات الزملاء على النموذج الأولي — لا من فراغ</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>كيف جمعتم المتطلبات؟</span></summary><div class="ans"><b>الإجابة:</b><p>بأربع أدوات: مراجعة الدراسات السابقة، دراسة بنية بيانات الخرائط وخرائط صنعاء الورقية، الملاحظة المباشرة لسلوك المستخدمين ولهجتهم، وعرض نموذج أولي على الزملاء وتلقي ملاحظاتهم.</p></div></details><details class="qa"><summary><span>أعطني مثالًا على متطلب جاء من المستخدم؟</span></summary><div class="ans"><b>الإجابة:</b><p>ميزة استثناء الشوارع (FR-4): الزملاء في تجربة النموذج الأولي طلبوا إمكانية تجنب شارع مزدحم، والملاحظة أكدت أن المستخدم المحلي يعرف شوارعه أفضل من الخوارزمية.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p24"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 24</span>جدول 3-1: المتطلبات الوظيفية (Functional Requirements) FR-1 حتى FR-11<span class="tag">الفصل الثالث: تحليل المتطلبات والنمذجة — 3.3.1</span></h3>
+<a class="zoom" href="pages/p024.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p024.png" target="_blank"><img class="pgimg" src="pages/p024.png" alt="صفحة 24" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>المتطلبات الوظيفية (FR) هي الوظائف التي «يفعلها» النظام — الأساس الذي يُبنى عليه التصميم والاختبار لاحقًا. كل ميزة في العرض الغد تعود لصف هنا.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>الجدول يعرف 11 متطلبًا وظيفيًا بمعرف وأولوية. أمثلة فعلية: FR-1 المصادقة وإدارة الحساب (تسجيل ودخول مع تشفير كلمة المرور وتوكن موقّع — أولوية عالية)، FR-3 تخطيط المسار بين عقدتين بخوارزمية A* أو UCS وعرضه (عالية)، FR-4 استثناء الشوارع والأماكن بالاسم أو بالعقدة مع ضمان وصول الطرفين (عالية)، FR-5 تحليل الأوامر العربية الطبيعية NLU عبر Groq أو القواعد الاحتياطية (عالية)، FR-9 لوحة إدارة CRUD للمشرف لتعديل العقد والوصلات (منخفضة)، FR-10 وضع الضيف باستخدام النظام دون حساب (متوسطة)، FR-11 تقديم البيانات بصيغتي JSON و XML (متوسطة). لاحظ النمط: 5 متطلبات عالية هي جوهر النظام، والبقية مساندة.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>11 متطلبًا وظيفيًا من FR-1 إلى FR-11</li><li>الأولوية العالية: FR-1 المصادقة، FR-2 الخريطة، FR-3 المسار، FR-4 الاستثناء، FR-5 الأوامر العربية</li><li>FR-4 الاستثناء: بالاسم أو بالعقدة + ضمان وصول الطرفين دائمًا</li><li>FR-9 لوحة إدارة CRUD أولويتها منخفضة (ميزة مشرف) — FR-11 JSON و XML لتعدد الصيغ</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>ما الفرق بين المتطلب الوظيفي وغير الوظيفي؟</span></summary><div class="ans"><b>الإجابة:</b><p>الوظيفي (FR) وظيفة يفعلها النظام (تسجيل دخول، حساب مسار)، وغير الوظيفي (NFR) صفة كيف يؤديها (سرعة، أمان، سهولة استخدام).</p></div></details><details class="qa"><summary><span>كيف تضمنون أن الاستثناء لا يعطل الوصول للوجهة؟</span></summary><div class="ans"><b>الإجابة:</b><p>المتطلب FR-4 ينص صراحة على ضمان وصول الطرفين — الخوارزمية تستثني الوصلات المطلوبة ثم تبحث، والنظام يتحقق من وجود مسار قبل الرد.</p></div></details><details class="qa"><summary><span>ليش وضع الضيف متطلب منفصل؟</span></summary><div class="ans"><b>الإجابة:</b><p>FR-10: لخفض حاجز الدخول ( UR-8) — يستخدم الزائر النظام فورًا مع تقييد المزايا التي تحتاج مصادقة مثل حفظ السجل.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p25"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 25</span>جدول 3-2: المتطلبات غير الوظيفية (NFR-1–NFR-10) + جدول 3-3: متطلبات النظام<span class="tag">الفصل الثالث: تحليل المتطلبات والنمذجة — 3.3.2 و 3.3.3</span></h3>
+<a class="zoom" href="pages/p025.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p025.png" target="_blank"><img class="pgimg" src="pages/p025.png" alt="صفحة 25" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>NFR تحدد «جودة» الأداء لا الوظائف — وهي ما تسأل عنه اللجنة عادة (أمان؟ سرعة؟). ومتطلبات النظام تحدد بيئة التشغيل المطلوبة.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>جدول NFR فيه 10 متطلبات بقيم مستهدفة قابلة للقياس، أمثلة: NFR-1 الأداء (Performance): حساب المسار في أقل من ثانية للخريطة الحالية (17 عقدة)، NFR-2 الأمثلية (Optimality): ضمان أن A* و UCS يعيدان المسار الأقل تكلفة (نظرية الكاشف القابل للقبول)، NFR-3 الأمان (Security): تشفير PBKDF2-HMAC-SHA256 وتوكنات موقعة HMAC وصلاحيات وصول، NFR-4 الإتاحة: دعم RTL وأهداف لمس لا تقل عن 44px، NFR-5 استجابة Mobile-First من 320px إلى 480px فأكثر، NFR-7 التوفر: عمل NLU دون إنترنت بالقواعد الاحتياطية. ثم جدول 3-3 متطلبات النظام (بيئة التشغيل): نظام تشغيل Windows 10/11 أو Linux أو macOS، Python 3.11+، قاعدة SQLite 3 مدمجة، خادم uvicorn (ASGI لـ FastAPI)، متصفح حديث يدعم ES6 و SVG (Chrome/Edge/Firefox).</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>10 متطلبات غير وظيفية NFR-1 حتى NFR-10 — كلها بقيم قابلة للقياس</li><li>NFR-1: المسار في أقل من ثانية / NFR-2: أمثلية مضمونة / NFR-3: PBKDF2-HMAC-SHA256 + توكنات HMAC</li><li>NFR-4 و NFR-5: RTL + أهداف لمس 44px + تصميم Mobile-First من 320px</li><li>بيئة التشغيل: Python 3.11+ و SQLite 3 و uvicorn و متصفح ES6/SVG حديث</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>كيف تقيسون الأمان؟</span></summary><div class="ans"><b>الإجابة:</b><p>NFR-3 يحدده: كلمات المرور مشفرة بـ PBKDF2-HMAC-SHA256، الجلسة بتوكن موقّع HMAC، صلاحيات وصول مميزة، ورأس مفتاح خاص للمشرف.</p></div></details><details class="qa"><summary><span>ليش SQLite مو MySQL أو PostgreSQL؟</span></summary><div class="ans"><b>الإجابة:</b><p>متطلب نظام معلن: قاعدة مدمجة بلا خادم منفصل — تخزين ≤ 50MB يكفي لمشروعنا، وتركيبها أسهل في العرض الغد، والبنية قابلة للتوسع لاحقًا (NFR-8).</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p26"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 26</span>تكملة متطلبات النظام + متطلبات المستخدم (UR-1–UR-8) + بداية السيناريو (3.4)<span class="tag">الفصل الثالث: تحليل المتطلبات والنمذجة — 3.3.3 و 3.3.4 و 3.4</span></h3>
+<a class="zoom" href="pages/p026.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p026.png" target="_blank"><img class="pgimg" src="pages/p026.png" alt="صفحة 26" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>متطلبات المستخدم (UR) تربط احتياج الإنسان الحقيقي بالمتطلبات الوظيفية — وتدلل على أن التحليل انطلق من المستخدم. والسيناريو يحول المتطلبات لقصة ملموسة.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>تكتمل متطلبات النظام: ذاكرة الخادم ≥ 512MB، مساحة تخزين ≤ 50MB، شبكة اتصال محلي 127.0.0.1 أو LAN مع اتصال اختياري بـ Groq API. ثم 8 متطلبات مستخدم من بحث المستخدم: UR-1 معرفة الطريق بين نقطتين بسرعة، UR-2 تجنب شارع أو مكان معين (ازدحام/صيانة/تفضيل)، UR-3 التعبير بالعامية لا بالأسماء الرسمية، UR-4 حفظ الرحلات السابقة، UR-8 الدخول كضيف دون تسجيل. ثم يبدأ قسم السيناريو بسيناريوهين يمثلان نمطي الإدخال (التفاعلي واللغوي)، ويبدأ الأول: الفاعل مستخدم مسجل اسمه أحمد، الهدف: الوصول من باب اليمن إلى جولة فلسطين مع تجنب شارع الدائري — خطواته: تسجيل دخول عبر POST /api/auth/login واستلام token، ثم طلب GET /api/map فتعاد بنية الخريطة كاملة (17 عقدة + 21 وصلة بأوزانها) لتُرسم في SVG، ثم اختيار البداية والوجهة وخوارزمية A*.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>موارد خفيفة: ذاكرة ≥ 512MB وتخزين ≤ 50MB — شبكة محلية + Groq اختياري</li><li>8 متطلبات مستخدم UR-1 حتى UR-8 من بحث المستخدم</li><li>أمثلة UR: UR-2 تجنب شارع (ازدحام/صيانة/تفضيل)، UR-3 التعبير بالعامية، UR-8 الدخول كضيف</li><li>السيناريو 1: أحمد (مسجل) — باب اليمن ← جولة فلسطين مع تجنب شارع الدائري</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>ما الفرق بين متطلبات المستخدم (UR) والوظيفية (FR)؟</span></summary><div class="ans"><b>الإجابة:</b><p>UR حاجة إنسانية عامة من بحث المستخدم (مثال UR-3: يفضل العامية)، و FR وظيفة محددة في النظام تلبيها (مثال FR-5: تحليل الأوامر العربية).</p></div></details><details class="qa"><summary><span>موارد تشغيلكم كم تحتاج؟</span></summary><div class="ans"><b>الإجابة:</b><p>قليلة جدًا: ذاكرة 512MB أو أقل، تخزين ≤ 50MB شاملة قاعدة البيانات، واتصال شبكة محلي — اختيار مقصود لأجهزة متوسطة.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p27"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 27</span>تكملة السيناريوهين (3.4) + بداية مخططات النظام (3.5)<span class="tag">الفصل الثالث: تحليل المتطلبات والنمذجة — 3.4.2 و 3.5</span></h3>
+<a class="zoom" href="pages/p027.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p027.png" target="_blank"><img class="pgimg" src="pages/p027.png" alt="صفحة 27" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>السيناريوهات خطوة بخطوة تُظهر تدفق البيانات الحقيقي (API endpoints) — أفضل إثبات أن الفريق يفني نظامه تشغيليًا لا نظريًا.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>يكمل السيناريو الأول (أحمد): يفعّل استثناء «شارع الدائري» بضغط chip، يضغط «احسب المسار» فيرسل POST /api/route بالحمولة {start: Bab_Al_Yemen، goal: Filastin_Roundabout، algorithm: astar، avoid: [شارع الدائري]}، ينفذ الخادم A* مستثنيًا وصلات الدائري ويعيد {path، path_names، streets، cost: 20، expanded: 3، found: true}، ثم يرسم المسار ويحفظ تلقائيًا في سجل المستخدم search_history. السيناريو الثاني: زائرة كضيف اسمها سارة تكتب «ودّيني حدة، إيّاك تمر من شارع الزبيري» — ترسل إلى POST /api/command، يستدعي الخادم NLU: يجرب Groq أولًا إن وُجد المفتاح وإلا القواعد، فيستخرج {destination_node: Hadda، avoid: [شارع الزبيري]، source: rules}، ثم يخطط المسار من باب اليمن إلى حدة مع الاستثناء ويعرض النتيجة بالأسماء العربية. ثم يبدأ قسم 3.5 مخططات النظام بتقديم مخطط حالات الاستخدام (Use Case Diagram) الذي يبين الفاعلين (Actors) وحالات الاستخدام وعلاقاتها &lt;&lt;include&gt;&gt;/&lt;&lt;extend&gt;&gt;.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>نهاية السيناريو 1: POST /api/route — رد: cost: 20 و expanded: 3 و found: true + حفظ في search_history</li><li>السيناريو 2 (سارة، ضيفة): جملة واحدة «ودّيني حدة، إيّاك تمر من شارع الزبيري» عبر POST /api/command</li><li>تسلسل NLU: جرّب Groq أولًا ← وإلا القواعد ← source: rules في الرد</li><li>3.5 يبدأ بشرح Use Case Diagram: Actors + علاقات include/extend</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>امشِ معي على سيناريو كامل من الدخول للنتيجة.</span></summary><div class="ans"><b>الإجابة:</b><p>سارة تدخل ضيفة، تكتب «ودّيني حدة، إيّاك تمر من شارع الزبيري»، ترسل لـ POST /api/command، وحدة NLU تستخرج الوجهة حدة والاستثناء الزبيري (Groq أو rules)، الخادم يحسب المسار من باب اليمن، والنتيجة تُعرض بالعربية وترسم على الخريطة.</p></div></details><details class="qa"><summary><span>ما معنى expanded: 3 في رد المسار؟</span></summary><div class="ans"><b>الإجابة:</b><p>عدد العقد التي فتحتها الخوارزمية للوصول للحل — مقياس الأداء الذي نقارن به A* و UCS في فصل النتائج.</p></div></details><details class="qa"><summary><span>ليش سيناريوهان اثنان فقط؟</span></summary><div class="ans"><b>الإجابة:</b><p>لأن النظام له نمطا إدخال رئيسيان: التفاعلي بالنقر (أحمد) واللغوي بالعامية (سارة) — كل ميزات النظام تدخل تحت أحدهما.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p28"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 28</span>شكل 3-1: مخطط حالات الاستخدام (Use Case Diagram) + بداية ERD (3.5.2)<span class="tag">الفصل الثالث: تحليل المتطلبات والنمذجة — 3.5.1 و 3.5.2</span></h3>
+<a class="zoom" href="pages/p028.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p028.png" target="_blank"><img class="pgimg" src="pages/p028.png" alt="صفحة 28" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>أول مخططات UML في التحليل: يرسم حدود النظام من منظور المستخدم (من يفعل ماذا). ثم تمهيد لمخطط قاعدة البيانات.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>الصفحة تعرض شكل 3-1 مخطط حالات الاستخدام، المنتج بأداة draw.io (ملفات المخططات في مجلد diagrams) — الشرح التفصيلي للرسمة موجود في ملف الرسمات المنفصل. المطلوب هنا فهم الفكرة: المخطط يبين الفاعلين (Actors) مثل المستخدم والضيف والمشرف، وحالات الاستخدام الرئيسية (تسجيل، تخطيط مسار، استثناء، أمر لغوي، إدارة الخريطة) وعلاقاتها &lt;&lt;include&gt;&gt; و &lt;&lt;extend&gt;&gt;. ثم يبدأ القسم 3.5.2 بتقديم مخطط الكيانات والعلاقات (ERD): يمثل بنية قاعدة البيانات العلائقية، والنظام يتكون من أربعة كيانات: المستخدمون (users)، وسجل البحث (search_history)، وعقد الخريطة (map_nodes)، ووصلات الخريطة (map_edges) — وتفاصيله في الصفحات التالية.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>شكل 3-1 (Use Case) من draw.io — شرحه التفصيلي في ملف الرسمات المنفصل</li><li>فكرة المخطط: من الفاعلون؟ (مستخدم، ضيف، مشرف) وما حالات الاستخدام وعلاقات include/extend</li><li>3.5.2 يمهد لـ ERD: أربعة كيانات — users، search_history، map_nodes، map_edges</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>ما وظيفة Use Case Diagram ولماذا نرسمه؟</span></summary><div class="ans"><b>الإجابة:</b><p>يحدد حدود النظام من منظور المستخدم: من الفاعلون وماذا يفعلون — فيوثق المتطلبات الوظيفية بصريًا قبل التصميم، ويُظهر العلاقات include و extend بين الحالات.</p></div></details><details class="qa"><summary><span>وين ألاقي تفصيل الرسمة دي؟</span></summary><div class="ans"><b>الإجابة:</b><p>الشكل نفسه شكل 3-1 من draw.io في مجلد diagrams، والشرح التفصيلي لعناصره موجود في ملف شرح الرسمات المنفصل المرافق لدفتر المناقشة.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p29"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 29</span>شكل 3-2: مخطط الكيانات والعلاقات (ERD) + بداية 3.5.3 مخطط الفئات<span class="tag">الفصل الثالث (التحليل) — 3.5 مخططات النظام</span></h3>
+<a class="zoom" href="pages/p029.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p029.png" target="_blank"><img class="pgimg" src="pages/p029.png" alt="صفحة 29" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>لأن التحليل يجب أن ينتهي برسم لقاعدة البيانات قبل أي كتابة كود.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>الصفحة فيها رسم واحد: مخطط الكيانات والعلاقات (ERD). هو صورة لقاعدة البيانات قبل بنائها. يظهر أربع كيانات (جداول): المستخدمون (users) وسجل البحث (search_history) وعقد الخريطة (map_nodes) ووصلات الخريطة (map_edges). الخطوط بينها تبين العلاقات: مستخدم واحد له عدة سجلات بحث، والوصلة تشير إلى عقدتين. أسفلها تبدأ فقرة مخطط الفئات (Class Diagram). الرسم أنتج بأداة draw.io وملفه الكامل في مجلد diagrams.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>الكيانات أربعة: users و search_history و map_nodes و map_edges</li><li>العلاقة الأساسية: مستخدم واحد ← عدة سجلات بحث (واحد-إلى-متعدد)</li><li>map_edges ترتبط مع map_nodes عبر الحقلين u و v</li><li>الرسم بأداة draw.io والملفات في مجلد diagrams</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>ما فائدة الـ ERD؟</span></summary><div class="ans"><b>الإجابة:</b><p>نرسم قاعدة البيانات قبل بنائها. هذا يكشف الأخطاء والجداول الناقصة مبكرًا بدل اكتشافها أثناء البرمجة.</p></div></details><details class="qa"><summary><span>كم جدولًا في قاعدتكم؟</span></summary><div class="ans"><b>الإجابة:</b><p>أربعة: المستخدمون، سجل البحث، عقد الخريطة، وصلات الخريطة.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p30"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 30</span>شكل 3-3: مخطط الفئات (Class Diagram) + بداية 3.5.4 مخطط التتابع<span class="tag">الفصل الثالث — 3.5.3 / 3.5.4</span></h3>
+<a class="zoom" href="pages/p030.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p030.png" target="_blank"><img class="pgimg" src="pages/p030.png" alt="صفحة 30" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>لأن الكلية تطلب ربط الكود بالتصميم: كل فئة في الرسم موجودة فعلًا في الكود.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>الصفحة تعرض مخطط الفئات (Class Diagram). هذا رسم للكود نفسه: كل صندوق فئة (class) فيها دوال ومتغيرات، والأسهم علاقات بين الفئات. الرسم يركز على الأنماط التصميمية (Design Patterns) المطبقة: Strategy و Repository و Singleton و DTO. بعده تبدأ فقرة مخطط التتابع (Sequence Diagram). التفصيل الكامل للرسمة في مجلد diagrams.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>Class Diagram يرسم الكود (فئات)، بينما ERD يرسم قاعدة البيانات (جداول)</li><li>يبرز الأنماط الأربعة: Strategy و Repository و Singleton و DTO</li><li>مثال حقيقي: SearchStrategy واجهة واحدة، و AStar و UCS تطبقانها</li><li>ملفات الرسم في مجلد diagrams</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>ما الفرق بين Class Diagram و ERD؟</span></summary><div class="ans"><b>الإجابة:</b><p>ERD للجداول في قاعدة البيانات، و Class Diagram للفئات في الكود البرمجي.</p></div></details><details class="qa"><summary><span>أين نمط Strategy في الرسم؟</span></summary><div class="ans"><b>الإجابة:</b><p>في واجهة SearchStrategy التي تطبقها خوارزميتا AStar و UCS، فيستبدلهما وقت التشغيل.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p31"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 31</span>شكل 3-4: مخطط التتابع (Sequence) — معالجة أمر لغوي عربي + بداية 3.5.5<span class="tag">الفصل الثالث — 3.5.4 / 3.5.5</span></h3>
+<a class="zoom" href="pages/p031.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p031.png" target="_blank"><img class="pgimg" src="pages/p031.png" alt="صفحة 31" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>لأن أهم ميزة في المشروع هي فهم الجملة العربية، فلا بد من رسم يوضح رحلتها خطوة خطوة.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>الصفحة فيها مخطط التتابع (Sequence Diagram) للسيناريو الثاني (الأمر اللغوي). يوضح الترتيب الزمني للرسائل: المستخدم يكتب جملة ← العميل يرسلها إلى الخادم ← الخادم يستدعي nlu.parse_command (يجرّب Groq ثم القواعد) ← استخراج الوجهة والاستثناءات ← Router يحسب المسار ← النتيجة ترجع للعميل وتُرسم على الخريطة. كل سهم في الرسم رسالة بين مكونين بترتيبها الصحيح. بعدها تبدأ فقرة مخطط النشاط (Activity Diagram). التفصيل في مجلد diagrams.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>Sequence Diagram يجيب على سؤال: من يرسل لمن ومتى؟</li><li>المسار: جملة عربية ← NLU ← استخراج وجهة واستثناءات ← حساب المسار ← رسم النتيجة</li><li>NLU يجرّب Groq أولًا، وإن لم يوجد مفتاح يستخدم القواعد (rules)</li><li>السيناريو المرسوم هو سيناريو «ودّيني حدة» من الفصل الثالث</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>لماذا رستم التتابع للأمر اللغوي تحديدًا؟</span></summary><div class="ans"><b>الإجابة:</b><p>لأنه أكثر تدفق فيه تفاعل بين مكونات النظام: العميل والخادم و NLU والراوتر، فكان أفضل مثال.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p32"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 32</span>شكل 3-5: مخطط النشاط (Activity) — تخطيط مسار بقيود استثناء + بداية 3.5.6<span class="tag">الفصل الثالث — 3.5.5 / 3.5.6</span></h3>
+<a class="zoom" href="pages/p032.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p032.png" target="_blank"><img class="pgimg" src="pages/p032.png" alt="صفحة 32" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>لأن تخطيط المسار مع الاستثناء فيه قرارات وفروع، والـ Activity Diagram هو الرسم المناسب لذلك.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>الصفحة تعرض مخطط النشاط (Activity Diagram) لعملية تخطيط المسار. يبين تدفق التحكم: بدء ← اختيار البداية والوجهة والخوارزمية ← هل يوجد استثناء؟ (فرع قرار) ← تنفيذ البحث ← هل وُجد مسار؟ ← رسم النتيجة أو إظهار رسالة فشل. فيه أيضًا فرع التحقق من الاتصال (مثلاً عند الحاجة لـ Groq). بعده تبدأ فقرة مخطط الحالات (State Diagram). الرسمة الكاملة في مجلد diagrams.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>Activity Diagram يرسم الخطوات والقرارات (الألماس = قرار بنعم/لا)</li><li>يغطي الحالتين: نجاح البحث و فشله (لا مسار)</li><li>يظهر فرع التحقق من الاتصال قبل استدعاء Groq</li><li>ملف الرسم في مجلد diagrams</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>ما الفرق بين Activity و Sequence؟</span></summary><div class="ans"><b>الإجابة:</b><p>Sequence يبين تبادل الرسائل بين المكونات بترتيب زمني، و Activity يبين خطوات سير العملية والقرارات والفروع.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p33"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 33</span>شكل 3-6: مخطط الحالات (State) لسجل البحث + وصف 3.5.7 مخطط تدفق البيانات (DFD)<span class="tag">الفصل الثالث — 3.5.6 / 3.5.7</span></h3>
+<a class="zoom" href="pages/p033.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p033.png" target="_blank"><img class="pgimg" src="pages/p033.png" alt="صفحة 33" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>لأن توثيق دورة حياة السجل في قاعدة البيانات مطلب في منهج هندسة البرمجيات.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>الصفحة فيها رسم لمخطط الحالات (State Diagram) لكائن «سجل بحث» في جدول search_history: يبدأ غير موجود ← يُنشأ عند طلب مسار من مستخدم مسجل ← يُحفظ في القاعدة ← (قديم/مؤرشف). ثم تبدأ فقرة مخطط تدفق البيانات (DFD) بالمستوى الأول: يبين حركة البيانات بين طرفين خارجيين (المستخدم والمشرف) وأربع عمليات داخلية (المصادقة، تخطيط المسار، تحليل الأمر العربي، إدارة الخريطة) وثلاثة مخازن بيانات (المستخدمون، سجل البحث، الخريطة). التفصيل في مجلد diagrams.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>State Diagram يرسم دورة حياة كائن واحد: من الإنشاء إلى الحذف/الأرشفة</li><li>DFD المستوى الأول: 2 كيانات خارجية + 4 عمليات + 3 مخازن بيانات</li><li>العمليات الأربع: المصادقة، تخطيط المسار، تحليل الأمر العربي، إدارة الخريطة</li><li>المخازن الثلاثة: users و search_history والخريطة (nodes/edges)</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>لماذا رسمنا State لكائن السجل تحديدًا؟</span></summary><div class="ans"><b>الإجابة:</b><p>لأنه الكائن الذي تتغير حالته فعلًا مع كل بحث: يُنشأ ثم يُخزن ثم يُقرأ لاحقًا في سجل الرحلات.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p34"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 34</span>شكل 3-7: مخطط تدفق البيانات (DFD) + 3.6 توصيف حالتي الاستخدام FR-3 و FR-5<span class="tag">الفصل الثالث — 3.5.7 / 3.6</span></h3>
+<a class="zoom" href="pages/p034.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p034.png" target="_blank"><img class="pgimg" src="pages/p034.png" alt="صفحة 34" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>لأن اللجنة تريد ربط المخططات بالمتطلبات الوظيفية برقم واضح.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>أعلى الصفحة رسم الـ DFD (المستوى الأول). بعده قسم 3.6 «توصيف المخططات» وفيه جدولان مهمان. الأول: حالة استخدام «تخطيط المسار (FR-3)»: الفاعل مستخدم مسجل أو ضيف، المدخلات start و goal و algorithm (astar/ucs) و avoid، التدفق: تحقق من العقدتين ← اختيار الاستراتيجية ← تنفيذ البحث ← إعادة بناء المسار ← إعادة JSON، البديل: عقدة غير موجودة ← HTTP 400، لا مسار ← found: false، المخرجات كائن PathResult. الثاني: حالة «أمر لغوي (FR-5)»: مدخل جملة عربية، استدعاء nlu.parse_command (Groq ثم القواعد) ← استخراج الوجهة والاستثناءات ← تخطيط المسار ← النتيجة مع حقل source (groq/rules).</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>FR-3 مدخلاته: start و goal و algorithm و avoid</li><li>FR-3 مخرجاته: PathResult فيه المسار والأسماء والشوارع والتكلفة وعدد العقد المفتوحة</li><li>التدفق البديل: عقدة غلط ← HTTP 400، انقطاع ← found: false</li><li>FR-5 يضيف حقل source يبين هل الفهم من groq أو rules</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>ماذا يحدث لو طلبت وجهة غير موجودة؟</span></summary><div class="ans"><b>الإجابة:</b><p>يرجع الخادم خطأ HTTP 400. ولو وجدت الوجهة لكن لا طريق (انقطاع كامل) يرجع found: false دون انهيار.</p></div></details><details class="qa"><summary><span>من يستطيع حساب المسار؟</span></summary><div class="ans"><b>الإجابة:</b><p>أي أحد: مستخدم مسجل أو ضيف. الحفظ في السجل فقط للمسجل.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p35"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 35</span>الفصل الرابع: تصميم المشروع — المقدمة ومعمارية النظام<span class="tag">الفصل الرابع — 4.1 / 4.1.1</span></h3>
+<a class="zoom" href="pages/p035.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p035.png" target="_blank"><img class="pgimg" src="pages/p035.png" alt="صفحة 35" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>لأن دورة حياة تطوير البرمجيات تنص أن التصميم يأتي بعد التحليل وقبل التنفيذ.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>هنا يبدأ الفصل الرابع. رسالته: نأخذ مخرجات التحليل (الفصل الثالث) ونحولها إلى خطط تقنية للفريق. أول قرار تصميم: معمارية العميل–الخادم (Client–Server) على منصتين منفصلتين تتصلان عبر واجهات RESTful API. الفكرة: المتصفح شيء والخادم شيء آخر تمامًا، وبينهما عقد اتصال واضح. مع فصل واضح للمسؤوليات (Separation of Concerns): كل جزء يعمل مهمة واحدة.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>التصميم = تحويل التحليل إلى خطة تقنية قبل البرمجة</li><li>المعمارية: Client–Server على منصتين عبر RESTful API</li><li>الفصل يغطي بعدها: قاعدة البيانات، الواجهات، الخوارزميات، الأمان</li><li>المبدأ الحاكم: Separation of Concerns</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>لماذا فصلتم العميل عن الخادم؟</span></summary><div class="ans"><b>الإجابة:</b><p>لكل واحد يتطور وحده، والعميل يعمل على أي متصفح بأي لغة، والتغيير في واحد لا يكسر الآخر.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p36"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 36</span>شكل 4-1: معمارية النظام متعددة الطبقات + مبرراتها + بداية 4.1.2<span class="tag">الفصل الرابع — 4.1.1 / 4.1.2</span></h3>
+<a class="zoom" href="pages/p036.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p036.png" target="_blank"><img class="pgimg" src="pages/p036.png" alt="صفحة 36" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>لأن اللجنة تسأل: لماذا اخترتم هذه المعمارية؟ فالصفحة تعطي الأسباب.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>الصفحة فيها رسم المعمارية (التفصيل في مجلد diagrams) ثم ثلاث مبررات. أولًا: فصل المنصتين يتيح تطوير كل واحدة باستقلال والعميل يعمل على أي متصفح. ثانيًا: طبقات متمايزة: العرض (FastAPI endpoints) ← المنطق (الخوارزميات و NLU) ← الوصول للبيانات (Repository) ← البيانات (SQLite)، وهذا يحقق مبدأ المسؤولية الواحدة (SRP) ويسهل الصيانة والاختبار. ثالثًا: الذكاء الأساسي (A*/UCS وقاعدة الخريطة) يعيش في وحدات shared/ مستقلة يستوردها الخادم، فلا يختلط بالويب ويمكن إعادة استخدامه في مقرر الذكاء الاصطناعي.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>أربع طبقات: العرض ← المنطق ← الوصول للبيانات ← البيانات</li><li>المبدأ: SRP (Single Responsibility Principle)</li><li>الخوارزميات في shared/ مستقلة عن كود الويب</li><li>فائدة الاستقلال: إعادة الاستخدام في مقرر آخر وسهولة الاختبار</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>ما فائدة نمط الطبقات؟</span></summary><div class="ans"><b>الإجابة:</b><p>كل طبقة لها وظيفة واحدة. لو تغير شيء نعرف أين نعدل بالضبط، والاختبار أسهل لأننا نفحص كل طبقة وحدها.</p></div></details><details class="qa"><summary><span>أين تعيش الخوارزميات؟</span></summary><div class="ans"><b>الإجابة:</b><p>في مجلد shared/ في ملف routing.py، يستوردها الخادم، فلا تختلط بكود الويب.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p37"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 37</span>شكل 4-2: تدفق البيانات بين العميل والخادم + جدول 4-1 تصميم جدول users<span class="tag">الفصل الرابع — 4.1.2 / 4.2</span></h3>
+<a class="zoom" href="pages/p037.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p037.png" target="_blank"><img class="pgimg" src="pages/p037.png" alt="صفحة 37" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>لأن رسم الخطوات الثلاث للاتصال يوضح كيف يتكلم الطرفان، ثم يبدأ تصميم القاعدة.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>أعلى الصفحة رسم ASCII لثلاث رحلات: (1) GET /api/map: العميل يطلب الخريطة ← الخادم يعمل SELECT للعقد والوصلات ← يرجع JSON. (2) POST /api/route: العميل يرسل start و goal ← الخادم ينفذ Router.find_path بـ A* أو UCS في الذاكرة ← يحفظ في search_history ← يرجع المسار والتكلفة وعدد المفتوح. (3) POST /api/command: جملة عربية ← nlu.parse_command ثم المسار ← النتيجة. ثم يبدأ قسم 4.2 بجدول users: id من نوع INTEGER مفتاح أساسي يتزايد تلقائيًا، و username نصي UNIQUE NOT NULL بطول 3–32.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>ثلاث رحلات REST: جلب الخريطة، حساب المسار، الأمر اللغوي</li><li>الحساب يجري في ذاكرة الخادم، والحفظ في search_history بعد الحساب</li><li>users: id (INTEGER PK AUTOINCREMENT) + username (TEXT UNIQUE NOT NULL، 3–32 حرفًا)</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>لماذا الحساب في الذاكرة لا في القاعدة؟</span></summary><div class="ans"><b>الإجابة:</b><p>الخريطة صغيرة (17 عقدة)، فتحميلها في الذاكرة أسرع. القاعدة للتخزين الدائم: المستخدمين والسجل والخريطة.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p38"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 38</span>جداول قاعدة البيانات: users (تكملة) و search_history و map_nodes وبداية map_edges<span class="tag">الفصل الرابع — 4.2 (جداول 4-1 إلى 4-4)</span></h3>
+<a class="zoom" href="pages/p038.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p038.png" target="_blank"><img class="pgimg" src="pages/p038.png" alt="صفحة 38" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>لأن اللجنة تفحص هل الجداول مصممة بقيود حقيقية أم مجرد أسماء.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>الصفحة تكمل جدول users بحقلين: password_hash نصي NOT NULL بصيغة pbkdf2$salt$hash (يعني كلمة المرور مشفرة لا نص صريح)، و created_at وقت الإنشاء. ثم جدول search_history: id مفتاح أساسي، user_id رقم NOT NULL مفتاح خارجي يشير إلى users.id، command نص الأمر، destination الوجهة، algorithm نص (astar/ucs)، path نص JSON لأسماء العقد، cost رقم حقيقي، created_at وقت البحث. ثم جدول map_nodes: id نصي مفتاح أساسي (مثل Sanaa_Uni)، name الاسم العربي (مثل «جامعة صنعاء»)، x و y أرقام حقيقية للإحداثيين. آخر الصفحة يبدأ جدول map_edges.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>users يكمل بـ password_hash (pbkdf2$salt$hash) و created_at</li><li>search_history: id + user_id (FK ← users.id) + command + destination + algorithm + path (JSON) + cost + created_at</li><li>map_nodes: id نصي (مثل Sanaa_Uni) + name عربي + x + y</li><li>إحداثيات x و y تخدم الرسم والكاشف معًا</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>لماذا id العقدة نصي بينما id المستخدم رقمي؟</span></summary><div class="ans"><b>الإجابة:</b><p>العقدة لها اسم منطقي ثابت ومقروء مثل Sanaa_Uni، أما المستخدم فمعرفه متسلسل يتزايد تلقائيًا.</p></div></details><details class="qa"><summary><span>أين يخزن المسار في السجل؟</span></summary><div class="ans"><b>الإجابة:</b><p>في حقل path بصيغة JSON تحوي أسماء العقد.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p39"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 39</span>جدول 4-4 map_edges + ملاحظة الأوزان + 4.3 تصميم الواجهات<span class="tag">الفصل الرابع — 4.2 / 4.3</span></h3>
+<a class="zoom" href="pages/p039.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p039.png" target="_blank"><img class="pgimg" src="pages/p039.png" alt="صفحة 39" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>لأن قرار عدم تخزين الوزن هو أذكى قرار هندسي في المشروع، والصفحة تشرح سببه.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>أول الصفحة جدول map_edges: id رقم مفتاح أساسي، u و v نصيان NOT NULL مفتاح خارجيان يشيران إلى map_nodes.id (العقدة الأولى والثانية)، و street نصي NOT NULL اسم الشارع (مثل «شارع الزبيري»). ثم ملاحظة هندسية مهمة: الأوزان لا تخزن كحقل، بل تحسب من المسافة الإقليدية (straight-line) بين إحداثيي العقدتين مقسومة على 10، أي weight = ceil(distance / 10). الفائدة مزدوجة: (1) يضمن أن الكاشف قابل للقبول (admissible) لأن الخط المستقيم دائمًا أقصر من المسافة الفعلية، (2) يبقي البيانات متسقة تلقائيًا: لو المشرف عدل إحداثيات عقدة يتحدث الوزن وحده دون تحديث يدوي. ثم يبدأ قسم الواجهات: HTML5 للبنية و CSS3 مع Design Tokens و JavaScript خالص (Vanilla) دون خطوة بناء، والرسم بـ SVG.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>map_edges: id + u (FK) + v (FK) + street</li><li>الوزن لا يخزن: weight = ceil(distance / 10)</li><li>فائدة 1: يضمن كاشف admissible ← أمثلية A*</li><li>فائدة 2: تعديل الإحداثيات يحدث الأوزان تلقائيًا</li><li>الواجهة: HTML5 + CSS3 + Vanilla JS + SVG بلا build step</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>لماذا لا تخزنون الوزن في الجدول؟</span></summary><div class="ans"><b>الإجابة:</b><p>لأنه مشتق من الإحداثيات. لو خزناه فقد يتضارب معها عند التعديل. والاشتقاق يضمن أيضًا أن الكاشف قابل للقبول فتكون نتائج A* مثالية.</p></div></details><details class="qa"><summary><span>ما معنى ceil هنا؟</span></summary><div class="ans"><b>الإجابة:</b><p>تقريب لأعلى لأقرب عدد صحيح، حتى تكون الأوزان أرقامًا صحيحة بسيطة.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p40"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 40</span>شكل 4-3: خريطة صنعاء التفاعلية (17 عقدة، 21 وصلة، 10 شوارع) + نظام التصميم + بداية 4.4 الخوارزميات<span class="tag">الفصل الرابع — 4.3.2 / 4.3.3 / 4.4</span></h3>
+<a class="zoom" href="pages/p040.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p040.png" target="_blank"><img class="pgimg" src="pages/p040.png" alt="صفحة 40" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>لأن هذه الصفحة هي ذاكرة النظام الجغرافية: كل رقم في نتائج الاختبار يعود لهذه الشبكة.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>الصفحة فيها رسم مبسط لشبكة صنعاء بإحداثيات تقريبية. كل نقطة (●) عقدة = مكان حقيقي بإحداثيين x و y: x البعد الأفقي و y الرأسي. مثال: جامعة عند (280, 190)، باب اليمن عند (520, 430)، الدائري عند (270, 290)، فلسطين عند (400, 570). الخطوط بين النقاط شوارع: ستين شمالي/غربي/جنوبي، الدائري، مذبح، علي عبدالمغني، حدة، تعز. المجموع: 17 عقدة و 21 وصلة و 10 شوارع. للإحداثيات وظيفتان: رسم الخريطة على الشاشة بـ SVG، وحساب الكاشف h(n) في A* (المسافة المستقيمة للهدف). بعدها قسم نظام التصميم: لون تركوازي #0f9d8a وتأكيد كهرماني #f59e0b، خطوط Cairo و Tajawal، تصميم Mobile-First بإطار أقصى 480px وتنقل سفلي بـ 5 عناصر، ومكونات: بطاقات و chips و segmented و bottom sheets. ثم يبدأ 4.4: الخوارزميات وفق نمط الاستراتيجية (Strategy Pattern) بواجهة SearchStrategy واحدة لـ A* و UCS تستبدلان وقت التشغيل.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>الشبكة: 17 عقدة، 21 وصلة، 10 شوارع حقيقية</li><li>كل عقدة لها x (أفقي) و y (رأسي) تقريبيان</li><li>أمثلة: جامعة (280,190)، الدائري (270,290)، باب اليمن (520,430)، فلسطين (400,570)</li><li>وظيفة الإحداثيات: رسم SVG + حساب الكاشف</li><li>نظام التصميم: تركواز #0f9d8a، كهرمان #f59e0b، خطوط Cairo + Tajawal، Mobile-First بحد 480px</li><li>4.4: A* و UCS خلف واجهة SearchStrategy (Strategy Pattern)</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>ما فائدة الإحداثيات عندكم؟</span></summary><div class="ans"><b>الإجابة:</b><p>وظيفتان: رسم الخريطة على الشاشة، وحساب الكاشف (المسافة المستقيمة للهدف) الذي يوجه خوارزمية A*.</p></div></details><details class="qa"><summary><span>هل الإحداثيات حقيقية؟</span></summary><div class="ans"><b>الإجابة:</b><p>تقريبية ومبنية على مواقع الأحياء فعلًا. الدقة التقريبية مذكورة ضمن التحديات في الفصل السادس.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p41"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 41</span>خوارزميات UCS و A* بالـ Pseudocode + الكاشف + آلية الاستثناء (Avoid)<span class="tag">الفصل الرابع — 4.4.1 / 4.4.2 / 4.4.3</span></h3>
+<a class="zoom" href="pages/p041.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p041.png" target="_blank"><img class="pgimg" src="pages/p041.png" alt="صفحة 41" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>لأن هذه قلب المشروع التقني، واللجنة ستسأل عنها بالتفصيل.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>الصفحة تعرض الخوارزميتين بسودوكود. UCS (البحث بالتكلفة المنتظمة): (1) أنشئ طابور أولوية (min-heap) يبدأ بالعقدة الابتدائية بتكلفة صفر. (2) أخرج دائمًا أرخص عقدة. (3) لو سبق فتحها تجاهلها (مجموعة closed). (4) سجلها في expanded. (5) لو وصلنا للهدف: أعد بناء المسار عبر خريطة came_from (تقول من أين جئنا لكل عقدة). (6) وإلا لكل جار: التكلفة الجديدة = القديمة + وزن الوصلة؛ لو أفضل من المعروفة حدّث وأضفه للطابور. A* نفس الفكرة تمامًا مع فرق واحد: أولوية الدفع تصبح f = g + h، أي التكلفة المقطوعة زائد الكاشف h (المسافة المستقيمة للهدف مقسومة على 10). ولأن المسافة المستقيمة لا تتجاوز التكلفة الحقيقية أبدًا، فالكاشف قابل للقبول (admissible) وهذا يضمن أمثلية A*. ثم آلية الاستثناء: دالة neighbors تتجاهل أي وصلة شارعها أو جارها ضمن avoid، مع إعفاء نقطتي البداية والوجهة.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>UCS يوسع دائمًا أرخص عقدة (min-heap) بلا معرفة بالاتجاه</li><li>A* = UCS + كاشف: priority = g + h حيث h المسافة المستقيمة / 10</li><li>came_from تعيد بناء المسار بالرجوع خطوة خطوة</li><li>expanded يعد العقد المفتوحة فعليًا (لقياس الكفاءة)</li><li>admissible: h لا تتجاوز التكلفة الحقيقية ← أمثلية مضمونة</li><li>avoid يحجب الشوارع والعقد، والبداية والوجهة معفاة</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>اشرح A* بجملة واحدة.</span></summary><div class="ans"><b>الإجابة:</b><p>مثل UCS لكنه يضيف للميزان المسافة المستقيمة المتبقية للهدف، فيبحث نحو الهدف بدل التوسع في كل الاتجاهات.</p></div></details><details class="qa"><summary><span>ما معنى admissible ولماذا مهمة؟</span></summary><div class="ans"><b>الإجابة:</b><p>ألا يتجاوز التقدير التكلفة الحقيقية أبدًا. لأن وزن الوصلة مشتق من المسافة نفسها، والخط المستقيم أقصر طريق، فالشرط محقق، وهذا يضمن أن أول مسار يجده A* هو الأمثل.</p></div></details><details class="qa"><summary><span>ما فائدة مجموعة closed؟</span></summary><div class="ans"><b>الإجابة:</b><p>تمنع فتح العقدة مرتين، فتختصر التكرار وتحافظ على صحة العدّ.</p></div></details><details class="qa"><summary><span>لو استثنينا البداية نفسها؟</span></summary><div class="ans"><b>الإجابة:</b><p>البداية والوجهة معفيتان من الاستثناء كي يبقى الطرفان قابلين للوصول دائمًا.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p42"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 42</span>المطابقة الغامضة لأسماء الشوارع + 4.5 تصميم الأمان (Security)<span class="tag">الفصل الرابع — 4.4.3 / 4.5</span></h3>
+<a class="zoom" href="pages/p042.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p042.png" target="_blank"><img class="pgimg" src="pages/p042.png" alt="صفحة 42" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>لأن الفصل العملي في مقرر هندسة البرمجيات يفرض: نقل آمن، تشفير كلمات مرور، صلاحيات.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>أول الصفحة تكملة آلية الاستثناء: المطابقة الغامضة تتجاهل أل التعريف والمسمى العام (شارع/طريق/جولة/دوار)، فكلمة «ستين» تطابق الأجزاء الثلاثة لشارع الستين دفعة واحدة. ثم الأمان بأربع ركائز: (1) نقل البيانات: HTTP محليًا مع تجهيز HTTPS إنتاجيًا عبر وكيل عكسي (reverse proxy)، وسياسة CORS تسمح فقط لـ localhost و 127.0.0.1 و Live Server. (2) كلمات المرور: تشفير PBKDF2-HMAC-SHA256 مع ملح عشوائي (salt) 16 بايت لكل مستخدم و 100,000 تكرار، فيصعب كسر الجداول المعروفة (rainbow tables) والقوة الغاشمة. (3) التوكنات: بأسلوب JWT-like (حمولة Base64 + توقيع HMAC-SHA256) تحمل معرف المستخدم وتنتهي بعد ساعة (TTL)، والمقارنة بـ hmac.compare_digest المقاوم لهجمات التوقيت. (4) الصلاحيات ثلاث طبقات: عام (خريطة وأماكن)، مستخدم (مسار ومساعد وسجل)، مشرف (رأس X-Admin-Key). مع تحقق Pydantic للمدخلات: كلمة مرور 6 أحرف فأكثر، إحداثيات بين 0 و 1000.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>«ستين» تطابق الأجزاء الثلاثة (شمالي/غربي/جنوبي) دفعة واحدة</li><li>PBKDF2-HMAC-SHA256 + ملح 16 بايت + 100,000 تكرار</li><li>توكن JWT-like بتوقيع HMAC-SHA256 و TTL ساعة، مقارنة بـ hmac.compare_digest</li><li>ثلاث صلاحيات: Public / User / Admin (X-Admin-Key)</li><li>Pydantic يرفض المدخلات السيئة قبل الوصول للمنطق (كلمة مرور ≥ 6، إحداثيات 0–1000)</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>لماذا PBKDF2 وليس SHA256 مباشرة؟</span></summary><div class="ans"><b>الإجابة:</b><p>لأن PBKDF2 يكرر الحساب 100,000 مرة مع ملح، فيصبح التخمين مكلفًا جدًا. SHA256 وحده سريع وهذا يفيد المهاجم.</p></div></details><details class="qa"><summary><span>لماذا ملح لكل مستخدم؟</span></summary><div class="ans"><b>الإجابة:</b><p>لو استخدمنا ملحًا واحدًا لانطبق نفس الهاش على نفس كلمة المرور في كل الحسابات. الملح الفردي يكسر جداول rainbow.</p></div></details><details class="qa"><summary><span>كيف تحمون واجهات الإدارة؟</span></summary><div class="ans"><b>الإجابة:</b><p>برأس X-Admin-Key يقارن بـ hmac.compare_digest المقاوم لهجمات التوقيت.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p43"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 43</span>الفصل الخامس: التنفيذ والاختبار — 5.1 المقدمة + جدول 5-1 التقنيات والأدوات<span class="tag">الفصل الخامس — 5.1 / 5.2.1</span></h3>
+<a class="zoom" href="pages/p043.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p043.png" target="_blank"><img class="pgimg" src="pages/p043.png" alt="صفحة 43" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>لأن اللجنة تريد معرفة بماذا بنيتم النظام فعليًا ولماذا اخترتموه.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>هنا ننتقل من الورق إلى الكود. المقدمة تشرح أن الفصل يحول تصاميم الفصل الرابع إلى برنامج شغال ثم يختبره. جدول الأدوات: لغة الخادم Python 3.11، إطار الويب FastAPI (يبني واجهات REST بتوثيق تلقائي)، خادم التشغيل uvicorn (ASGI)، القاعدة SQLite 3، نماذج التحقق Pydantic (تستخدم أيضًا كـ DTO)، الواجهة الأمامية HTML5 + CSS3 + Vanilla JS، الرسم SVG، المساعد اللغوي Groq API بنموذج llama-3.1-8b-instant (اختياري)، إدارة الإصدارات Git، وأدوات التطوير VS Code و Ruff.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>الخلفية: Python 3.11 + FastAPI + uvicorn + SQLite + Pydantic</li><li>الأمامية: HTML5 + CSS3 + Vanilla JS + SVG بلا build step</li><li>المساعد اللغوي: Groq API بنموذج llama-3.1-8b-instant (اختياري)</li><li>Git للإصدارات، VS Code و Ruff للتطوير</li><li>FastAPI يعطي توثيقًا تلقائيًا (/docs) استخدمناه في الاختبار</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>لماذا FastAPI؟</span></summary><div class="ans"><b>الإجابة:</b><p>سريع، يعطي توثيق Swagger تلقائيًا استخدمناه في اختبار النظام، ويتكامل مع Pydantic للتحقق من المدخلات.</p></div></details><details class="qa"><summary><span>لماذا SQLite؟</span></summary><div class="ans"><b>الإجابة:</b><p>خفيفة، ملف واحد بلا سيرفر قواعد، وتكفي تمامًا لحجم بياناتنا (17 عقدة ومستخدمون وسجل).</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p44"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 44</span>جدول 5-2: الأنماط التصميمية الأربعة + 5.2.3 خطوات التنفيذ<span class="tag">الفصل الخامس — 5.2.2 / 5.2.3</span></h3>
+<a class="zoom" href="pages/p044.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p044.png" target="_blank"><img class="pgimg" src="pages/p044.png" alt="صفحة 44" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>لأن المقرر يشترط ثلاثة أنماط على الأقل، ونحن طبقنا أربعة بأماكن حقيقية.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>جدول الأنماط: (1) Strategy (الاستراتيجية): واجهة SearchStrategy من نوع Protocol تطبقها AStar و UCS، فيستبدل المستخدم الخوارزمية وقت التشغيل عبر Router.find_path(algorithm=...). (2) Repository (المستودع): UserRepository و HistoryRepository يعزلان أوامر SQL عن منطق العمل، فيسهل الاختبار والصيانة. (3) Singleton (المفرد): CITY من نوع CityMap و ROUTER من نوع Router نسخة واحدة على مستوى الوحدة لضمان الاتساق. (4) DTO (نقل البيانات): PathResult ونماذج Pydantic مثل TokenOut و RouteIn تنقل البيانات بين الطبقات بصورة آمنة ومتحقق منها. ثم خطوات التنفيذ الأربع: إنشاء القاعدة والجداول مع تهيئة الخريطة عند أول تشغيل (_seed_map_if_empty) ← بناء نقاط النهاية الخمس مع Repository و حقن التبعيات (Depends) ← بناء العميل SPA بموجه Hash يرسل fetch() ← ربط كل شاشة بنقطة النهاية المناسبة.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>Strategy: SearchStrategy + AStar/UCS، تبديل وقت التشغيل</li><li>Repository: UserRepository و HistoryRepository يعزلان SQL</li><li>Singleton: CITY و ROUTER نسخة واحدة لضمان الاتساق</li><li>DTO: PathResult و TokenOut و RouteIn عبر Pydantic</li><li>خطوات التنفيذ: قاعدة ← خلفية ← واجهة ← تكامل REST</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>أين طبقتم Singleton ولماذا؟</span></summary><div class="ans"><b>الإجابة:</b><p>على CITY و ROUTER. نريد خريطة واحدة موحدة في الذاكرة، فلو تعددت النسخ لتضاربت البيانات.</p></div></details><details class="qa"><summary><span>ما فائدة Repository؟</span></summary><div class="ans"><b>الإجابة:</b><p>يفصل أوامر SQL عن منطق الأعمال. نستطيع تغيير القاعدة أو اختبار المنطق بلا قاعدة حقيقية.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p45"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 45</span>شكل 5-1 و 5-2: لقطتان توضيحيتان لواجهة الخريطة ونتيجة المسار + بداية 5.3 الاختبار<span class="tag">الفصل الخامس — 5.2.3 / 5.3</span></h3>
+<a class="zoom" href="pages/p045.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p045.png" target="_blank"><img class="pgimg" src="pages/p045.png" alt="صفحة 45" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>لأن إظهار شكل الواجهة يثبت أن التصميم تحول لمنتج مرئي قبل الحديث عن الاختبار.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>اللقطة الأولى (توضيحية) لواجهة الخريطة: شريط علوي فيه اسم مساري وحالة الضيف، قوائم اختيار البداية والوجهة، مبدل الخوارزمية (A* أو UCS)، رقاقات الاستثناء مثل [شارع الدائري ✕]، الخريطة SVG في الوسط، زر «احسب المسار»، وتنقل سفلي بخمسة أقسام. اللقطة الثانية لشاشة النتيجة: المسار مرسوم بالتركواز والشارع المستثنى متقطع كهرماني، وثلاث بطاقات (التكلفة، الخطوات، المفتوح)، ثم خطوات المسار بأسماء عربية مثل: باب اليمن ← شارع تعز ← جولة فلسطين. بعدها يبدأ قسم الاختبار بمستوياته الأربعة.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>الواجهة عربية RTL بتصميم موبايل أولًا وتنقل سفلي 5 عناصر</li><li>الاستثناء يظهر كرقاقات (chips) قابلة للإزالة</li><li>شاشة النتيجة تعرض: التكلفة + الخطوات + عدد العقد المفتوحة</li><li>المسار تركواز، والشارع المستثنى كهرماني متقطع</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>ما معنى المفتوح في شاشة النتيجة؟</span></summary><div class="ans"><b>الإجابة:</b><p>عدد العقد التي فتحتها الخوارزمية أثناء البحث (expanded). هو مقياس الكفاءة الذي قارننا به A* و UCS.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p46"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 46</span>مستويات الاختبار الأربعة: Unit و Integration و System و UAT<span class="tag">الفصل الخامس — 5.3.1 إلى 5.3.4</span></h3>
+<a class="zoom" href="pages/p046.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p046.png" target="_blank"><img class="pgimg" src="pages/p046.png" alt="صفحة 46" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>لأن منهج هندسة البرمجيات يقيس اكتمال المشروع بتغطية مستويات الاختبار الأربعة.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>اختبار الوحدة (Unit): فحص كل دالة وحدها. دالة normalize_ar توحد الحروف المتكافئة (أ/إ/آ ← ا، ة ← ه، ى ← ي) وتحذف التشكيل، فتصبح «شارع الزبيريّ» مساوية لـ«شارع الزبيري». دالة find_streets_by_name تعيد كل الشوارع المطابقة: البحث عن «ستين» يعيد الأجزاء الثلاثة. find_node_by_name تطابق «حدة» بالعقدة Hadda. ودالتا hash_password و verify_password تتحققان أن التشفير يعمل. اختبار التكامل (Integration): فحص المسار NLU ← Router ← SQLite بجمل حقيقية: «ودّيني حدة، إيّاك تمر من شارع الزبيري» ← الوجهة Hadda والاستثناء [شارع الزبيري] والمصدر rules (لغياب مفتاح Groq)، و«خدني الجامعة بدون ما تمر شارع حدة» ← Sanaa_Uni مع تجنب حدة، و«روحني باب اليمن» ← Bab_Al_Yemen بلا استثناء. اختبار النظام (System): عبر Swagger UI في /docs: التسجيل يصدر توكنًا صالحًا، /api/map تعيد 17 عقدة و 21 وصلة، /api/map.xml تعيد XML صحيحًا، /api/route تعيد الأسماء العربية. اختبار القبول (UAT): عرضنا النظام على عينة من زملاء الدفعة، الرضا كان عاليًا (سهولة الواجهة العربية، سرعة الاستجابة، الاستثناء بالنقر، فهم العامية)، وأبرز طلب: الإدخال الصوتي مستقبلًا.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>Unit: normalize_ar و find_streets_by_name و find_node_by_name و hash/verify_password</li><li>Integration: جمل عربية حقيقية عبر NLU ← Router ← SQLite، والمصدر rules عند غياب Groq</li><li>System: عبر /docs — الخريطة 17 عقدة و 21 وصلة و XML صحيح</li><li>UAT: رضا عالٍ من عينة زملاء، والطلب الأول: دعم الصوت</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>أعطِ مثال اختبار وحدة.</span></summary><div class="ans"><b>الإجابة:</b><p>دالة normalize_ar: تحول أ/إ/آ إلى ا و ة إلى ه و ى إلى ي وتحذف التشكيل، فتتطابق «الزبيريّ» مع «الزبيري».</p></div></details><details class="qa"><summary><span>كيف اختبرتم النظام ككل؟</span></summary><div class="ans"><b>الإجابة:</b><p>بأداة Swagger UI التلقائية على /docs: فحصنا كل نقطة نهاية يدويًا، من التسجيل حتى المسار.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p47"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 47</span>5.3.5 نتائج اختبار خوارزميات التوجيه (النتائج الحقيقية) — جدول 5-3<span class="tag">الفصل الخامس — 5.3.5</span></h3>
+<a class="zoom" href="pages/p047.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p047.png" target="_blank"><img class="pgimg" src="pages/p047.png" alt="صفحة 47" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>لأن هذه أهم صفحة تقنية في المناقشة كلها: إثبات عملي أن A* أوفر من UCS بنفس الأمثلية.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>أجرينا مقارنة فعلية على الخريطة المنفذة (17 عقدة). النتيجة المركزية: الخوارزميتان تعيدان دائمًا نفس التكلفة المثلى، لكن A* تفتح عقدًا أقل بكثير. الأرقام: جامعة ← فلسطين: التكلفة 56 للاثنتين، العقد المفتوحة 6 لـ A* مقابل 15 لـ UCS (توفير 60%). إيمان ← باب اليمن: 49 للاثنتين، 4 مقابل 11 (توفير 64%). باب اليمن ← عمران: 81 للاثنتين، 10 مقابل 16 (توفير 38%). حدة ← شعوب: 45 للاثنتين، 4 مقابل 10 (توفير 60%). قراءة النتائج: (1) الأمثلية: تطابق التكلفة يثبت أن الكاشف قابل للقبول (admissible) وهو ما صممنا له باشتقاق الأوزان من المسافة. (2) الكفاءة: توفير بين 38% و 64% لأن الكاشف يوجه البحث نحو الهدف بدل التوسع الدائري. (3) سلوك الاستثناء: استثناء «شارع الدائري» في رحلة جامعة ← فلسطين وجه المسار عبر «شارع مذبح» و «شارع الستين الجنوبي» بتكلفة 64 بدلًا من 56، والوجهة بقيت قابلة للوصول. (4) الانقطاع: لو فصلت الاستثناءات البداية عن الوجهة تمامًا يرجع النظام found: false بأمان بدل التعطل.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>جامعة ← فلسطين: 56/6 (A*) مقابل 56/15 (UCS) = توفير 60%</li><li>إيمان ← باب اليمن: 49/4 مقابل 49/11 = 64% | باب اليمن ← عمران: 81/10 مقابل 81/16 = 38% | حدة ← شعوب: 45/4 مقابل 45/10 = 60%</li><li>التكلفة متطابقة دائمًا ← أمثلية مضمونة (كاشف admissible)</li><li>مع استثناء الدائري: التكلفة 64 بدل 56 عبر مذبح والستين الجنوبي</li><li>الانقطاع الكامل ← found: false بلا انهيار</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>لماذا التكلفة نفسها دائمًا؟</span></summary><div class="ans"><b>الإجابة:</b><p>لأن الكاشف admissible: المسافة المستقيمة لا تتجاوز الحقيقية، فلا تقود A* لمسار خاطئ. الاثنتان تكملان حتى الأمثل فيصلان لنفس النتيجة.</p></div></details><details class="qa"><summary><span>وماذا يفرق إذن؟</span></summary><div class="ans"><b>الإجابة:</b><p>عدد العقد المفتوحة (expanded): من 15 إلى 6 في حالة جامعة ← فلسطين. UCS يتوسع دائريًا في كل الاتجاهات، و A* يتجه نحو الهدف.</p></div></details><details class="qa"><summary><span>ماذا لو استثنينا شارعًا يمر به الأمثل؟</span></summary><div class="ans"><b>الإجابة:</b><p>يعيد التوجيه تلقائيًا: مثال الدائري رفع التكلفة من 56 إلى 64 فقط، وبقيت الوجهة متاحة.</p></div></details><details class="qa"><summary><span>ماذا يحدث لو انقطع الطريق كليًا؟</span></summary><div class="ans"><b>الإجابة:</b><p>يرجع found: false برسالة واضحة. النظام لا ينهار.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p48"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 48</span>الفصل السادس: النتائج والمناقشة — 6.1 عرض النتائج + 6.2 بدء التحليل<span class="tag">الفصل السادس — 6.1 / 6.2</span></h3>
+<a class="zoom" href="pages/p048.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p048.png" target="_blank"><img class="pgimg" src="pages/p048.png" alt="صفحة 48" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>لأن اللجنة تريد سماع: ماذا حققتم فعلًا؟ ثم لماذا حدث ما حدث؟</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>الفصل السادس يلخص ما تحقق مقابل أهداف الفصل الأول: خريطة رقمية لصنعاء من 17 عقدة و 21 وصلة و 10 شوارع بأسماء حقيقية (الستين بأجزائه الثلاثة، الزبيري، الدائري، حدة، تعز، شعوب، علي عبدالمغني، مذبح). تنفيذ A* و UCS من الصفر مع إثبات نظري وعملي للأمثلية. تفوق A* بتوسيع عقد أقل بنسبة 38–64% مع نفس التكلفة. الاستثناء على مستويين (الشارع بالاسم والمكان كعقدة) مع إعفاء الطرفين. مساعد يفهم العامية اليمنية. بنية متكاملة: FastAPI + SQLite + 5 مجموعات واجهات REST + عميل ويب. وأمان مطبق: PBKDF2 + HMAC + صلاحيات ثلاث الطبقات. ثم يبدأ جدول 6-1 لتحليل الأداء حالة بحالة مع تفسير لكل نتيجة.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>الخريطة: 17 عقدة، 21 وصلة، 10 شوارع حقيقية بأسمائها</li><li>خوارزميتان من الصفر + إثبات أمثلية نظري وعملي</li><li>تفوق A* بنسبة 38–64% في عدد العقد المفتوحة</li><li>استثناء بمستويين: شارع بالاسم أو مكان (عقدة)، مع إعفاء البداية والوجهة</li><li>البنية: FastAPI + SQLite + 5 مجموعات REST + عميل ويب + أمان ثلاثي</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>ما أهم رقم في مشروعكم؟</span></summary><div class="ans"><b>الإجابة:</b><p>توفير يصل إلى 64% في العقد المفتوحة (إيمان ← باب اليمن: 4 بدل 11) مع تطابق التكلفة المثلى.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p49"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 49</span>تحليل النتائج (تكملة جدول 6-1) + شكل 6-1 منحنى التفوق + 6.3 مزايا النظام<span class="tag">الفصل السادس — 6.2 / 6.3</span></h3>
+<a class="zoom" href="pages/p049.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p049.png" target="_blank"><img class="pgimg" src="pages/p049.png" alt="صفحة 49" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>لأن تفسير السبب أقوى من عرض الرقم: لماذا يتفوق A* أكثر في بعض الحالات؟</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>تكملة الجدول تضيف حالة خامسة: جامعة ← فلسطين مع تجنب الدائري: 64/5 لـ A* مقابل 64/9 لـ UCS، أي إعادة توجيه ناجحة حول القيد. الاستنتاج التحليلي: كلما كان الهدف بعيدًا اتجاهيًا عن نقطة التوسع ظهر تفوق A* أوضح، لأن UCS يضطر لاستكشاف عقد في اتجاهات معاكسة للهدف لا يستكشفها A* أبدًا. شكل 6-1 منحنى يلخص: UCS دائمًا أعلى و A* دائمًا أسفل (أقل فتحًا)، والتكلفة متطابقة دائمًا (A* = UCS) أي أمثلية مضمونة. ثم مزايا النظام: محلية أصيلة (خريطة صنعاء الحقيقية لا بيانات عالمية)، تحكم كامل في الطريق (استثناء بالنص وبالنقر)، فهم العامية ويعمل دون إنترنت (نسخة القواعد)، بنية تعليمية بالأنماط الأربعة، خفة وسرعة (بلا build step ويعمل على هواتف متوسطة)، وقابلية للتعديل (لوحة CRUD للمشرف تنعكس فورًا).</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>حالة التجنب: 64/5 مقابل 64/9 — إعادة توجيه ناجحة حول القيد</li><li>كلما بعد الهدف اتجاهيًا زاد تفوق A* على التوسع الدائري لـ UCS</li><li>المنحنى: UCS أعلى دائمًا، A* أسفل دائمًا، التكلفة متطابقة</li><li>المزايا: محلية + تحكم + عامية + أنماط + خفة + قابلية تعديل</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>لماذا يتفوق A* أكثر في بعض الحالات (64%) وأقل في أخرى (38%)؟</span></summary><div class="ans"><b>الإجابة:</b><p>حالة عمران ← باب اليمن مسار طويل عبر الشبكة، فيفتح A* عقدًا أكثر نسبيًا (10 مقابل 16). الفارق المطلق يقل لكنه يبقى دائمًا لصالح A*.</p></div></details><details class="qa"><summary><span>ما ميزة لا توفرها Google Maps عادة؟</span></summary><div class="ans"><b>الإجابة:</b><p>الاستثناء اليدوي: المستخدم يحجب شارعًا أو مكانًا بالنص أو بالنقر فيعاد التوجيه فورًا.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p50"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 50</span>6.4 التحديات (Challenges)<span class="tag">الفصل السادس — 6.4</span></h3>
+<a class="zoom" href="pages/p050.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p050.png" target="_blank"><img class="pgimg" src="pages/p050.png" alt="صفحة 50" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>لأن الاعتراف بالتحديات مع حلولها علامة نضج هندسي، واللجنة تحترم ذلك.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>خمسة تحديات صريحة: (1) محدودية بيانات المرور اللحظية: لا يوجد مصدر موثوق للازدحام في صنعاء، فالأوزان تعتمد على المسافة لا الزمن. (2) غياب تحديد الموقع الحي (GPS): دمج التتبع في نسخة الويب يحتاج HTTPS وأذونات المتصفح. (3) دقة الكاشف تعتمد على دقة الإحداثيات: الإحداثيات التقريبية قد تقلل فعالية A*. (4) اعتمادية المساعد اللغوي: Groq يحتاج مفتاح API واتصالًا، وعوضنا ذلك بالقواعد الاحتياطية لضمان التوفر الدائم. (5) نطاق الخريطة: 17 عقدة لأشهر الأحياء فقط وتحتاج توسيعًا لتغطية المدينة كاملة.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>لا بيانات ازدحام موثوقة ← الأوزان مسافة لا زمن</li><li>GPS يحتاج HTTPS وأذونات ← مؤجل للتوصيات</li><li>الكاشف رهين دقة الإحداثيات التقريبية</li><li>Groq اختياري والقواعد (rules) تضمن العمل دون إنترنت</li><li>الخريطة 17 عقدة وتحتاج توسيعًا</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>كيف تعاملتم مع انقطاع Groq؟</span></summary><div class="ans"><b>الإجابة:</b><p>بنسخة قواعد احتياطية (rules) تفهم الجمل بمعالجة النص العربي. هذا أنقذ العرض الحي فعلًا مرة، ودوناه ضمن الدروس المستفادة.</p></div></details><details class="qa"><summary><span>لماذا لا تحسبون الزمن بدل المسافة؟</span></summary><div class="ans"><b>الإجابة:</b><p>لأن لا مصدر بيانات ازدحام موثوق في صنعاء. اقترحنا مستقبلًا بيانات crowd-sourced لتحويل التكلفة من مسافة إلى زمن.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p51"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 51</span>الفصل السابع: الاستنتاجات والتوصيات — 7.1 الخلاصة + 7.2 الدروس + بداية 7.3<span class="tag">الفصل السابع — 7.1 / 7.2 / 7.3</span></h3>
+<a class="zoom" href="pages/p051.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p051.png" target="_blank"><img class="pgimg" src="pages/p051.png" alt="صفحة 51" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>لأن الخاتمة يجب أن تربط النتائج بالهدف الأصلي وبالمقرر، ثم تسحب دروسًا للمستقبل.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>الخلاصة: نجح مساري في بناء نظام تنقل ذكي محلي لصنعاء يجمع خريطة تفاعلية وخوارزميات من الصفر ومساعدًا يفهم العامية. أثبت أربع نقاط: A* المتوجهة بالكاشف تتفوق في الكفاءة (حتى 64% عقد أقل) مع نفس الأمثلية؛ فصل المسؤوليات (طبقات + Repository + Strategy) ينتج نظامًا قابلًا للصيانة والتوسع؛ المحلية قيمة تنافسية حقيقية؛ وإعطاء المستخدم تحكمًا في الطريق يحقق رضا عاليًا. ونفذنا جميع المتطلبات الوظيفية من FR-1 إلى FR-11 مع الأمان والأنماط. الدروس المستفادة: النموذج المبكر كشف الحاجة لميزة الاستثناء قبل الالتزام بالتصميم؛ اشتقاق الأوزان من المسافة قرار بسيط يؤمن الأمثلية؛ الاستراتيجية الاحتياطية (rules) ضرورية؛ فصل البيانات عن الذكاء في shared/ أتاح إعادة الاستخدام؛ والتطوير المتوازي مع دمج دوري عبر git ضرورة للمشاريع الجماعية. ثم تبدأ التوصيات: أولًا دعم GPS عبر navigator.geolocation، ثانيًا الملاحة الصوتية عبر Web Speech API.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>أثبتنا: A* أوفر حتى 64% بنفس الأمثلية بفضل كاشف admissible</li><li>فصل المسؤوليات ← قابلية صيانة وتوسع</li><li>المحلية ميزة تنافسية، والاستثناء يحقق الرضا</li><li>كل المتطلبات FR-1 إلى FR-11 منفذة</li><li>خمسة دروس: نموذج مبكر، كاشف قابل للقبول، احتياط، فصل الذكاء، git</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>ما أهم درس تعلمتموه؟</span></summary><div class="ans"><b>الإجابة:</b><p>الاستراتيجية الاحتياطية: نسخة القواعد للمساعد أنقذت العرض الحي عند غياب الاتصال بـ Groq. لا تعتمدوا على خدمة خارجية دون بديل.</p></div></details><details class="qa"><summary><span>هل حققتم كل المتطلبات؟</span></summary><div class="ans"><b>الإجابة:</b><p>نعم، جميع المتطلبات الوظيفية FR-1 إلى FR-11 منفذة ومختبرة، مع الأمان والأنماط.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p52"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 52</span>تكملة التوصيات المستقبلية (3–8) + 7.4 الخاتمة<span class="tag">الفصل السابع — 7.3 / 7.4</span></h3>
+<a class="zoom" href="pages/p052.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p052.png" target="_blank"><img class="pgimg" src="pages/p052.png" alt="صفحة 52" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>لأن التوصيات يجب أن تعالج التحديات المذكورة في الفصل السادس واحدًا واحدًا.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>ست توصيات تكمل الاثنتين السابقتين: (3) ربط الأوزان ببيانات مرور لحظية (crowd-sourced) لتحويل التكلفة من مسافة إلى زمن. (4) توسيع الخريطة لتغطية صنعاء كاملة. (5) تطبيق أصيل (Native App) بتغليف WebView أو إعادة الكتابة بـ Flutter. (6) مزامنة سحابية للقاعدة وسجل الرحلات عبر الأجهزة. (7) تحسين الكاشف بمسافة أقوى مثل Manhattan أو Network distance بدل الإقليدية. (8) وضع عدم الاتصال (Offline Mode) بتخزين الخريطة محليًا في IndexedDB. ثم الخاتمة: مساري محاولة جادة لسد فجوة محلية حقيقية في التنقل بصنعاء بتوظيف خوارزميات الذكاء الاصطناعي ومبادئ هندسة البرمجيات، ونأمل أن يكون لبنة ونموذجًا تعليميًا يلهم الطلاب.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>8 توصيات إجمالًا: GPS، صوت، ازدحام، توسيع خريطة، تطبيق أصيل، سحابة، كاشف أفضل، أوفلاين</li><li>كل توصية تعالج تحديًا من الفصل السادس</li><li>الكاشف الأفضل المقترح: Manhattan أو Network distance</li><li>الأوفلاين عبر IndexedDB</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>ما أول تحسين ستفعلونه؟</span></summary><div class="ans"><b>الإجابة:</b><p>دعم GPS بـ navigator.geolocation ليكون موقع المستخدم هو نقطة البداية تلقائيًا، فهو الطلب الأقرب للتجربة اليومية.</p></div></details><details class="qa"><summary><span>لماذا تقترحون Manhattan بدل الإقليدية؟</span></summary><div class="ans"><b>الإجابة:</b><p>الشوارع شبكة شبه شبكية، فمسافة الطريق الحقيقية أقرب لمسافة الشبكة من الخط المستقيم، فالكاشف يكون أدق والأمثلية محفوظة إن ظل لا يتجاوز الحقيقية.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p53"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 53</span>المراجع (References)<span class="tag">نهاية التقرير — المراجع</span></h3>
+<a class="zoom" href="pages/p053.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p053.png" target="_blank"><img class="pgimg" src="pages/p053.png" alt="صفحة 53" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>لأن التقرير الأكاديمي لا يصح دون مراجع موثقة، وكل مرجع مرتبط بجزء من العمل.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>خمسة عشر مرجعًا. أهمها: Russell و Norvig (2021) كتاب Artificial Intelligence: A Modern Approach الطبعة الرابعة، مرجعنا الأساسي في خوارزميات البحث A* و UCS والكواشف. Dijkstra (1959) و Hart و Nilsson و Raphael (1968) الورقتان التاريخيتان لأصل الخوارزميات. Sommerville (2016) و Pressman (2014) لمنهجية هندسة البرمجيات ودورة الحياة. Fielding (2000) أطروحة REST. Gamma وآخرون (1994) كتاب Design Patterns (Gang of Four) لأنماط Strategy و Singleton. ووثائق الأدوات: FastAPI و Groq و SQLite و MDN. و Norman (2013) لتجربة المستخدم. ودليل مشاريع التخرج 2023 لجامعة صنعاء كهيكلية للتقرير. و Google Maps و Waze للمقارنة في الدراسات السابقة.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>Russell &amp; Norvig (2021): المرجع الأساسي لخوارزميات البحث</li><li>Hart et al. (1968): الورقة الأصلية لخوارزمية A*</li><li>Sommerville و Pressman: منهجية هندسة البرمجيات</li><li>Gamma et al. (1994): مرجع أنماط التصميم</li><li>Fielding (2000): أطروحة REST</li><li>وثائق FastAPI و Groq و SQLite و MDN</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>من أين أخذتم فكرة A*؟</span></summary><div class="ans"><b>الإجابة:</b><p>من كتاب Russell و Norvig للذكاء الاصطناعي، والورقة الأصلية لـ Hart و Nilsson و Raphael عام 1968.</p></div></details><details class="qa"><summary><span>ما مرجع REST؟</span></summary><div class="ans"><b>الإجابة:</b><p>أطروحة Roy Fielding عام 2000 في جامعة كاليفورنيا إيرفاين، وهي التي عرفت أسلوب REST.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p54"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 54</span>الملاحق (أ) هيكل المجلدات و (ب) أوامر التشغيل وبداية (ج)<span class="tag">الملاحق</span></h3>
+<a class="zoom" href="pages/p054.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p054.png" target="_blank"><img class="pgimg" src="pages/p054.png" alt="صفحة 54" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>لأن الملاحق تثبت أن الكود منظم فعلًا وقابل للتشغيل أمام اللجنة.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>ملحق (أ) يعرض شجرة المجلدات: مجلد shared/ فيه الذكاء الأساسي (map_data.py لبيانات الخريطة و CityMap، routing.py لـ UCS و A* و Router، nlu.py للمساعد Groq + rules). مجلد ap_submission لتسليم البرمجة المتقدمة (backend فيه main.py لخادم FastAPI و masari.db لقاعدة SQLite، و web_client فيه index.html و app.css و app.js بمنطق التفاعل و Hash Router). مجلد se_submission لهذا الملف، و hci_submission و ai_submission لمقررين آخرين. ملحق (ب) أوامر التشغيل: cd إلى مجلد backend ثم uvicorn main:app --reload --port 8000، وفتح http://127.0.0.1:8000/ للعميل أو /docs لوثائق API، وضبط GROQ_API_KEY اختياريًا لتفعيل المساعد، و ADMIN_KEY=masari-admin للوحة الإدارة. ثم يبدأ ملحق (ج) بقائمة واجهات REST.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>shared/: map_data.py + routing.py + nlu.py — الذكاء مستقل عن الويب</li><li>ap_submission/backend: main.py (خادم FastAPI) + masari.db</li><li>web_client: index.html + app.css + app.js (SPA بموجه Hash)</li><li>التشغيل: uvicorn main:app --reload --port 8000</li><li>المفاتيح الاختيارية: GROQ_API_KEY و ADMIN_KEY=masari-admin</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>كيف نشغل المشروع أمامنا الآن؟</span></summary><div class="ans"><b>الإجابة:</b><p>دخول مجلد backend ثم الأمر uvicorn main:app --reload --port 8000، ونفتح 127.0.0.1:8000 للواجهة أو /docs للتوثيق. القاعدة تُنشأ وتُملأ تلقائيًا عند أول تشغيل.</p></div></details><details class="qa"><summary><span>لماذا مجلد shared منفصل؟</span></summary><div class="ans"><b>الإجابة:</b><p>لكي يستخدمه تسليم البرمجة المتقدمة وهندسة البرمجيات والذكاء الاصطناعي معًا دون تكرار كود.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p55"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 55</span>ملحق (ج): قائمة واجهات REST الكاملة + بداية ملحق (د) عقد الخريطة<span class="tag">الملاحق — (ج) و (د)</span></h3>
+<a class="zoom" href="pages/p055.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p055.png" target="_blank"><img class="pgimg" src="pages/p055.png" alt="صفحة 55" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>لأن جدول الواجهات هو العقد الرسمي بين العميل والخادم، ويسهل على اللجنة تجربة النظام.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>سبع عشرة نقطة نهاية موزعة: المصادقة: POST /api/auth/register (تسجيل، عام) و POST /api/auth/login (دخول، عام) و GET /api/auth/me (بياناتي، مستخدم). الأماكن: GET /api/places و GET /api/places/{id} (عام). الخريطة: GET /api/map بصيغة JSON و GET /api/map.xml بصيغة XML (عام). التوجيه: POST /api/route لتخطيط مسار بـ A* أو UCS (اختياري التوكن) و POST /api/command للأمر اللغوي (اختياري) و GET /api/history لسجل الرحلات (مستخدم). الإدارة: GET /api/admin/map و POST /api/admin/node و DELETE /api/admin/node/{id} و POST /api/admin/edge و DELETE /api/admin/edge/{id} و POST /api/admin/reset (كلها مشرف). و GET /health لفحص الصحة (عام). ثم يبدأ ملحق (د): قائمة العقد السبعة عشر بإحداثياتها، تبدأ بـ Omran_Roundabout (جولة عمران، 200, 60) و Sitteen_North (140, 120) و Sitteen_West (100, 240).</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>17 نقطة نهاية REST تغطي: مصادقة، أماكن، خريطة، توجيه، سجل، إدارة، فحص صحة</li><li>عام: register و login و places و map و map.xml و health</li><li>مستخدم: auth/me و history | اختياري: route و command</li><li>مشرف (X-Admin-Key): admin/map و node و edge و reset</li><li>ملحق (د) يسرد العقد الـ 17 بمعرفاتها وإحداثياتها</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>لماذا route و command اختياريتان؟</span></summary><div class="ans"><b>الإجابة:</b><p>لنسمح للضيف بتجربة التخطيط والمساعد دون تسجيل. الحفظ في السجل فقط للمستخدم المسجل.</p></div></details><details class="qa"><summary><span>كم نقطة نهاية عندكم؟</span></summary><div class="ans"><b>الإجابة:</b><p>سبع عشرة، منها ست لواجهات الإدارة الخاصة بالمشرف.</p></div></details>
+</div></div></div></div>
+<div class="bezel rv" id="p56"><div class="core">
+<div class="pghead">
+<h3><span class="pgnum">صفحة 56</span>ملحق (د): تكملة قائمة عقد الخريطة (17 عقدة) + نهاية التقرير<span class="tag">الملاحق — (د) وخاتمة التقرير</span></h3>
+<a class="zoom" href="pages/p056.png" target="_blank">تكبير<span class="ic">↗</span></a>
+</div>
+<div class="flexp">
+<div><a href="pages/p056.png" target="_blank"><img class="pgimg" src="pages/p056.png" alt="صفحة 56" loading="lazy"></a></div>
+<div>
+<div class="note n-why"><span class="lab">💡 لماذا هذه الصفحة؟</span><p>لأن إدراج العقد بإحداثياتها يجعل الخريطة قابلة لإعادة البناء والتحقق من أي رقم في التقرير.</p></div>
+<div class="note n-ex"><span class="lab">📌 الشرح المبسط</span><p>تكملة العقد الأربع عشرة: Mathbah_Roundabout (جولة مذبح، 320, 120)، Asr_Roundabout (جولة عصر، 420, 140)، Sitteen_South (شارع الستين الجنوبي، 510, 240)، Iman_Roundabout (جولة الإيمان، 80, 360)، Sanaa_Uni (جامعة صنعاء، 190, 280)، Dairi (شارع الدائري، 290, 270)، Kitab_Roundabout (جولة الكتاب، 370, 260)، Zubairi (شارع الزبيري، 390, 390)، Shuub (شارع شعوب، 140, 520)، Tahrir (ساحة التحرير، 320, 500)، Bab_Al_Yemen (باب اليمن، 430, 520)، Hadda (شارع حدة، 490, 340)، Taiz_St (شارع تعز، 520, 480)، Filastin_Roundabout (جولة فلسطين، 570, 400). ثم خاتمة التقرير: مشروع تخرج «مساري» — نظام التنقل الذكي في مدينة صنعاء، الفصل الدراسي 2025/2026، قسم علوم الحاسوب، جامعة صنعاء.</p></div>
+<h4>⭐ نقاط تحفظها</h4><ul><li>العقد بأسماء يمنية حقيقية: الزبيري، حدة، تعز، باب اليمن، التحرير، شعوب</li><li>أي حالة اختبار في التقرير يمكن تتبعها عبر هذه الإحداثيات</li><li>الجامعة (190, 280) وفلسطين (570, 400) هما طرفا حالة الاختبار الشهيرة 56/6 مقابل 56/15</li><li>التقرير ينتهي رسميًا: مساري — تنقل ذكي لصنعاء — 2025/2026 — جامعة صنعاء</li></ul><h4>🎯 أسئلة متوقعة عنها</h4><details class="qa"><summary><span>كيف نتحقق من نتيجة 56/6 مقابل 56/15؟</span></summary><div class="ans"><b>الإجابة:</b><p>خذ إحداثيات جامعة صنعاء (190, 280) وجولة فلسطين (570, 400) من هذا الملحق، وطبق weight = ceil(المسافة / 10) على وصلات المسار، وشغل A* ثم UCS وقارن التكلفة و expanded.</p></div></details>
+</div></div></div></div></div><script>
+function jump(n){var el=document.getElementById('p'+n);
+ if(el){el.scrollIntoView({behavior:'smooth',block:'start'})}}
+addEventListener('keydown',function(e){
+ var cs=[].slice.call(document.querySelectorAll('.bezel[id^=p]'));if(!cs.length)return;
+ var top=cs[0],i;
+ for(i=0;i<cs.length;i++){if(cs[i].getBoundingClientRect().top>100)break;top=cs[i]}
+ if(e.key==='ArrowLeft'&&top.previousElementSibling&&top.previousElementSibling.id)
+  jump(top.previousElementSibling.id.slice(1));
+ if(e.key==='ArrowRight'&&i<cs.length)jump(cs[i].id.slice(1));});
+</script><script>
+(function(){
+var io=new IntersectionObserver(function(es){es.forEach(function(e){
+ if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target)}})},{threshold:.06});
+var i=0;document.querySelectorAll('.rv').forEach(function(el){
+ el.style.transitionDelay=((i++%7)*75)+'ms';io.observe(el)});
+var p=document.getElementById('prog');
+addEventListener('scroll',function(){var h=document.documentElement;
+ var m=h.scrollHeight-h.clientHeight;p.style.transform='scaleX('+(m?h.scrollTop/m:0)+')'},{passive:true});
+})();
+</script><footer class="foot">
+<b>فريق مساري</b> — عبدالرحمن سيف · ليث الجعفري · أيمن النزيلي · خالد عيسى<br>
+أُعدّت هذه الحقيبة آليًا من وثيقة المشروع (56 صفحة) ومحاضرات مقرر هندسة البرمجيات — بالتوفيق في المناقشة 🌟
+</footer></body></html>

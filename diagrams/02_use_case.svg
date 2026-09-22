@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="880" viewBox="0 0 1400 880" font-family="Cairo, Segoe UI, Amiri, sans-serif">
+<defs><marker id="ar-end" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#595959"/></marker><marker id="ar-open" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M1,1 L9,5 L1,9" fill="none" stroke="#595959" stroke-width="1.6"/></marker><marker id="ar-start" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M10,0 L0,5 L10,10 z" fill="#595959"/></marker></defs>
+<rect width="1400" height="880" fill="#ffffff"/>
+<rect x="190" y="60" width="1000" height="790" rx="0" fill="#fcfcfc" stroke="#999" stroke-width="1.6" stroke-dasharray="7 5" />
+<circle cx="1275.0" cy="334" r="11" fill="none" stroke="#1f4e79" stroke-width="2.2"/>
+<line x1="1275.0" y1="345" x2="1275.0" y2="372" stroke="#1f4e79" stroke-width="2.2"/>
+<line x1="1255.0" y1="356" x2="1295.0" y2="356" stroke="#1f4e79" stroke-width="2.2"/>
+<line x1="1275.0" y1="372" x2="1259.0" y2="394" stroke="#1f4e79" stroke-width="2.2"/>
+<line x1="1275.0" y1="372" x2="1291.0" y2="394" stroke="#1f4e79" stroke-width="2.2"/>
+<text x="1275.0" y="412" font-size="13" fill="#1a1a1a" text-anchor="middle" font-weight="bold"  direction="rtl" unicode-bidi="plaintext">مستخدم</text>
+<text x="1275.0" y="431" font-size="13" fill="#1a1a1a" text-anchor="middle" font-weight="bold"  direction="rtl" unicode-bidi="plaintext">عادي</text>
+<circle cx="105.0" cy="654" r="11" fill="none" stroke="#7a4f00" stroke-width="2.2"/>
+<line x1="105.0" y1="665" x2="105.0" y2="692" stroke="#7a4f00" stroke-width="2.2"/>
+<line x1="85.0" y1="676" x2="125.0" y2="676" stroke="#7a4f00" stroke-width="2.2"/>
+<line x1="105.0" y1="692" x2="89.0" y2="714" stroke="#7a4f00" stroke-width="2.2"/>
+<line x1="105.0" y1="692" x2="121.0" y2="714" stroke="#7a4f00" stroke-width="2.2"/>
+<text x="105.0" y="732" font-size="13" fill="#1a1a1a" text-anchor="middle" font-weight="bold"  direction="rtl" unicode-bidi="plaintext">مشرف</text>
+<text x="105.0" y="751" font-size="13" fill="#1a1a1a" text-anchor="middle" font-weight="bold"  direction="rtl" unicode-bidi="plaintext">Admin</text>
+<ellipse cx="1000.0" cy="157.0" rx="120.0" ry="37.0" fill="#d5e8d4" stroke="#82b366" stroke-width="1.6" />
+<text x="1000.0" y="161.5" font-size="12.5" fill="#1a1a1a" text-anchor="middle"  direction="rtl" unicode-bidi="plaintext">تسجيل الدخول / حساب جديد</text>
+<ellipse cx="1000.0" cy="277.0" rx="120.0" ry="37.0" fill="#dae8fc" stroke="#6c8ebf" stroke-width="1.6" />
+<text x="1000.0" y="281.5" font-size="12.5" fill="#1a1a1a" text-anchor="middle"  direction="rtl" unicode-bidi="plaintext">عرض الخريطة التفاعلية</text>
+<ellipse cx="1000.0" cy="417.0" rx="120.0" ry="37.0" fill="#ffe6cc" stroke="#d79b00" stroke-width="1.6" />
+<text x="1000.0" y="421.5" font-size="12.5" fill="#1a1a1a" text-anchor="middle"  direction="rtl" unicode-bidi="plaintext">تخطيط المسار A*/UCS</text>
+<ellipse cx="1000.0" cy="547.0" rx="120.0" ry="37.0" fill="#e1d5e7" stroke="#9673a6" stroke-width="1.6" />
+<text x="1000.0" y="551.5" font-size="12.5" fill="#1a1a1a" text-anchor="middle"  direction="rtl" unicode-bidi="plaintext">إدخال أمر لغوي عربي</text>
+<ellipse cx="1000.0" cy="677.0" rx="120.0" ry="37.0" fill="#dae8fc" stroke="#6c8ebf" stroke-width="1.6" />
+<text x="1000.0" y="681.5" font-size="12.5" fill="#1a1a1a" text-anchor="middle"  direction="rtl" unicode-bidi="plaintext">تصفّح الأماكن</text>
+<ellipse cx="1000.0" cy="797.0" rx="120.0" ry="37.0" fill="#dae8fc" stroke="#6c8ebf" stroke-width="1.6" />
+<text x="1000.0" y="801.5" font-size="12.5" fill="#1a1a1a" text-anchor="middle"  direction="rtl" unicode-bidi="plaintext">عرض سجلّ الرحلات</text>
+<ellipse cx="635.0" cy="153.0" rx="115.0" ry="33.0" fill="#d5e8d4" stroke="#82b366" stroke-width="1.6" />
+<text x="635.0" y="157.5" font-size="12.5" fill="#1a1a1a" text-anchor="middle"  direction="rtl" unicode-bidi="plaintext">إصدار توكن موقّع</text>
+<ellipse cx="635.0" cy="413.0" rx="115.0" ry="33.0" fill="#f8cecc" stroke="#b85450" stroke-width="1.6" />
+<text x="635.0" y="417.5" font-size="12.5" fill="#1a1a1a" text-anchor="middle"  direction="rtl" unicode-bidi="plaintext">استثناء شارع / مكان</text>
+<ellipse cx="635.0" cy="543.0" rx="115.0" ry="33.0" fill="#e1d5e7" stroke="#9673a6" stroke-width="1.6" />
+<text x="635.0" y="547.5" font-size="12.5" fill="#1a1a1a" text-anchor="middle"  direction="rtl" unicode-bidi="plaintext">تحليل NLU للجملة</text>
+<ellipse cx="635.0" cy="673.0" rx="115.0" ry="33.0" fill="#dae8fc" stroke="#6c8ebf" stroke-width="1.6" />
+<text x="635.0" y="677.5" font-size="12.5" fill="#1a1a1a" text-anchor="middle"  direction="rtl" unicode-bidi="plaintext">تفاصيل المكان وجيرانه</text>
+<ellipse cx="325.0" cy="413.0" rx="115.0" ry="33.0" fill="#ffe6cc" stroke="#d79b00" stroke-width="1.6" />
+<text x="325.0" y="417.5" font-size="12.5" fill="#1a1a1a" text-anchor="middle"  direction="rtl" unicode-bidi="plaintext">تنفيذ خوارزمية البحث</text>
+<ellipse cx="635.0" cy="793.0" rx="115.0" ry="33.0" fill="#d5e8d4" stroke="#82b366" stroke-width="1.6" />
+<text x="635.0" y="797.5" font-size="12.5" fill="#1a1a1a" text-anchor="middle"  direction="rtl" unicode-bidi="plaintext">حفظ في سجلّ الرحلات</text>
+<ellipse cx="325.0" cy="797.0" rx="115.0" ry="37.0" fill="#fff2cc" stroke="#d6b656" stroke-width="1.6" />
+<text x="325.0" y="801.5" font-size="12.5" fill="#1a1a1a" text-anchor="middle"  direction="rtl" unicode-bidi="plaintext">إدارة الخريطة CRUD</text>
+<polyline points="1230,337.16 1215.0,325.0 1138,157.0 1120,157.0" fill="none" stroke="#595959" stroke-width="1.7" marker-end="url(#ar-end)" />
+<polyline points="1230,354.32 1205.0,355.0 1138,277.0 1120,277.0" fill="none" stroke="#595959" stroke-width="1.7" marker-end="url(#ar-end)" />
+<polyline points="1230,371.48 1205.0,375.0 1138,417.0 1120,417.0" fill="none" stroke="#595959" stroke-width="1.7" marker-end="url(#ar-end)" />
+<polyline points="1230,388.52 1215.0,395.0 1138,547.0 1120,547.0" fill="none" stroke="#595959" stroke-width="1.7" marker-end="url(#ar-end)" />
+<polyline points="1230,405.68 1215.0,415.0 1138,677.0 1120,677.0" fill="none" stroke="#595959" stroke-width="1.7" marker-end="url(#ar-end)" />
+<polyline points="1230,422.84000000000003 1215.0,435.0 1138,797.0 1120,797.0" fill="none" stroke="#595959" stroke-width="1.7" marker-end="url(#ar-end)" />
+<polyline points="150,700.0 165.0,715.0 192,797.0 210,797.0" fill="none" stroke="#595959" stroke-width="1.7" marker-end="url(#ar-end)" />
+<polyline points="880,157.0 855.0,155.0 768,153.0 750,153.0" fill="none" stroke="#7a7a7a" stroke-width="1.7" stroke-dasharray="7 5" marker-end="url(#ar-open)" />
+<rect x="780.81" y="131.0" width="61.38" height="19" fill="#ffffff" fill-opacity="0.94" rx="4" stroke="#d8d8d8" stroke-width="0.7"/>
+<text x="811.5" y="145.0" font-size="11" fill="#333" text-anchor="middle" font-style="italic">«include»</text>
+<polyline points="880,417.0 865.0,455.0 455.0,455.0 458,413.0 440,413.0" fill="none" stroke="#7a7a7a" stroke-width="1.7" stroke-dasharray="7 5" marker-end="url(#ar-open)" />
+<rect x="618.31" y="424.0" width="61.38" height="19" fill="#ffffff" fill-opacity="0.94" rx="4" stroke="#d8d8d8" stroke-width="0.7"/>
+<text x="649.0" y="438.0" font-size="11" fill="#333" text-anchor="middle" font-style="italic">«include»</text>
+<polyline points="750,413.0 775.0,415.0 862,417.0 880,417.0" fill="none" stroke="#7a7a7a" stroke-width="1.7" stroke-dasharray="7 5" marker-end="url(#ar-open)" />
+<rect x="791.22" y="393.0" width="54.56" height="19" fill="#ffffff" fill-opacity="0.94" rx="4" stroke="#d8d8d8" stroke-width="0.7"/>
+<text x="818.5" y="407.0" font-size="11" fill="#333" text-anchor="middle" font-style="italic">«extend»</text>
+<polyline points="880,547.0 855.0,545.0 768,543.0 750,543.0" fill="none" stroke="#7a7a7a" stroke-width="1.7" stroke-dasharray="7 5" marker-end="url(#ar-open)" />
+<rect x="780.81" y="521.0" width="61.38" height="19" fill="#ffffff" fill-opacity="0.94" rx="4" stroke="#d8d8d8" stroke-width="0.7"/>
+<text x="811.5" y="535.0" font-size="11" fill="#333" text-anchor="middle" font-style="italic">«include»</text>
+<polyline points="635.0,510 645.0,495.0 1000.0,472 1000.0,454" fill="none" stroke="#7a7a7a" stroke-width="1.7" stroke-dasharray="7 5" marker-end="url(#ar-open)" />
+<rect x="791.81" y="460.5" width="61.38" height="19" fill="#ffffff" fill-opacity="0.94" rx="4" stroke="#d8d8d8" stroke-width="0.7"/>
+<text x="822.5" y="474.5" font-size="11" fill="#333" text-anchor="middle" font-style="italic">«include»</text>
+<polyline points="880,677.0 855.0,675.0 768,673.0 750,673.0" fill="none" stroke="#7a7a7a" stroke-width="1.7" stroke-dasharray="7 5" marker-end="url(#ar-open)" />
+<rect x="780.81" y="651.0" width="61.38" height="19" fill="#ffffff" fill-opacity="0.94" rx="4" stroke="#d8d8d8" stroke-width="0.7"/>
+<text x="811.5" y="665.0" font-size="11" fill="#333" text-anchor="middle" font-style="italic">«include»</text>
+<polyline points="880,797.0 855.0,795.0 768,793.0 750,793.0" fill="none" stroke="#7a7a7a" stroke-width="1.7" stroke-dasharray="7 5" marker-end="url(#ar-open)" />
+<rect x="780.81" y="771.0" width="61.38" height="19" fill="#ffffff" fill-opacity="0.94" rx="4" stroke="#d8d8d8" stroke-width="0.7"/>
+<text x="811.5" y="785.0" font-size="11" fill="#333" text-anchor="middle" font-style="italic">«include»</text>
+<polyline points="928.0,454 915.0,475.0 505.0,475.0 502,793.0 520,793.0" fill="none" stroke="#7a7a7a" stroke-width="1.7" stroke-dasharray="7 5" marker-end="url(#ar-open)" />
+<rect x="679.31" y="452.0" width="61.38" height="19" fill="#ffffff" fill-opacity="0.94" rx="4" stroke="#d8d8d8" stroke-width="0.7"/>
+<text x="710.0" y="466.0" font-size="11" fill="#333" text-anchor="middle" font-style="italic">«include»</text>
+<text x="690" y="92" font-size="16" fill="#1f4e79" text-anchor="middle" font-weight="bold"  direction="rtl" unicode-bidi="plaintext">نظام مساري — Smart Navigation</text>
+<text x="1275" y="470" font-size="11" fill="#666" text-anchor="middle"  direction="rtl" unicode-bidi="plaintext">الضيف = مستخدم قبل الدخول</text>
+</svg>
